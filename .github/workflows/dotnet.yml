@@ -1,4 +1,4 @@
-name: .NET buld And Analysis
+name: .NET buld
 
 on:
   push:
@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v3  
     - name: SonarScanner Analysis
       uses: highbyte/sonarscan-dotnet@v2.1.3
       with:
@@ -37,6 +38,9 @@ jobs:
         sonarProjectName:  Good.Admin
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
         sonarOrganization: x2031
+        buildCommand: dotnet build .
+        #dotnetBuildArguments: ./src      
+      
 env:
     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
