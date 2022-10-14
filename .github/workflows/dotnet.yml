@@ -27,13 +27,13 @@ jobs:
     - name: Build
       run:  dotnet build -c Release --no-restore
       
-    - name: SonarScan
-      uses: highbyte/sonarscan-dotnet@v2.1.3              
-      with:
-          sonarProjectKey: x2031_Good.Admin
-          sonarProjectName: Good.Admin
-          sonarOrganization: x2031
-          dotnetBuildArguments: .
+    # - name: SonarScan
+     #  uses: highbyte/sonarscan-dotnet@v2.1.3              
+      # with:
+      #     sonarProjectKey: x2031_Good.Admin
+      #     sonarProjectName: Good.Admin
+      #     sonarOrganization: x2031
+       #    dotnetBuildArguments: .
           #dotnetTestArguments: ./src --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           #sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
 env:
