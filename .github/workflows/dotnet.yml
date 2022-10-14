@@ -33,8 +33,9 @@ jobs:
           sonarProjectKey: x2031_Good.Admin
           sonarProjectName: Good.Admin
           sonarOrganization: x2031
-          dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+          dotnetBuildArguments: ./src
+          #dotnetTestArguments: ./src --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+          #sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
 env:
  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
