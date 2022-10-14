@@ -13,7 +13,8 @@ jobs:
         with:
           fetch-depth: "0"
       - name: SonarScan
-        uses: highbyte/sonarscan-dotnet@2.1.3
+        uses: highbyte/sonarscan-dotnet@v2.1.3
+              
         with:
           sonarProjectKey: x2031_Good.Admin
           sonarProjectName: Good.Admin
