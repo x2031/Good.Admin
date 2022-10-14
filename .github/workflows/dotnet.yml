@@ -30,7 +30,7 @@ jobs:
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       with:
-        projectBaseDir: my-custom-directory
+        projectBaseDir: .
         args: >
           -Dsonar.organization=x2031
           -Dsonar.projectKey=x2031_Good.Admin
