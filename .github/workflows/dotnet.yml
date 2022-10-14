@@ -37,8 +37,7 @@ jobs:
         sonarProjectName:  Good.Admin
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
         sonarOrganization: x2031
-        args:
-         -Dsonar.projectBaseDir=/
+        dotnetBuildArguments: ./src      
       
 env:
     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
