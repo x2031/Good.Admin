@@ -40,7 +40,7 @@ jobs:
         # The name of the SonarQube project
         sonarProjectName:  Good.Admin
         # The name of the SonarQube organization in SonarCloud. For hosted SonarQube, skip this setting.
-        #sonarOrganization: x2031
+        sonarOrganization: x2031
         buildCommand: dotnet build .     
       
 env:
