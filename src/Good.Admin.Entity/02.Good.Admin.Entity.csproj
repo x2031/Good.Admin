@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Good.Admin.Entity</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Good.Admin.Entity</AssemblyName>
+	  <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+	  <RestoreLockedMode>false</RestoreLockedMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.0" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Base_Manage\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
+  </ItemGroup>
+
+</Project>

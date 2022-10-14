@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Good.Admin.Repository</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Good.Admin.Repository</AssemblyName>
+		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+		<RestoreLockedMode>false</RestoreLockedMode>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="BaseRepository.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Base\BaseRepository.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="MongoRepository\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
+	</ItemGroup>
+
+</Project>

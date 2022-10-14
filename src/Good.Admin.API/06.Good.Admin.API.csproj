@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Good.Admin.API</RootNamespace>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AssemblyName>Good.Admin.API</AssemblyName>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+		<RestoreLockedMode>false</RestoreLockedMode>
+	</PropertyGroup>
+
+
+
+	<ItemGroup>
+	  <None Remove="06.Good.Admin.API.csproj.bak" />
+	  <None Remove="Good.Admin.API.csproj.bak" />
+	  <None Remove="miniProfiler_head.js" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="miniProfiler_head.js" />
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+		<Folder Include="wwwroot\js\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
+	  <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+	  <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+	  <PackageReference Include="NEST" Version="7.17.4" />
+	  <PackageReference Include="NEST.JsonNetSerializer" Version="7.17.4" />
+	  <PackageReference Include="NSwag.AspNetCore" Version="13.17.0" />
+	  <PackageReference Include="Serilog" Version="2.12.0" />
+	  <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+	  <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.4.1" />
+	  <PackageReference Include="Spectre.Console" Version="0.45.0" />
+	  <PackageReference Include="X2031.MicroElements.NSwag.FluentValidation" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Good.Admin.Business\05.Good.Admin.Business.csproj" />
+		<ProjectReference Include="..\Good.Admin.Entity\02.Good.Admin.Entity.csproj" />
+		<ProjectReference Include="..\Good.Admin.IBusiness\04.Good.Admin.IBusiness.csproj" />
+		<ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="BuildCodeTemplate\Business.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>Business.txt</LastGenOutput>
+		</None>
+		<None Update="BuildCodeTemplate\Business.txt">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Business.tt</DependentUpon>
+		</None>
+		<None Update="BuildCodeTemplate\IBusiness.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>IBusiness.txt</LastGenOutput>
+		</None>
+		<None Update="BuildCodeTemplate\IBusiness.txt">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>IBusiness.tt</DependentUpon>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+</Project>

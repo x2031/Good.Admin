@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Good.Admin.Business</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Good.Admin.Business</AssemblyName>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <RestoreLockedMode>false</RestoreLockedMode>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\Codes\Good.Admin\src\Good.Admin.Business\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="D:\Codes\Good.Admin\src\Good.Admin.Business\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Good.Admin.Repository\01.Good.Admin.Repository.csproj" />
+	  <ProjectReference Include="..\Good.Admin.IBusiness\04.Good.Admin.IBusiness.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>Good.Admin.IBusiness</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>Good.Admin.IBusiness</AssemblyName>
+		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+		<RestoreLockedMode>false</RestoreLockedMode>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Good.Admin.Entity\02.Good.Admin.Entity.csproj" />
+	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
+	</ItemGroup>
+
+</Project>
