@@ -15,14 +15,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: "0"
-
-      
-
+          
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-
+          
+      - name: clean
+        run: dotnet clean
+        
       - name: Restore dependencies
         run: dotnet restore
 
@@ -35,9 +36,7 @@ jobs:
           sonarProjectKey: x2031_Good.Admin
           sonarProjectName: Good.Admin
           sonarOrganization: x2031
-          dotnetBuildArguments: .
-          dotnetTestArguments: --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-          sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+          #dotnetBuildArguments: .
         
 env:
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
