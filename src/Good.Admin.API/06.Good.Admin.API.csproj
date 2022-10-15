@@ -9,13 +9,13 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
+		<StartupObject>Good.Admin.API.Program</StartupObject>
 	</PropertyGroup>
 
 
 
 	<ItemGroup>
 	  <None Remove="06.Good.Admin.API.csproj.bak" />
-	  <None Remove="Good.Admin.API.csproj.bak" />
 	  <None Remove="miniProfiler_head.js" />
 	</ItemGroup>
 

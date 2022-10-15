@@ -7,20 +7,6 @@ on:
     branches: ["master"]
 
 jobs:  
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup .NET 6.0
-        uses: actions/setup-dotnet@v3.0.2
-        with:
-         dotnet-version: 6.0.x
-      - name: Install dotnet format
-        run: dotnet tool install --global dotnet-format --version "6.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet6/nuget/v3/index.json
-      - name: Format
-        run: dotnet-format --verify-no-changes -v detailed
-
   scan:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +22,7 @@ jobs:
           sonarProjectKey: x2031_Good.Admin.Public
           sonarProjectName: Good.Admin
           sonarOrganization: x2031
-          #dotnetBuildArguments: ./src
+          dotnetBuildArguments: Good.Admin.API
           dotnetDisableTests: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
