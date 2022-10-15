@@ -38,7 +38,7 @@ namespace Good.Admin.API
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidFilterAttribute>();//参数校验
-                options.Filters.Add<GlobalExceptionFilter>();//全局异常
+                //options.Filters.Add<GlobalExceptionFilter>();//全局异常
             }).ConfigureApiBehaviorOptions(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;//禁用model验证失败后的自动400响应

@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Good.Admin.API
 {
-    public class GlobalExceptionFilter : BaseActionFilterAsync, IAsyncExceptionFilter
+    //IAsyncExceptionFilter
+    public class GlobalExceptionFilter : BaseActionFilterAsync
     {
         readonly ILogger _logger;
         public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger)
