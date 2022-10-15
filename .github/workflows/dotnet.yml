@@ -22,7 +22,7 @@ jobs:
           sonarProjectKey: x2031_Good.Admin.Public
           sonarProjectName: Good.Admin
           sonarOrganization: x2031
-          dotnetBuildArguments: Good.Admin.API
+          dotnetBuildArguments: Good.Admin.sln
           dotnetDisableTests: true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
