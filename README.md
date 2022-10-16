@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://github.com/x2031/Good.Admin/actions/workflows/dotnet.yml">
-   <img src="https://github.com/x2031/Good.Admin/actions/workflows/dotnet.yml/badge.svg?branch=main"/>
+   <img src="https://github.com/x2031/Good.Admin/actions/workflows/dotnet.yml/badge.svg?branch=master"/>
   </a>
   <img src="https://img.shields.io/badge/Version-1.0.0-brightgreen" alt="Version"/>
    <a  target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.html">
