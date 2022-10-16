@@ -15,4 +15,12 @@
 	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.IBusiness\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="D:\Codes\Good.Admin.Public\src\Good.Admin.IBusiness\.editorconfig" />
+	</ItemGroup>
+
 </Project>
