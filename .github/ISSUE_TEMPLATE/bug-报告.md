@@ -1,6 +1,6 @@
 ---
 name: BUG 报告
-about: Create a report to help us improve
+about: 遇到的BUG，请使用该模板提交
 title: "[BUG]"
 labels: bug
 assignees: x2031
