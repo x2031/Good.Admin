@@ -12,7 +12,7 @@ namespace Good.Admin.API
     {
         public static void Main(string[] args)
         {
-            Assembly  _assembly = Assembly.GetExecutingAssembly();
+            Assembly _assembly = Assembly.GetExecutingAssembly();
             //TODO 校验配置参数
 #if DEBUG
             #region 输出框架信息
@@ -27,8 +27,10 @@ namespace Good.Admin.API
             ConfigurationManager configuration = builder.Configuration;
             IWebHostEnvironment environment = builder.Environment;
             var services = builder.Services;
-            builder.Host.UseIdHelper();
+            //雪花id
+            builder.Host.UseIdHelper();            
             builder.Host.UseCache();
+            
             builder.Host.ConfigureLoggingDefaults();
             builder.Host.UseDefaultServiceProvider(options => options.ValidateScopes = true);
 

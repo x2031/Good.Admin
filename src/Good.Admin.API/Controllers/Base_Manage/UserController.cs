@@ -73,7 +73,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpDelete]
         public async Task DeleteData(List<string> ids)
         {
             await _userBus.DeleteDataAsync(ids);
