@@ -24,13 +24,13 @@ namespace Good.Admin.API
             #endregion
 #endif
             var builder = WebApplication.CreateBuilder(args);
-            ConfigurationManager configuration = builder.Configuration;
+            ConfigurationManager configuration = builder.Configuration;         
             IWebHostEnvironment environment = builder.Environment;
             var services = builder.Services;
             //雪花id
-            builder.Host.UseIdHelper();            
+            builder.Host.UseIdHelper();
             builder.Host.UseCache();
-            
+
             builder.Host.ConfigureLoggingDefaults();
             builder.Host.UseDefaultServiceProvider(options => options.ValidateScopes = true);
 
@@ -46,6 +46,7 @@ namespace Good.Admin.API
                 options.SuppressModelStateInvalidFilter = true;//禁用model验证失败后的自动400响应
             })
             .AddNewtonsoftJson();
+
             //注入FluentValidation 参数验证
             services.AddFluentValidation(c =>
                {

@@ -277,3 +277,4 @@ __pycache__/
 /src/Coldairarrow.Web/wwwroot/Upload/File
 /src/Coldairarrow.Api/wwwroot/Upload
 /.vs
+/.husky
