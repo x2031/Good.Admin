@@ -1,0 +1,4 @@
+[hook "precommit"]
+	cmdline = dotnet script  D:\\Codes\\Good.Admin.Public\\dotnet-script\\pre-commit\\main.csx
+	wait = true
+	show = true
