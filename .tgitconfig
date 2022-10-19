@@ -1,4 +1,4 @@
 [hook "precommit"]
-	cmdline = dotnet script  D:\\Codes\\Good.Admin.Public\\dotnet-script\\pre-commit\\main.csx
+	cmdline = echo \"\\n不合法的 commit 消息提交格式，请使用正确的格式：\\
 	wait = true
 	show = true
