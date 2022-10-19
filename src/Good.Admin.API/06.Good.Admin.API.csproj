@@ -10,6 +10,7 @@
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
 		<StartupObject>Good.Admin.API.Program</StartupObject>
+		<UserSecretsId>b83d9305-85a9-4497-9db1-8317b03a8a35</UserSecretsId>
 	</PropertyGroup>
 
 
@@ -32,6 +33,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="NEST" Version="7.17.4" />
 		<PackageReference Include="NEST.JsonNetSerializer" Version="7.17.4" />
@@ -93,6 +95,8 @@
 		<Exec Command="dotnet tool restore"  StandardOutputImportance="Low" StandardErrorImportance="High"/>
 		<Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High"
 			  WorkingDirectory="../../" />
-		--><!--Update this to the relative path to your project root dir --><!--
+		-->
+	<!--Update this to the relative path to your project root dir -->
+	<!--
 	</Target>-->
 </Project>

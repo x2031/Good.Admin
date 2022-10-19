@@ -30,8 +30,13 @@
 
         public static (List<MutiDBOperate>, List<MutiDBOperate>) MutiInitConn()
         {
-            List<MutiDBOperate> listdatabase = Appsettings.app<MutiDBOperate>("DBS")
-                .Where(i => i.Enabled).ToList();
+            List<MutiDBOperate> listdatabase = new List<MutiDBOperate>();
+            listdatabase = Appsettings.app<MutiDBOperate>("dbs_secrets");
+            if (listdatabase == null || listdatabase.Count == 0)
+            {
+                listdatabase = Appsettings.app<MutiDBOperate>("DBS")
+              .Where(i => i.Enabled).ToList();
+            }
             //foreach (var i in listdatabase)
             //{
             //    SpecialDbString(i);
@@ -53,6 +58,7 @@
                     {
                         dbFirst = listdatabase.FirstOrDefault();
                     }
+
                     listdatabaseSimpleDB.Add(dbFirst);
                     return (listdatabaseSimpleDB, listdatabaseSlaveDB);
                 }
