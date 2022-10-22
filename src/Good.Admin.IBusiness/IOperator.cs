@@ -29,7 +29,6 @@ namespace Good.Admin.IBusiness
 
         Task<object?> GetCache(string key);
         Task SetCache(int AbsoluteExpiration, string key, object? value);
-
         #endregion
     }
 

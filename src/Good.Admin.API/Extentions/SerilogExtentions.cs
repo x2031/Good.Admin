@@ -24,7 +24,6 @@ namespace Good.Admin.API
                 var envConfig = hostingContext.Configuration;
                 LogOptions logConfig = new LogOptions();
                 envConfig.GetSection("log").Bind(logConfig);
-
                 logConfig.Overrides.ForEach(aOverride =>
                 {
                     serilogConfig
