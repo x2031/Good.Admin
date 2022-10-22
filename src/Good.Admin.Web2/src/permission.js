@@ -1,10 +1,11 @@
-import router from './router'
-import store from './store'
+import router from '@/router'
+import store from '@/store'
 import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
+
+import 'nprogress/nprogress.css'
 
 NProgress.configure({ showSpinner: false })
 

@@ -1,18 +1,20 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import path from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 import mockPlugin from 'vite-plugin-mockit'
 import { qrcode } from 'vite-plugin-qrcode'
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  baseUrl: './',
   resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src')
-    },
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './src') }
+    ],
+    extensions: ['.js', '.ts', '.mjs', '.jsx', '.tsx', '.less', '.json']
   },
   clearScreen: false, // vite清屏不清除控制台打印的信息   
   server: {
@@ -46,7 +48,6 @@ export default defineConfig({
       ignoreBrowserslistConfig: true,
     }),
     qrcode()
-
   ],
   css: {
     preprocessorOptions: {

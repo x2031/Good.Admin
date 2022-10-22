@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
-import { store } from '@/store'
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 
-export const useUserStore = defineStore({
-  id: 'user',
+export const useUserStore = defineStore("user", {
   state: () => ({
     token: getToken(),
     introduction: '',
@@ -23,14 +21,14 @@ export const useUserStore = defineStore({
     permission_routes: (state) => state.permission.routes
   },
   action: {
-    login({ commit }, userInfo) {
+    login(userInfo) {
       const { username, password } = userInfo
       return new Promise((resolve, reject) => {
         login({ username: username.trim(), password: password })
           .then((response) => {
             const { data } = response
-            commit('SET_TOKEN', data.token)
-            setToken(data.token)
+            this.token = data.token
+            //setToken(data.token)
             resolve()
           })
           .catch((error) => {
@@ -48,18 +46,15 @@ export const useUserStore = defineStore({
             if (!data) {
               reject('验证失败，请重新登录')
             }
-
             const { roles, name, avatar, introduction } = data
-
             // roles必须存在
             if (!roles || roles.length <= 0) {
               reject('getInfo: roles不能为空!')
             }
-
-            commit('SET_ROLES', roles)
-            commit('SET_NAME', name)
-            commit('SET_AVATAR', avatar)
-            commit('SET_INTRODUCTION', introduction)
+            this.roles = roles
+            this.name = name
+            this.avatar = avatar
+            this.introduction = introduction
             resolve(data)
           })
           .catch((error) => {
@@ -67,14 +62,13 @@ export const useUserStore = defineStore({
           })
       })
     },
-
     // 用户退出
     logout({ commit, state, dispatch }) {
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
-            commit('SET_TOKEN', '')
-            commit('SET_ROLES', [])
+            this.token = ''            
+            this.roles=[]
             removeToken()
             resetRouter()
             setTimeout(() => {
@@ -86,28 +80,24 @@ export const useUserStore = defineStore({
           })
       })
     },
-
     // 移除token
     resetToken({ commit }) {
       return new Promise((resolve) => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
+        this.token = ''
+        this.roles=[]
         removeToken()
         resolve()
       })
     },
-
     // 动态修改权限
     async changeRoles({ commit, dispatch }, role) {
       const token = role + '-token'
-
-      commit('SET_TOKEN', token)
+      this.token = token
       setToken(token)
 
       const { roles } = await dispatch('getInfo')
 
       resetRouter()
-
       // 获取当前用户权限路由
       const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
       // 动态添加路由
@@ -118,26 +108,7 @@ export const useUserStore = defineStore({
   },
 })
 
-
-const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
-  },
-  SET_INTRODUCTION: (state, introduction) => {
-    state.introduction = introduction
-  },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
-  }
-}
-
 // 在组件setup函数外使用
-export function useUserStoreWithOut() {
-  return useUserStore(store);
-}
+// export function useUserStoreWithOut() {
+//   return useUserStore(store);
+// }

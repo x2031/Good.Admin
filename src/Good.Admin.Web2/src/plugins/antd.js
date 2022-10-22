@@ -38,7 +38,7 @@ import {
   // Input
 } from 'ant-design-vue'
 import * as antIcons from '@ant-design/icons-vue'
-import '@/styles/antd.less'
+// import '@/styles/antd.less'
 
 export function setupAntd(app) {
   app.use(Button)

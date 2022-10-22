@@ -1,15 +1,13 @@
 import { defineStore } from 'pinia';
 import { useKeepAliveStore } from './keepAlive';
-import { store } from '@/store';
 import { TABS_ROUTES } from '@/enums/cacheEnum';
 import router from '@/router';
-import { LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME } from '@/router/constant';
+// import { LOGIN_NAME, REDIRECT_NAME, PAGE_NOT_FOUND_NAME } from '@/router/constant';
 
 // 不需要出现在标签页中的路由
-export const blackList = [REDIRECT_NAME, LOGIN_NAME, PAGE_NOT_FOUND_NAME];
+export const blackList = [''];
 
-export const useTabsViewStore = defineStore({
-  id: 'tabs-view',
+export const useTabsViewStore = defineStore("tabsview",{  
   state: () => ({
     tabsList: [],
   }),
@@ -102,6 +100,6 @@ export const useTabsViewStore = defineStore({
 });
 
 // 在组件setup函数外使用
-export function useTabsViewStoreWithOut() {
-  return useTabsViewStore(store);
-}
+// export function useTabsViewStoreWithOut() {
+//   return useTabsViewStore(store);
+// }

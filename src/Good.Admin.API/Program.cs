@@ -13,7 +13,7 @@ namespace Good.Admin.API
         public static void Main(string[] args)
         {
             Assembly _assembly = Assembly.GetExecutingAssembly();
-            //TODO 校验配置参数
+
 #if DEBUG
             #region 输出框架信息
             AnsiConsole.Write(new FigletText("Good.Admin").LeftAligned().Color(Color.Red));
@@ -23,8 +23,9 @@ namespace Good.Admin.API
             AnsiConsole.Write(rule);
             #endregion
 #endif
+            //TODO 校验配置参数
             var builder = WebApplication.CreateBuilder(args);
-            ConfigurationManager configuration = builder.Configuration;         
+            ConfigurationManager configuration = builder.Configuration;
             IWebHostEnvironment environment = builder.Environment;
             var services = builder.Services;
             //雪花id

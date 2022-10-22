@@ -1,15 +1,25 @@
 import { AesEncryption } from './encrypt'
 import { encryptKeys } from './tool'
-import config from 'config/defaultSettings'
+// TODO 新增缓存配置
+// import config from 'config/defaultSettings'
 
 const encryption = new AesEncryption({ key: encryptKeys.key, iv: encryptKeys.iv });
 
-const options = Object.assign({
+// const options = Object.assign({
+//   namespace: 'ls_', // key prefix
+//   storage: 'localStorage', // storage name session, local, memory
+//   default_cache_time: 60 * 60 * 24 * 7,
+//   isEncrypt: false //是否开启aes加密
+// }, config.storage)
+
+
+const options = {
   namespace: 'ls_', // key prefix
   storage: 'localStorage', // storage name session, local, memory
   default_cache_time: 60 * 60 * 24 * 7,
   isEncrypt: false //是否开启aes加密
-}, config.storage)
+}
+
 
 let hasSetStorage = false
 

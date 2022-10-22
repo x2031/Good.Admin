@@ -33,21 +33,27 @@ export function filterAsyncRoutes(routes, roles) {
   })
   return res
 }
-
-const state = {
-  routes: [],
-  addRoutes: []
-}
-
-export const useUserStore = defineStore({
+export const useUserStore = defineStore("permission", {
   state: () => ({
     token: getToken(),
     introduction: '',
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    routes: [],
+    addRoutes: []
   }),
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'permission',
+        storage: localStorage
+      }
+    ]
+  },
   action: {
+    //权限判断
     generateRoutes({ commit }, roles) {
       return new Promise((resolve) => {
         let accessedRoutes
@@ -57,25 +63,11 @@ export const useUserStore = defineStore({
           accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
         }
         commit('SET_ROUTES', accessedRoutes)
+        this.addRoutes = accessedRoutes;
+        this.routes = constantRoutes.concat(routes);
         resolve(accessedRoutes)
       })
     }
   },
-
 })
-
-const mutations = {
-  SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
-  }
-}
-
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
 

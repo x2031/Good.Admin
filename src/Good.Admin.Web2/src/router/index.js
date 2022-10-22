@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Layout from '@/layout/index.vue'
-import userCenterRouter from './modules/userCenter.js'
-import systemRouter from './modules/system.js'
-import permissionRouter from './modules/permission.js'
+import userCenterRouter from '@/router/modules/userCenter'
+import systemRouter from '@/router/modules/system'
+import permissionRouter from '@/router/modules/permission'
 
 export const constantRoutes = [
 	{
 		path: '/login',
-		name: 'Login',
+		name: 'Login',  
 		component: () => import('@/views/login/index.vue'),
 		hidden: true,
 		meta: { title: '登录', icon: 'login' }
