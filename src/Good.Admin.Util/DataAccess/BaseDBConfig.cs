@@ -63,8 +63,6 @@
                     return (listdatabaseSimpleDB, listdatabaseSlaveDB);
                 }
             }
-
-
             // 读写分离，且必须是单库模式，获取从库
             if (Appsettings.app(new string[] { "CQRSEnabled" }).ObjToBool() && !Appsettings.app(new string[] { "MutiDBEnabled" }).ObjToBool())
             {
