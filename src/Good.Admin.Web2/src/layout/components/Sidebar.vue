@@ -18,7 +18,7 @@
 			v-model:openKeys="openKeys"
 		>
 			<sidebar-item
-				v-for="route in permission_routes"
+				v-for="route in permission.addRoutes"
 				:key="route.path"
 				:item="route"
 				:base-path="route.path"
@@ -38,7 +38,9 @@ import {
 	AppstoreOutlined
 } from '@ant-design/icons-vue'
 import { ref, reactive, computed, watch } from 'vue'
-import { useStore } from 'vuex'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/user'
+import { permissionStore } from '@/store/permission'
 import SidebarItem from './SidebarItem.vue'
 import { useRoute } from 'vue-router'
 
@@ -62,15 +64,11 @@ export default {
 	},
 	setup() {
 		// data
-		const store = useStore()
+		const store = useUserStore()
+		const permission = permissionStore()
 		const route = useRoute()
-
 		const selectedKeys = ref([])
-		const openKeys = ref([])
-
-		const permission_routes = computed(() => store.getters.permission_routes)
-
-		// watch
+		const openKeys = ref([])	
 		watch(
 			() => route.path,
 			(path) => {
@@ -81,10 +79,10 @@ export default {
 			{ immediate: true }
 		)
 
-		return {
+		return {      
+      permission,
 			selectedKeys,
-			openKeys,
-			permission_routes
+			openKeys		
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
-export const useKeepAliveStore = defineStore("keepalive",{  
+export const useKeepAliveStore = defineStore({
+  id: 'keep-alive',
   state: () => ({
     list: [],
   }),
@@ -30,7 +31,3 @@ export const useKeepAliveStore = defineStore("keepalive",{
     },
   },
 })
-// 在组件setup函数外使用
-// export function useKeepAliveStoreWithOut() {
-//   return useKeepAliveStore(store);
-// }

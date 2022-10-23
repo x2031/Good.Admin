@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import { timeFix } from '@/utils'
-import Chart from '@/components/Charts/UserTargetChart.vue'
+import { timeFix } from '@/utils/tool'
+import Chart from '@/components/Charts/index.vue'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { reactive, ref, onMounted } from 'vue'
 import userUrl from '@/assets/images/user.png'

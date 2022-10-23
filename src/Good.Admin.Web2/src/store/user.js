@@ -1,27 +1,44 @@
 import { defineStore } from 'pinia'
+import { store } from './index';
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import { permissionStore } from '@/store/permission'
 
 
-export const useUserStore = defineStore("user", {
+export const useUserStore = defineStore({
+  id: 'app-user',
   state: () => ({
-    token: getToken(),
+    token: '',
     introduction: '',
     name: '',
     avatar: '',
     roles: []
   }),
-  getters: {
-    token: (state) => state.user.token,
-    avatar: (state) => state.user.avatar,
-    introduction: (state) => state.user.introduction,
-    name: (state) => state.user.name,
-    roles: (state) => state.user.roles,
-    permission_routes: (state) => state.permission.routes
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'app-user',
+        storage: localStorage,
+        paths: ['token','name','avatar','roles']
+      }
+    ]
   },
-  action: {
-    login(userInfo) {
+  getters: {
+    getToken: () => getToken(),
+    getAvatar: (state) => state.avatar,
+    getIntroduction: (state) => state.introduction,
+    getName: (state) => state.name,
+    getRoles: (state) => state.roles,
+    getPermission_routes: ()=>{
+      const permission= permissionStore()
+      return permission.routes
+    }
+  },
+  actions: {  
+    async userlogin(userInfo) {
+      console.log(userInfo)
       const { username, password } = userInfo
       return new Promise((resolve, reject) => {
         login({ username: username.trim(), password: password })
@@ -37,20 +54,21 @@ export const useUserStore = defineStore("user", {
       })
     },
     // 获取用户信息
-    getInfo({ commit, state }) {
+    async getInfo() {
       return new Promise((resolve, reject) => {
-        getInfo(state.token)
+        getInfo(this.token)
           .then((response) => {
             const { data } = response
 
             if (!data) {
               reject('验证失败，请重新登录')
             }
-            const { roles, name, avatar, introduction } = data
+            const { roles, name, avatar, introduction ,token} = data
             // roles必须存在
             if (!roles || roles.length <= 0) {
               reject('getInfo: roles不能为空!')
             }
+            this.token=token;
             this.roles = roles
             this.name = name
             this.avatar = avatar
@@ -63,12 +81,12 @@ export const useUserStore = defineStore("user", {
       })
     },
     // 用户退出
-    logout({ commit, state, dispatch }) {
+    async logout() {
       return new Promise((resolve, reject) => {
-        logout(state.token)
+        logout(this.token)
           .then(() => {
-            this.token = ''            
-            this.roles=[]
+            this.token = ''
+            this.roles = []
             removeToken()
             resetRouter()
             setTimeout(() => {
@@ -81,21 +99,20 @@ export const useUserStore = defineStore("user", {
       })
     },
     // 移除token
-    resetToken({ commit }) {
+    async resetToken() {
       return new Promise((resolve) => {
         this.token = ''
-        this.roles=[]
-        removeToken()
+        this.roles = []      
         resolve()
       })
     },
     // 动态修改权限
-    async changeRoles({ commit, dispatch }, role) {
+    async changeRoles(role) {
       const token = role + '-token'
       this.token = token
       setToken(token)
 
-      const { roles } = await dispatch('getInfo')
+      const { roles } = await getInfo()
 
       resetRouter()
       // 获取当前用户权限路由
@@ -108,7 +125,6 @@ export const useUserStore = defineStore("user", {
   },
 })
 
-// 在组件setup函数外使用
-// export function useUserStoreWithOut() {
-//   return useUserStore(store);
-// }
+export function useUserStoreWithOut() {
+  return useUserStore(store);
+}

@@ -5,7 +5,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import legacy from '@vitejs/plugin-legacy'
 import mockPlugin from 'vite-plugin-mockit'
 import { qrcode } from 'vite-plugin-qrcode'
-
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,6 +34,9 @@ export default defineConfig({
   },
   logLevel: 'info',
   plugins: [
+    Components({
+      resolvers: [AntDesignVueResolver()],
+    }),
     vue(),
     vueJsx(),
     //mock 

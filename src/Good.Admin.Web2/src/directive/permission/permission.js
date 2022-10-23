@@ -1,10 +1,9 @@
-// TODO pina切换
-import store from '@/store'
+import {permissionStore} from '@/store/permission'
 
 function checkPermission(el, binding) {
 	const { value } = binding
-
-	const roles = store.getters && store.getters.roles
+  const store = permissionStore()
+	const roles = store.roles
 
 	if (value && value instanceof Array) {
 		if (value.length > 0) {

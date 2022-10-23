@@ -18,7 +18,7 @@
 				<div class="flex-item login-form">
 					<div class="form-box enter-x-l">
 						<h1 class="login-title enter-x-l">登录</h1>
-						<a-form ref="loginForm" :model="formData" :rules="rules">
+						<a-form ref="loginForm" :model="formData" @finish="handleRegister" :rules="rules">
 							<a-form-item name="username" class="enter-x-l">
 								<a-input v-model:value="formData.username" size="large" placeholder="用户名" />
 							</a-form-item>
@@ -27,8 +27,8 @@
 									v-model:value="formData.password"
 									size="large"
 									placeholder="密码"
-									@keyup.enter="handleRegister"
 								/>
+								<!-- @keyup.enter="handleRegister" -->
 							</a-form-item>
 							<a-form-item class="enter-x-l" name="isCheckd">
 								<a-checkbox v-model:checked="formData.isChecked">记住我</a-checkbox>
@@ -39,9 +39,10 @@
 									:loading="loading"
 									class="btn-login"
 									type="primary"
-									@click="handleRegister"
+									html-type="submit"
 									>登录</a-button
 								>
+								<!-- @click="handleRegister" -->
 							</a-form-item>
 						</a-form>
 					</div>
@@ -51,15 +52,15 @@
 	</div>
 </template>
 <script>
-import { ref, reactive, toRaw, watch } from 'vue'
+import { ref, reactive,toRaw, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/user'
 
 export default {
 	name: 'Login',
 	setup() {
 		// data
-		const store = useStore()
+		const userstore = useUserStore()
 		const router = useRouter()
 		const route = useRoute()
 		const loginForm = ref()
@@ -85,33 +86,25 @@ export default {
 			}, {})
 		}
 		//提交登录信息
-		const handleRegister = () => {
+		const handleRegister = async (values) => {              
+      userstore.getInfo()
+      console.log(values)
 			loading.value = true
-			loginForm.value
-				.validate()
-				.then(() => {
-					store
-						.dispatch('user/login', toRaw(formData))
-						.then(() => {
-							router.push({ path: redirect.value || '/', query: otherQuery.value })
-							loading.value = false
-						})
-						.catch((err) => {
-							loading.value = false
-						})
-				})
-				.catch((error) => {
-					// debugger
-          console.log(error.message)
-					loading.value = false
-				})
+			const res = await userstore.userlogin(values)
+      console.log(res)
+			loading.value = false
+      router.push({ path: redirect.value || '/', query: otherQuery.value })
+			if (res) {				
+        console.log(router)
+			}
 		}
-
 		// watch
 		watch(
 			() => route,
 			(curRoute) => {
+        console.log(curRoute)
 				const query = curRoute.query
+        console.log(query)
 				if (query) {
 					redirect.value = query.redirect
 					otherQuery.value = getOtherQuery(query)

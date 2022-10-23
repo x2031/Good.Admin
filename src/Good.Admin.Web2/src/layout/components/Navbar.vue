@@ -60,7 +60,7 @@
 <script>
 import { ref, createVNode } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/user'
 import { Modal } from 'ant-design-vue'
 import {
 	MenuUnfoldOutlined,
@@ -92,7 +92,7 @@ export default {
 	emits: ['icon-click'],
 	setup(props, { emit }) {
 		// data
-		const store = useStore()
+		const store = useUserStore()
 		const router = useRouter()
 
 		const avatarUrl = ref(userUrl)

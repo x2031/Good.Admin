@@ -47,7 +47,7 @@
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { ref, reactive, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useUserStore } from '@/store/user'
 
 function getBase64(img, callback) {
 	const reader = new FileReader()
@@ -63,7 +63,7 @@ export default {
 	},
 	setup() {
 		// data
-		const store = useStore()
+		const store = useUserStore()
 		const formState = reactive({
 			userName: '',
 			email: '',

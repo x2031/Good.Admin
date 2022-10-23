@@ -7,7 +7,8 @@ import router from '@/router';
 // 不需要出现在标签页中的路由
 export const blackList = [''];
 
-export const useTabsViewStore = defineStore("tabsview",{  
+export const useTabsViewStore = defineStore({  
+  id: 'tabs-view',
   state: () => ({
     tabsList: [],
   }),
@@ -98,8 +99,3 @@ export const useTabsViewStore = defineStore("tabsview",{
     },
   },
 });
-
-// 在组件setup函数外使用
-// export function useTabsViewStoreWithOut() {
-//   return useTabsViewStore(store);
-// }

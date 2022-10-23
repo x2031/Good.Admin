@@ -21,7 +21,7 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { BasicSet, SafeSet } from '@/components'
+import { BasicSet, SafeSet } from './components'
 
 export default {
 	name: 'UserSet',

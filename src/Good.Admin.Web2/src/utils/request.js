@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { message, Modal } from 'ant-design-vue'
-// TODO pina切换
-import store from '@/store'
+import {useUserStoreWithOut} from '@/store/user'
 import { getToken } from '@/utils/auth'
 import { v4 as uuid } from 'uuid'
 import md5 from 'crypto-js/md5'
@@ -13,7 +12,6 @@ const service = axios.create({
 })
 
 // TODO 异常拦截处理器
-
 
 // 在发送请求之前做某件事
 service.interceptors.request.use((config) => {
@@ -34,7 +32,7 @@ service.interceptors.request.use((config) => {
   //  config.headers.sign = sign;
 
 
-  if (store.getters.token) {
+  if (useUserStoreWithOut.token) {
     // const token = storage.get('X-Token')
     // if (token) {
     //   console.debug(token)
@@ -64,7 +62,8 @@ service.interceptors.response.use((response) => {
         okText: '重新登录',
         cancelText: '取消',
         onOk() {
-          store.dispatch('user/resetToken').then(() => {
+          useUserStoreWithOut.resetToken()
+          .then(() => {
             location.reload()
           })
         },
@@ -77,8 +76,8 @@ service.interceptors.response.use((response) => {
     return res
   }
 },
-  (error) => {
-    message.error(res.message || 'Error', 5000)
+  (error,res) => {
+    message.error(error.message || 'Error', 5000)
     return Promise.reject(error)
   }
 )

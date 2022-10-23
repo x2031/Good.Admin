@@ -1,5 +1,4 @@
-// TODO pina切换
-import store from '@/store'
+import {permissionStore} from '@/store/permission'
 
 /**
  * @param {Array} value
@@ -8,8 +7,9 @@ import store from '@/store'
  */
 
 export default function checkPermission(value) {
+  const store=permissionStore()
 	if (value && value instanceof Array && value.length > 0) {
-		const roles = store.getters && store.getters.roles
+		const roles =  store.roles
 		const permissionRoles = value
 
 		const hasPermission = roles.some((role) => {

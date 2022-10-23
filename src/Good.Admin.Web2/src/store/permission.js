@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import { asyncRoutes, constantRoutes } from '@/router'
-// TODO 路由生成重写
-// TODO 页面权限重写
+import { asyncRoutes, constantRoutes } from '@/router/router.config'
 /**
  * 通过meta.role来判断当前用户是否有权限
  * @param roles
@@ -33,13 +31,9 @@ export function filterAsyncRoutes(routes, roles) {
   })
   return res
 }
-export const useUserStore = defineStore("permission", {
+export const permissionStore = defineStore({
+  id:'app-permission',
   state: () => ({
-    token: getToken(),
-    introduction: '',
-    name: '',
-    avatar: '',
-    roles: [],
     routes: [],
     addRoutes: []
   }),
@@ -52,19 +46,21 @@ export const useUserStore = defineStore("permission", {
       }
     ]
   },
-  action: {
+  actions: {
     //权限判断
-    generateRoutes({ commit }, roles) {
+    generateRoutes(roles) {
+      console.log(roles)
       return new Promise((resolve) => {
         let accessedRoutes
         if (roles.includes('admin')) {
+          console.log('admin')
+          console.log(asyncRoutes)
           accessedRoutes = asyncRoutes || []
         } else {
           accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-        }
-        commit('SET_ROUTES', accessedRoutes)
+        }       
         this.addRoutes = accessedRoutes;
-        this.routes = constantRoutes.concat(routes);
+        this.routes = constantRoutes.concat(this.routes);
         resolve(accessedRoutes)
       })
     }

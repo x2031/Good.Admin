@@ -1,4 +1,4 @@
-import  '@/utils/tool'
+import {debounce} from '@/utils/tool'
 
 import { ref, reactive, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
 
