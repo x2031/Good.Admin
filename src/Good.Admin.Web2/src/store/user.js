@@ -21,7 +21,7 @@ export const useUserStore = defineStore({
       {
         key: 'app-user',
         storage: localStorage,
-        paths: ['token','name','avatar','roles']
+        paths: ['token', 'name', 'avatar', 'roles']
       }
     ]
   },
@@ -31,12 +31,12 @@ export const useUserStore = defineStore({
     getIntroduction: (state) => state.introduction,
     getName: (state) => state.name,
     getRoles: (state) => state.roles,
-    getPermission_routes: ()=>{
-      const permission= permissionStore()
+    getPermission_routes: () => {
+      const permission = permissionStore()
       return permission.routes
     }
   },
-  actions: {  
+  actions: {
     async userlogin(userInfo) {
       console.log(userInfo)
       const { username, password } = userInfo
@@ -63,12 +63,12 @@ export const useUserStore = defineStore({
             if (!data) {
               reject('验证失败，请重新登录')
             }
-            const { roles, name, avatar, introduction ,token} = data
+            const { roles, name, avatar, introduction, token } = data
             // roles必须存在
             if (!roles || roles.length <= 0) {
               reject('getInfo: roles不能为空!')
             }
-            this.token=token;
+            this.token = token;
             this.roles = roles
             this.name = name
             this.avatar = avatar
@@ -102,7 +102,7 @@ export const useUserStore = defineStore({
     async resetToken() {
       return new Promise((resolve) => {
         this.token = ''
-        this.roles = []      
+        this.roles = []
         resolve()
       })
     },

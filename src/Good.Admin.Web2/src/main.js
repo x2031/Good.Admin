@@ -10,7 +10,7 @@ import '@/router/permission' //路由权限
 import permission from '@/directive/permission' // 权限按钮
 //全局样式
 import 'normalize.css/normalize.css'
-import '@/styles/index.less'
+import './styles/index.less'
 
 
 

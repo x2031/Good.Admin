@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		// 基本目录，用于解析非相对模块名称
+		"baseUrl": "./",
+		// 指定要相对于baseUrl选项计算的路径映射
+		"paths": {
+			"components/*": ["src/components/*"],
+			"assets/*": ["src/assets/*"],
+			"@/*": ["src/*"]
+		},
+		// 当模块没有默认导出时，允许引入时使用默认引入
+		// allowSyntheticDefaultImports === false
+		// import * as React from 'react'
+		// allowSyntheticDefaultImports === true
+		// import React from 'react'
+		"allowSyntheticDefaultImports": false,
+		// 对文件启用类型检查
+		"checkJs": false,
+		// 指定如何解析模块以进行导入;值:node,classic
+		// "moduleResolution": "node",
+		// 生成模块代码时指定模块系统;值: amd, commonJS, es2015, es6, esnext, none, system, umd
+		"module": "commonjs",
+		// 指定要使用的默认库
+		"target": "ES6"
+		// 不包括默认库文件
+		// "noLib": false
+	},
+	"exclude": ["node_modules", "dist", ".vscode"],
+	"include": ["src/**/*"]
+}

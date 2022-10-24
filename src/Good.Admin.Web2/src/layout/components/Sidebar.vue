@@ -68,7 +68,7 @@ export default {
 		const permission = permissionStore()
 		const route = useRoute()
 		const selectedKeys = ref([])
-		const openKeys = ref([])	
+		const openKeys = ref([])
 		watch(
 			() => route.path,
 			(path) => {
@@ -79,10 +79,10 @@ export default {
 			{ immediate: true }
 		)
 
-		return {      
-      permission,
+		return {
+			permission,
 			selectedKeys,
-			openKeys		
+			openKeys
 		}
 	}
 }
