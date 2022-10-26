@@ -128,8 +128,8 @@ namespace Good.Admin.API
             // serve ReDoc UI
             app.UseReDoc(options =>
             {
-                options.Path = "/api_redoc";
-            });
+                options.Path = "/api_redoc";                
+            });            
             #endregion
 
 #if DEBUG

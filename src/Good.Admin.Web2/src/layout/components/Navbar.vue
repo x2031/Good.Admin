@@ -125,8 +125,8 @@ export default {
 				okText: '确认',
 				cancelText: '取消',
 				centered: true,
-				async onOk() {
-					await store.dispatch('user/logout')
+				onOk() {
+					store.loginOut()
 					router.push('/login')
 				}
 			})
@@ -140,7 +140,6 @@ export default {
 			data,
 			avatarUrl,
 			jcMsgPopover,
-
 			handleIconClick,
 			handleLoginOut,
 			handleToUserCenter

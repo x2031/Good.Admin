@@ -32,7 +32,7 @@ export function filterAsyncRoutes(routes, roles) {
   return res
 }
 export const permissionStore = defineStore({
-  id:'app-permission',
+  id: 'app-permission',
   state: () => ({
     routes: [],
     addRoutes: []
@@ -49,20 +49,21 @@ export const permissionStore = defineStore({
   actions: {
     //权限判断
     generateRoutes(roles) {
+      console.log('获取权限路由')
       console.log(roles)
-      return new Promise((resolve) => {
-        let accessedRoutes
-        if (roles.includes('admin')) {
-          console.log('admin')
-          console.log(asyncRoutes)
-          accessedRoutes = asyncRoutes || []
-        } else {
-          accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-        }       
-        this.addRoutes = accessedRoutes;
-        this.routes = constantRoutes.concat(this.routes);
-        resolve(accessedRoutes)
-      })
+      let accessedRoutes
+      if (roles.includes('admin')) {
+        console.log('admin')
+        console.log(asyncRoutes)
+        accessedRoutes = asyncRoutes || []
+      } else {
+        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      }
+      this.addRoutes = accessedRoutes;
+      accessedRoutes = constantRoutes.concat(this.addRoutes);
+      this.routes = accessedRoutes
+      console.log(this.routes)
+      return accessedRoutes
     }
   },
 })

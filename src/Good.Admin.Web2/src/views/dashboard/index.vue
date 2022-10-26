@@ -8,7 +8,7 @@
 					</a-avatar>
 				</div>
 				<div class="header-content">
-					<div class="content-title"> {{ timeToFix }}，Jason Chen </div>
+					<div class="content-title"> {{ timeToFix }},Jason Chen </div>
 					<div class="content-info">综合管理部 | 前端开发工程师</div>
 				</div>
 			</div>

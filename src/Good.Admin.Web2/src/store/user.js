@@ -38,73 +38,56 @@ export const useUserStore = defineStore({
   },
   actions: {
     async userlogin(userInfo) {
-      console.log(userInfo)
+      let resdata
       const { username, password } = userInfo
-      return new Promise((resolve, reject) => {
-        login({ username: username.trim(), password: password })
-          .then((response) => {
-            const { data } = response
-            this.token = data.token
-            //setToken(data.token)
-            resolve()
-          })
-          .catch((error) => {
-            reject(error)
-          })
+      await login({ username: username.trim(), password: password }).then(response => {
+        console.log(response)
+        const { data } = response
+        this.token = data.token
+        resdata = data
       })
+      return resdata
     },
     // 获取用户信息
     async getInfo() {
-      return new Promise((resolve, reject) => {
-        getInfo(this.token)
-          .then((response) => {
-            const { data } = response
+      let resdate
+      await getInfo(this.token).then(response => {
+        console.log(response)
+        if (response) {
+          const { data } = response
+          if (!data) {
+            // reject('验证失败，请重新登录')
+          }
+          const { roles, name, avatar, introduction } = data
+          // roles必须存在
+          if (!roles || roles.length <= 0) {
+            // reject('getInfo: roles不能为空!')
+          }
 
-            if (!data) {
-              reject('验证失败，请重新登录')
-            }
-            const { roles, name, avatar, introduction, token } = data
-            // roles必须存在
-            if (!roles || roles.length <= 0) {
-              reject('getInfo: roles不能为空!')
-            }
-            this.token = token;
-            this.roles = roles
-            this.name = name
-            this.avatar = avatar
-            this.introduction = introduction
-            resolve(data)
-          })
-          .catch((error) => {
-            reject(error)
-          })
+          this.roles = roles
+          this.name = name
+          this.introduction = introduction
+          this.avatar = avatar
+          console.log(data)
+          resdate = data
+        }
       })
+      return resdate
     },
     // 用户退出
     async logout() {
-      return new Promise((resolve, reject) => {
-        logout(this.token)
-          .then(() => {
-            this.token = ''
-            this.roles = []
-            removeToken()
-            resetRouter()
-            setTimeout(() => {
-              resolve()
-            }, 1000)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
+
+      await logout(this.token).then(() => {
+        this.token = ''
+        this.roles = []
+        removeToken()
+        resetRouter()
+      }).catch((error) => { reject(error) })
     },
     // 移除token
     async resetToken() {
-      return new Promise((resolve) => {
-        this.token = ''
-        this.roles = []
-        resolve()
-      })
+      this.token = ''
+      this.roles = []
     },
     // 动态修改权限
     async changeRoles(role) {

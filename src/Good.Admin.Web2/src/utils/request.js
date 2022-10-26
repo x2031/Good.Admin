@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message, Modal } from 'ant-design-vue'
-import {useUserStoreWithOut} from '@/store/user'
+import { useUserStoreWithOut } from '@/store/user'
 import { getToken } from '@/utils/auth'
 import { v4 as uuid } from 'uuid'
 import md5 from 'crypto-js/md5'
@@ -63,20 +63,20 @@ service.interceptors.response.use((response) => {
         cancelText: '取消',
         onOk() {
           useUserStoreWithOut.resetToken()
-          .then(() => {
-            location.reload()
-          })
+            .then(() => {
+              location.reload()
+            })
         },
         onCancel() { }
       })
-    }   
+    }
     return Promise.reject(new Error(res.message || 'Error'))
   }
   else {
     return res
   }
 },
-  (error,res) => {
+  (error, res) => {
     message.error(error.message || 'Error', 5000)
     return Promise.reject(error)
   }

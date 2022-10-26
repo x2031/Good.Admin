@@ -34,7 +34,7 @@
 <script>
 import { ref } from 'vue'
 import { isExternal } from '@/utils/validate'
-import  path  from 'path'
+import path from 'path'
 
 export default {
 	name: 'SidebarItem',
@@ -60,9 +60,9 @@ export default {
 					onlyOneChild.value = item
 					return true
 				}
-			})     
+			})
 			// 当只有一个子路由时，默认显示该子路由
-			if (showingChildren.length === 1) {        
+			if (showingChildren.length === 1) {
 				return true
 			}
 			// 如果没有子路由显示，则显示父路由
@@ -74,11 +74,9 @@ export default {
 		}
 
 		const resolvePath = (routePath) => {
-      console.log(routePath)
 			if (isExternal(routePath)) {
 				return routePath
 			}
-      console.log(props.basePath)
 			if (isExternal(props.basePath)) {
 				return props.basePath
 			}

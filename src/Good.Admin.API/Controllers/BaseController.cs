@@ -124,6 +124,7 @@ namespace Good.Admin.API.Controllers
                 Data = data
             };
 
+
             return res;
         }
         /// <summary>
