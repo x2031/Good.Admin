@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Good.Admin.Entity;
 using Good.Admin.Util;
+using Hangfire.HttpJob.Agent.MysqlConsole;
 using MicroElements.NSwag.FluentValidation;
 using Microsoft.AspNetCore.HttpOverrides;
 using Spectre.Console;
@@ -37,6 +38,7 @@ namespace Good.Admin.API
 
             services.AddMvcCore();
             services.AddSingleton(new Appsettings(configuration));
+            services.AddHangfireJobAgent();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers(options =>
             {
@@ -107,6 +109,7 @@ namespace Good.Admin.API
             app.UseMiniProfiler();//性能检测            
             app.UseMiddleware<RequestBodyMiddleware>();//格式化返回中间件            
             app.UseMiddleware<RequestLogMiddleware>();//Log中间件
+            app.UseHangfireJobAgent();
             #region SwaggerUI
             app.UseEndpoints(endpoints =>
             {
