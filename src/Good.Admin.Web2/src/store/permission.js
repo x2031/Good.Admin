@@ -64,6 +64,22 @@ export const permissionStore = defineStore({
       this.routes = accessedRoutes
       console.log(this.routes)
       return accessedRoutes
+    },
+    async getRouteIsAsync(path) {
+      let isAsync = false
+      if (this.routes.find(x => x.path == path)) {
+        isAsync = this.routes.find(x => x.path == path).meta.isAsync
+      }
+      else {
+        this.routes.forEach(element => {
+          if (element.children) {
+            if (element.children.find(x => x.path == path)) {
+              isAsync = element.children.find(x => x.path == path).meta.isAsync
+            }
+          }
+        })
+      }
+      return isAsync
     }
   },
 })

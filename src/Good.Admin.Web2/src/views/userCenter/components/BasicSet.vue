@@ -42,10 +42,7 @@
 		</div>
 	</div>
 </template>
-
 <script>
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue'
-import { message } from 'ant-design-vue'
 import { ref, reactive, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 
@@ -57,10 +54,6 @@ function getBase64(img, callback) {
 
 export default {
 	name: 'BasicSet',
-	components: {
-		PlusOutlined,
-		LoadingOutlined
-	},
 	setup() {
 		// data
 		const store = useUserStore()
@@ -77,7 +70,6 @@ export default {
 		const handleUpdate = () => {
 			message.success('更新成功')
 		}
-
 		const handleChange = (info) => {
 			if (info.file.status === 'uploading') {
 				loading.value = true
@@ -118,7 +110,6 @@ export default {
 			imageUrl,
 			loading,
 			fileList,
-
 			handleUpdate,
 			handleChange,
 			beforeUpload

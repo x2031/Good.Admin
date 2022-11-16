@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { store } from './index';
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 import { permissionStore } from '@/store/permission'
 
@@ -26,7 +25,7 @@ export const useUserStore = defineStore({
     ]
   },
   getters: {
-    getToken: () => getToken(),
+    getToken: (state) => state.token,
     getAvatar: (state) => state.avatar,
     getIntroduction: (state) => state.introduction,
     getName: (state) => state.name,
@@ -80,7 +79,6 @@ export const useUserStore = defineStore({
       await logout(this.token).then(() => {
         this.token = ''
         this.roles = []
-        removeToken()
         resetRouter()
       }).catch((error) => { reject(error) })
     },
@@ -93,8 +91,6 @@ export const useUserStore = defineStore({
     async changeRoles(role) {
       const token = role + '-token'
       this.token = token
-      setToken(token)
-
       const { roles } = await getInfo()
 
       resetRouter()

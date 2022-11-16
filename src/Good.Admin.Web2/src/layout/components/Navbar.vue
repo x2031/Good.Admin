@@ -61,27 +61,14 @@
 import { ref, createVNode } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { Modal } from 'ant-design-vue'
-import {
-	MenuUnfoldOutlined,
-	MenuFoldOutlined,
-	UserOutlined,
-	LoginOutlined,
-	ExclamationCircleOutlined,
-	BellOutlined
-} from '@ant-design/icons-vue'
+
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import userUrl from '@/assets/images/user.png'
 
 export default {
 	name: 'NavBar',
 	components: {
-		MenuUnfoldOutlined,
-		MenuFoldOutlined,
-		UserOutlined,
-		LoginOutlined,
-		Breadcrumb,
-		BellOutlined
+		Breadcrumb
 	},
 	props: {
 		isCollapsed: {

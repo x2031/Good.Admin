@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
 import { ref, reactive } from 'vue'
 //import PasswordMeter from 'vue-simple-password-meter'
 

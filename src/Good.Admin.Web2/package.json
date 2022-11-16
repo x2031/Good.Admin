@@ -44,7 +44,7 @@
     "script-loader": "^0.7.2",
     "store": "^2.0.12",
     "tinymce": "^6.2.0",
-    "unplugin-vue-components": "^0.22.8",
+    "unplugin-vue-components": "^0.22.9",
     "uuid": "^9.0.0",
     "vditor": "^3.8.6",
     "vite-plugin-style-import": "^2.0.0",
