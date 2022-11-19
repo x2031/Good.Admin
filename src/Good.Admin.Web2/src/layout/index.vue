@@ -1,30 +1,30 @@
 <template>
-	<a-layout class="layout-container">
-		<a-layout-sider
-			:style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }"
-			v-model:collapsed="isCollapsed"
-			:trigger="null"
-			collapsible
-		>
+	<a-layout class="layout">
+		<!-- :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }" -->
+		<a-layout-sider v-model:collapsed="isCollapsed" :trigger="null" collapsible>
 			<sidebar :isCollapsed="isCollapsed" />
 		</a-layout-sider>
 		<a-layout>
-			<navbar
+			<PageHeader
 				:class="[isCollapsed ? 'lf-80' : 'lf-200']"
 				:isCollapsed="isCollapsed"
 				@icon-click="handleIconClick"
 			/>
-			<app-main :class="[isCollapsed ? 'ml-80' : 'ml-200']"></app-main>
+			<!-- <app-main :class="[isCollapsed ? 'ml-80' : 'ml-200']"></app-main> -->
+			<a-layout-content class="layout-content">
+				<MultTabs />
+			</a-layout-content>
+			<!-- <PageFooter /> -->
 		</a-layout>
 	</a-layout>
 </template>
 
 <script>
-import { Sidebar, Navbar, AppMain } from '@/layout/components'
+import { Sidebar, MultTabs, PageHeader } from '@/layout/components'
 import { ref } from 'vue'
 export default {
 	name: 'Layout',
-	components: { Sidebar, Navbar, AppMain },
+	components: { Sidebar, MultTabs, PageHeader },
 	setup() {
 		// data
 		const isCollapsed = ref(false)
@@ -54,5 +54,17 @@ export default {
 }
 .lf-80 {
 	left: 80px;
+}
+.layout-content {
+	flex: none;
+}
+.layout {
+	display: flex;
+	height: 100vh;
+	overflow: hidden;
+
+	.ant-layout {
+		overflow: hidden;
+	}
 }
 </style>

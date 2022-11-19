@@ -66,7 +66,7 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import userUrl from '@/assets/images/user.png'
 
 export default {
-	name: 'NavBar',
+	name: 'PageHeader',
 	components: {
 		Breadcrumb
 	},
@@ -152,11 +152,11 @@ export default {
 <style lang="less" scoped>
 .header-main {
 	background: #fff;
-	padding: 0 15px;
+	padding: 0 20px;
 	height: 48px;
 	line-height: 48px;
 	display: flex;
-	position: fixed;
+	// position: fixed;
 	z-index: 100;
 	right: 0;
 	top: 0;

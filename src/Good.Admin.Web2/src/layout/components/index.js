@@ -1,4 +1,7 @@
 import AppMain from './AppMain.vue'
-import Navbar from './Navbar.vue'
+import PageHeader from './PageHeader.vue'
 import Sidebar from './Sidebar.vue'
-export { AppMain, Navbar, Sidebar }
+// import PageFooter from './PageFooter.vue'
+import MultTabs from './MultTabs.vue'
+
+export { AppMain, Sidebar, MultTabs, PageHeader }
