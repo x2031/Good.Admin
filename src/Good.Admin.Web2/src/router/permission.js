@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css'// 进度条样式
 
 NProgress.configure({ showSpinner: false })
 let accessRoutes
-const whiteList = ['/login', '/redirect'] // 没有重定向白名单
+const whiteList = ['/login', '/redirect'] //重定向白名单
 
 router.beforeEach(async (to, from, next) => {
   console.log("正在获取路由")
