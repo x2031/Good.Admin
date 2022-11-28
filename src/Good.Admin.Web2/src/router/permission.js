@@ -1,63 +1,75 @@
 import router from '.'
 import { permissionStore } from '@/store/permission'
 import { useUserStore } from '@/store/user'
-import { message } from 'ant-design-vue'
 import NProgress from 'nprogress'
-// import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
+import 'nprogress/nprogress.css'// 进度条样式
 
-import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false })
-
-const whiteList = ['/login', '/redirect'] // 没有重定向白名单
-
+let accessRoutes
+const whiteList = ['/login', '/redirect'] //重定向白名单
 
 router.beforeEach(async (to, from, next) => {
   console.log("正在获取路由")
-  const permissioStore = permissionStore()
-  const userStore = useUserStore()
   NProgress.start()
+  const userStore = useUserStore()
+  const permissioStore = permissionStore()
   //设置页面title
   document.title = getPageTitle(to.meta.title)
   console.log(document.title)
-  // 判断用户是否登录
-  // const hasToken = getToken()
+  // 获取用户token
+  console.log(userStore.token)
   if (userStore.token) {
-    console.log('重定向到主页')
+    console.log('获取到token')
     if (to.path === '/login') {
-      // 如果已登录，重定向主页
       next({ path: '/' })
       NProgress.done()
     } else {
       console.log('开始获取路由')
       // 判断用户获取到权限
       const hasRoles = userStore.roles && userStore.roles.length > 0
-      console.log(hasRoles)
+      const hasRoute = router.hasRoute(to.name);
+      console.info("to.name:", to)
+      console.log("hasRoute:", hasRoute)
+      console.log("from:", from)
       if (hasRoles) {
-        next()
+        if (!hasRoute) {
+          // 获取权限路由
+          await userStore.getInfo().then(res => {
+            const { roles } = res
+            console.log(roles)
+            accessRoutes = permissioStore.generateRoutes(roles)
+            console.log(accessRoutes)
+            accessRoutes.forEach((route) => {
+              router.addRoute(route)
+            })
+            next({ ...to, replace: true })// 导航不会留下历史记录
+          })
+        }
+        else {
+          next()
+        }
       } else {
         try {
           // 获取用户信息
           console.log("获取用户信息")
-          const { roles } = await userStore.getInfo()
-          // 获取权限路由
           console.log("1")
-          const accessRoutes = await permissioStore.generateRoutes(roles)
-          console.log("2")
-          console.log(accessRoutes)
-          // 动态添加权限路由 vue-router4 api 修改为单个添加
-          accessRoutes.forEach((route) => {
-            router.addRoute(route)
+          // 获取权限路由
+          await userStore.getInfo().then(res => {
+            const { roles } = res
+            console.log(roles)
+            accessRoutes = permissioStore.generateRoutes(roles)
+            console.log(accessRoutes)
+            accessRoutes.forEach((route) => {
+              router.addRoute(route)
+            })
+            next({ ...to, replace: true })// 导航不会留下历史记录
           })
-          console.log("3")
-          // 导航不会留下历史记录
-          next({ ...to, replace: true })
-          console.log("4")
         } catch (error) {
           // 移除token 返回登录
           await userStore.resetToken()
           console.log(error.message)
-          message.error(error.message || '有错误')
+          //message.error(error.message || '有错误')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }

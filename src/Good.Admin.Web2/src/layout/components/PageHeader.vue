@@ -61,27 +61,14 @@
 import { ref, createVNode } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { Modal } from 'ant-design-vue'
-import {
-	MenuUnfoldOutlined,
-	MenuFoldOutlined,
-	UserOutlined,
-	LoginOutlined,
-	ExclamationCircleOutlined,
-	BellOutlined
-} from '@ant-design/icons-vue'
+
 import Breadcrumb from '@/components/Breadcrumb/index.vue'
 import userUrl from '@/assets/images/user.png'
 
 export default {
-	name: 'NavBar',
+	name: 'PageHeader',
 	components: {
-		MenuUnfoldOutlined,
-		MenuFoldOutlined,
-		UserOutlined,
-		LoginOutlined,
-		Breadcrumb,
-		BellOutlined
+		Breadcrumb
 	},
 	props: {
 		isCollapsed: {
@@ -125,8 +112,8 @@ export default {
 				okText: '确认',
 				cancelText: '取消',
 				centered: true,
-				async onOk() {
-					await store.dispatch('user/logout')
+				onOk() {
+					store.loginOut()
 					router.push('/login')
 				}
 			})
@@ -140,7 +127,6 @@ export default {
 			data,
 			avatarUrl,
 			jcMsgPopover,
-
 			handleIconClick,
 			handleLoginOut,
 			handleToUserCenter
@@ -166,11 +152,11 @@ export default {
 <style lang="less" scoped>
 .header-main {
 	background: #fff;
-	padding: 0 15px;
+	padding: 0 20px;
 	height: 48px;
 	line-height: 48px;
 	display: flex;
-	position: fixed;
+	// position: fixed;
 	z-index: 100;
 	right: 0;
 	top: 0;

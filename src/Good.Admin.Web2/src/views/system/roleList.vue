@@ -94,7 +94,6 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
 import { getRoles, deleteRole } from '@/api/role'
 import { ref, reactive, onMounted, computed } from 'vue'
 export default {

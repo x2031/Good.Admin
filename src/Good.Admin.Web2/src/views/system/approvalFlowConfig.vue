@@ -55,7 +55,6 @@
 </template>
 
 <script>
-import { message } from 'ant-design-vue'
 import { getRoles, deleteRole } from '@/api/role'
 import { ref, reactive, onMounted, watch } from 'vue'
 import LogicFlow from '@/components/LogicFlow/index.vue'

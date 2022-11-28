@@ -52,7 +52,7 @@
 	</div>
 </template>
 <script>
-import { ref, reactive,toRaw, watch } from 'vue'
+import { ref, reactive, toRaw, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
 
@@ -86,25 +86,26 @@ export default {
 			}, {})
 		}
 		//提交登录信息
-		const handleRegister = async (values) => {              
-      userstore.getInfo()
-      console.log(values)
+		const handleRegister = async (values) => {
+			console.log(values)
 			loading.value = true
-			const res = await userstore.userlogin(values)
-      console.log(res)
-			loading.value = false
-      router.push({ path: redirect.value || '/', query: otherQuery.value })
-			if (res) {				
-        console.log(router)
-			}
+			await userstore
+				.userlogin(values)
+				.then((res) => {
+					loading.value = false
+					router.push({ path: redirect.value || '/', query: otherQuery.value })
+				})
+				.catch((err) => {
+					loading.value = false
+				})
 		}
 		// watch
 		watch(
 			() => route,
 			(curRoute) => {
-        console.log(curRoute)
+				console.log(curRoute)
 				const query = curRoute.query
-        console.log(query)
+				console.log(query)
 				if (query) {
 					redirect.value = query.redirect
 					otherQuery.value = getOtherQuery(query)

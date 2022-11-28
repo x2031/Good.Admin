@@ -35,14 +35,14 @@ export const storage = {
     Object.assign(options, opt)
     hasSetStorage = true
   },
-  set: (key, value, expire= options.default_cache_time) => {
+  set: (key, value, expire = options.default_cache_time) => {
     const stringData = JSON.stringify({
       value,
       expire: expire !== null ? new Date().getTime() + expire * 1000 : null
     })
     window[options.storage].setItem(storage.getKey(key), options.isEncrypt ? encryption.encryptByAES(stringData) : stringData)
   },
-  setObj: (key, newVal, expire= options.default_cache_time) => {
+  setObj: (key, newVal, expire = options.default_cache_time) => {
     const oldVal = storage.get(key)
     if (!oldVal) {
       storage.set(key, newVal, expire)

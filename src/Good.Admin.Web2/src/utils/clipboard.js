@@ -1,5 +1,5 @@
 import Clipboard from 'clipboard'
-import { message } from 'ant-design-vue'
+// import { message } from 'ant-design-vue'
 
 function clipboardSuccess(text) {
   message.success(`复制${text}成功`)

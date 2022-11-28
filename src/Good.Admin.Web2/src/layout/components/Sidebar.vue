@@ -28,15 +28,6 @@
 </template>
 
 <script>
-import {
-	MenuFoldOutlined,
-	MenuUnfoldOutlined,
-	PieChartOutlined,
-	MailOutlined,
-	DesktopOutlined,
-	InboxOutlined,
-	AppstoreOutlined
-} from '@ant-design/icons-vue'
 import { ref, reactive, computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/user'
@@ -47,13 +38,6 @@ import { useRoute } from 'vue-router'
 export default {
 	name: 'Sidebar',
 	components: {
-		MenuFoldOutlined,
-		MenuUnfoldOutlined,
-		PieChartOutlined,
-		MailOutlined,
-		DesktopOutlined,
-		InboxOutlined,
-		AppstoreOutlined,
 		SidebarItem
 	},
 	props: {
