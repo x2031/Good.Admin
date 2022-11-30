@@ -29,11 +29,11 @@ export default {
 	setup() {
 		// data
 		const selectedKeys = ref(['1'])
-
 		const curMenuComponent = computed(() => {
+			// return SafeSet
+			console.log(selectedKeys)
 			return selectedKeys.value.indexOf('1') > -1 ? BasicSet : SafeSet
 		})
-
 		// methods
 		const handleClick = (e) => {}
 

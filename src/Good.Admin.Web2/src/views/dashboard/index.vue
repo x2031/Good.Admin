@@ -10,7 +10,6 @@
 				<div class="header-content">
 					<div class="content-title"> {{ timeToFix }},Jason Chen </div>
 					<div class="content-info">综合管理部 | 前端开发工程师</div>
-					<a-textarea></a-textarea>
 				</div>
 			</div>
 			<div class="header-right">

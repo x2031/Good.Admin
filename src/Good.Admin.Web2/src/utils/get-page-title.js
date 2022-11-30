@@ -1,8 +1,8 @@
-const title = 'JC Admin'
+const title = 'Good.Admin'
 
 export default function getPageTitle(pageTitle) {
-	if (pageTitle) {
-		return `${pageTitle} - ${title}`
-	}
-	return `${title}`
+  if (pageTitle) {
+    return `${pageTitle} - ${title}`
+  }
+  return `${title}`
 }

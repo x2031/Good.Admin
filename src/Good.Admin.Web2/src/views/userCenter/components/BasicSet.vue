@@ -46,12 +46,6 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 
-function getBase64(img, callback) {
-	const reader = new FileReader()
-	reader.addEventListener('load', () => callback(reader.result))
-	reader.readAsDataURL(img)
-}
-
 export default {
 	name: 'BasicSet',
 	setup() {
@@ -67,6 +61,11 @@ export default {
 		const fileList = ref([])
 
 		// methods
+		function getBase64(img, callback) {
+			const reader = new FileReader()
+			reader.addEventListener('load', () => callback(reader.result))
+			reader.readAsDataURL(img)
+		}
 		const handleUpdate = () => {
 			message.success('更新成功')
 		}
@@ -101,8 +100,8 @@ export default {
 
 		// mounted
 		onMounted(() => {
-			formState.userName = store.getters.name
-			imageUrl.value = store.getters.avatar
+			formState.userName = store.getName
+			imageUrl.value = store.getAvatar
 		})
 
 		return {

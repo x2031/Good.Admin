@@ -4,14 +4,14 @@
 			<div class="wrapper">
 				<div class="login-logo enter-x-l">
 					<p>
-						<img alt="JC Admin" src="../../assets/images/logo-jc.png" />
-						<span>JC Admin</span>
+						<img alt="Good.Admin" src="../../assets/images/logo.png" />
+						<span>Good.Admin</span>
 					</p>
 				</div>
 				<div class="flex-item login-info">
 					<div class="info-box">
-						<img class="enter-x-r" alt="JC Admin" src="../../assets/svg/login-box-bg.svg" />
-						<h1 class="enter-x-r">JC Admin后台管理系统</h1>
+						<img class="enter-x-r" alt="Good.Admin" src="../../assets/svg/login-box-bg.svg" />
+						<h1 class="enter-x-r">Good.Admin后台管理系统</h1>
 						<p class="enter-x-r"><span>欢迎使用</span></p>
 					</div>
 				</div>

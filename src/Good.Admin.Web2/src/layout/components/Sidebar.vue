@@ -2,13 +2,13 @@
 	<div>
 		<div class="layout-logo" v-if="!isCollapsed">
 			<router-link to="/">
-				<img alt="JC Admin" src="../../assets/images/logo-jc.png" />
-				<span>JC Admin</span>
+				<img alt="Good.Admin" src="../../assets/images/logo.png" />
+				<span>Good.Admin</span>
 			</router-link>
 		</div>
 		<div class="layout-logo-collapsed" v-else>
 			<router-link to="/">
-				<img alt="JC Admin" src="../../assets/images/logo-jc.png" />
+				<img alt="Good.Admin" src="../../assets/images/logo.png" />
 			</router-link>
 		</div>
 		<a-menu
