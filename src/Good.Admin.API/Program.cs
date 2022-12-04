@@ -2,7 +2,10 @@ using FluentValidation.AspNetCore;
 using Good.Admin.Entity;
 using Good.Admin.Util;
 using MicroElements.NSwag.FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using Spectre.Console;
 using System.Reflection;
 
@@ -41,10 +44,11 @@ namespace Good.Admin.API
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidFilterAttribute>();//参数校验
-                //options.Filters.Add<GlobalExceptionFilter>();//全局异常
+                options.Filters.Add<GlobalExceptionFilter>();//全局异常
             }).ConfigureApiBehaviorOptions(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;//禁用model验证失败后的自动400响应
+                //禁用model验证失败后的自动400响应
+                options.SuppressModelStateInvalidFilter = true;
             })
             .AddNewtonsoftJson();
 
@@ -68,7 +72,15 @@ namespace Good.Admin.API
                    var fluentValidationSchemaProcessor = serviceProvider.CreateScope().ServiceProvider.GetService<FluentValidationSchemaProcessor>();
                    // Add the fluent validations schema processor
                    settings.SchemaProcessors.Add(fluentValidationSchemaProcessor);
-                   //settings.DocumentProcessors.Add(new FluentValidationDocumentProcessor());
+                   settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
+                   settings.AddSecurity("Bearer", Enumerable.Empty<string>(), new OpenApiSecurityScheme
+                   {
+                       Description = "输入你的JWT token令牌",
+                       Type = OpenApiSecuritySchemeType.Http,
+                       In = OpenApiSecurityApiKeyLocation.Header,
+                       Scheme = JwtBearerDefaults.AuthenticationScheme,
+                       BearerFormat = "JWT",
+                   });
                });
             services.AddScoped<FluentValidationSchemaProcessor>();
             #endregion
@@ -106,7 +118,7 @@ namespace Good.Admin.API
             app.UseAuthorization();
             app.UseMiniProfiler();//性能检测            
             app.UseMiddleware<RequestBodyMiddleware>();//格式化返回中间件            
-            app.UseMiddleware<RequestLogMiddleware>();//Log中间件
+            app.UseMiddleware<RequestLogMiddleware>();//Log中间件            
             #region SwaggerUI
             app.UseEndpoints(endpoints =>
             {
@@ -128,8 +140,8 @@ namespace Good.Admin.API
             // serve ReDoc UI
             app.UseReDoc(options =>
             {
-                options.Path = "/api_redoc";                
-            });            
+                options.Path = "/api_redoc";
+            });
             #endregion
 
 #if DEBUG

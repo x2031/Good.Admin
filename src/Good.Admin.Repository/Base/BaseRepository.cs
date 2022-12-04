@@ -1,11 +1,6 @@
-﻿using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Good.Admin.Util;
+using SqlSugar;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Good.Admin.Util;
 
 namespace Good.Admin.Repository
 {
@@ -23,10 +18,8 @@ namespace Good.Admin.Repository
             _dbBase = unitOfWork.GetDbClient();
         }
 
-        private ISqlSugarClient _db
-        {
-            get
-            {
+        private ISqlSugarClient _db {
+            get {
                 /* 如果要开启多库支持，
                  * 1、在appsettings.json 中开启MutiDBEnabled节点为true，必填
                  * 2、设置一个主连接的数据库ID，节点MainDB，对应的连接字符串的Enabled也必须true，必填
@@ -263,22 +256,61 @@ namespace Good.Admin.Repository
         }
 
         /// <summary>
-        ///     根据条件查询数据
+        /// 根据条件查询单表数据
         /// </summary>
         /// <param name="predicate">条件表达式树</param>
         /// <param name="orderBy">排序字段，如name asc,age desc</param>
         /// <returns>泛型实体集合</returns>
-        /// <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
+        /// <param name="useNoLock">是否使用WITH(NOLOCK)</param>
         public async Task<List<T>> QueryListByClauseAsync(Expression<Func<T, bool>> predicate, string orderBy = "",
-            bool blUseNoLock = false)
+            bool useNoLock = false)
         {
-            return blUseNoLock
+            return useNoLock
                 ? await _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
                     .WhereIF(predicate != null, predicate).With(SqlWith.NoLock).ToListAsync()
                 : await _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
                     .WhereIF(predicate != null, predicate).ToListAsync();
         }
-
+        /// <summary>
+        /// 根据条件获取指定列得数据
+        /// </summary>
+        /// <typeparam name="T">表名</typeparam>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="predicate">条件表达式树</param>
+        /// <param name="selectExpression">查询列</param>
+        /// <param name="orderBy">排序字段</param>
+        /// <param name="useNoLock"></param>
+        /// <returns></returns>
+        public async Task<List<TResult>> QueryListByClauseAsync<T, TResult>(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, TResult>> selectExpression, string orderBy = "",
+        bool useNoLock = false)
+        {
+            return useNoLock
+                ? await _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
+                    .WhereIF(predicate != null, predicate).With(SqlWith.NoLock).Select(selectExpression).ToListAsync()
+                : await _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
+                    .WhereIF(predicate != null, predicate).Select(selectExpression).ToListAsync();
+        }
+        /// <summary>
+        /// 根据条件获取指定列得数据
+        /// </summary>
+        /// <typeparam name="T">表名</typeparam>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="predicate">条件表达式树</param>
+        /// <param name="selectExpression">查询列</param>
+        /// <param name="orderBy">排序字段</param>
+        /// <param name="useNoLock"></param>
+        /// <returns></returns>
+        public List<TResult> QueryListByClause<T, TResult>(Expression<Func<T, bool>> predicate,
+            Expression<Func<T, TResult>> selectExpression, string orderBy = "",
+        bool useNoLock = false)
+        {
+            return useNoLock
+                ? _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
+                    .WhereIF(predicate != null, predicate).With(SqlWith.NoLock).Select(selectExpression).ToList()
+                : _db.Queryable<T>().OrderByIF(!string.IsNullOrEmpty(orderBy), orderBy)
+                    .WhereIF(predicate != null, predicate).Select(selectExpression).ToList();
+        }
         /// <summary>
         ///     根据条件查询数据-分页
         /// </summary>

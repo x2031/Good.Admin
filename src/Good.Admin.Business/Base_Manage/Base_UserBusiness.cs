@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Good.Admin.Entity;
+﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Repository;
 using Good.Admin.Util;
@@ -15,12 +9,14 @@ namespace Good.Admin.Business
 {
     public class Base_UserBusiness : BaseRepository<Base_User>, IBase_UserBusiness, ITransientDependency
     {
-        //private readonly IBaseRepository<Base_User> _db;
-        readonly IOperator _operator;
-        public Base_UserBusiness(IUnitOfWork unitOfWork, IOperator @operator) : base(unitOfWork)
+        public Base_UserBusiness(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache) : base(unitOfWork)
         {
             _operator = @operator;
+            _rediscache = rediscache;
         }
+        readonly IOperator _operator;
+        readonly IRedisBasketRepository _rediscache;
+
         #region 查询      
         public async Task<Base_UserDTO> GetTheDataAsync(string id)
         {
@@ -77,8 +73,7 @@ namespace Good.Admin.Business
                 var userRoles = await Db.Queryable<Base_UserRole>()
                       .LeftJoin<Base_Role>((x, y) => x.RoleId == y.Id)
                        .Where(expable.ToExpression())
-                       .Select((x, y) => new
-                       {
+                       .Select((x, y) => new {
                            x.UserId,
                            RoleId = y.Id,
                            y.RoleName
@@ -91,6 +86,20 @@ namespace Good.Admin.Business
                     aUser.RoleNameList = roleList.Select(x => x.RoleName).ToList();
                 });
             }
+        }
+
+        public async Task<string> LoginAsync(LoginInputDTO input, bool pwdtomd5 = false)
+        {
+            if (pwdtomd5)
+            {
+                input.password = input.password.ToMD5String();
+            }
+            var theUser = await QueryByClauseAsync(x => x.UserName == input.userName && x.Password == input.password);
+
+            if (theUser.IsNullOrEmpty())
+                throw new BusException("账号或密码不正确！");
+
+            return theUser.Id;
         }
         #endregion
         #region 修改
@@ -118,6 +127,26 @@ namespace Good.Admin.Business
             //TODO 缓存更新
             //  await _userCache.UpdateCacheAsync(ids);
         }
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task ChangePwdAsync(ChangePwdInputDTO input)
+        {
+            var theUser = _operator.UserProperty;
+            if (theUser.Password != input.oldPwd?.ToMD5String())
+                throw new BusException("账号或密码不正确!", 513);
+
+            theUser.Password = input.newPwd.ToMD5String();
+            var mpdto = theUser.Adapt<Base_User>();
+            //更新数据
+            await UpdateAsync(mpdto);
+            //更新缓存
+            await _rediscache.RemoveAsync(theUser.Id);
+        }
+
         #endregion
 
         #region 私有成员

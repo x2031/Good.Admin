@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -13,13 +8,13 @@ namespace Good.Admin.Util
     {
         private readonly ILogger<RedisBasketRepository> _logger;
         private readonly IConnectionMultiplexer _redis;
-        private readonly IDatabase _database;
+        private readonly IDatabase _redisdatabase;
 
         public RedisBasketRepository(ILogger<RedisBasketRepository> logger, IConnectionMultiplexer redis)
         {
             _logger = logger;
             _redis = redis;
-            _database = redis.GetDatabase();
+            _redisdatabase = redis.GetDatabase();
         }
 
         private IServer GetServer()
@@ -28,60 +23,64 @@ namespace Good.Admin.Util
             return _redis.GetServer(endpoint.First());
         }
 
-        public async Task Clear()
+        public async Task ClearAsync()
         {
             foreach (var endPoint in _redis.GetEndPoints())
             {
                 var server = GetServer();
                 foreach (var key in server.Keys())
                 {
-                    await _database.KeyDeleteAsync(key);
+                    await _redisdatabase.KeyDeleteAsync(key);
                 }
             }
         }
-
-        public async Task<bool> Exist(string key)
+        /// <summary>
+        /// 是否存在key得缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<bool> ExistAsync(string key)
         {
-            return await _database.KeyExistsAsync(key);
+            return await _redisdatabase.KeyExistsAsync(key);
         }
 
-        public async Task<string> GetValue(string key)
+        public async Task<string> GetValueAsync(string key)
         {
-            return await _database.StringGetAsync(key) ;
+            return await _redisdatabase.StringGetAsync(key);
         }
 
-        public async Task Remove(string key)
+        public async Task RemoveAsync(string key)
         {
-            await _database.KeyDeleteAsync(key);
+            await _redisdatabase.KeyDeleteAsync(key);
         }
-        public async Task Remove(List<string> keys)
+        public async Task RemoveAsync(List<string> keys)
         {
             foreach (var key in keys)
             {
-                await _database.KeyDeleteAsync(key);
+                await _redisdatabase.KeyDeleteAsync(key);
             }
         }
 
-        public async Task Set(string key, object value, TimeSpan cacheTime)
+        public async Task SetAsync(string key, object value, TimeSpan cacheTime)
         {
             if (value != null)
             {
                 if (value is string cacheValue)
                 {
                     // 字符串无需序列化
-                    await _database.StringSetAsync(key, cacheValue, cacheTime);
+                    await _redisdatabase.StringSetAsync(key, cacheValue, cacheTime);
                 }
                 else
                 {
                     //序列化，将object值生成RedisValue
-                    await _database.StringSetAsync(key, JsonConvert.SerializeObject(value), cacheTime);
+                    await _redisdatabase.StringSetAsync(key, JsonConvert.SerializeObject(value), cacheTime);
                 }
             }
         }
 
-        public async Task<TEntity> Get<TEntity>(string key)
+        public async Task<TEntity> GetAsync<TEntity>(string key)
         {
-            var value = await _database.StringGetAsync(key);
+            var value = await _redisdatabase.StringGetAsync(key);
             if (value.HasValue)
             {
                 //需要用的反序列化，将Redis存储的Byte[]，进行反序列化
@@ -104,7 +103,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<RedisValue[]> ListRangeAsync(string redisKey)
         {
-            return await _database.ListRangeAsync(redisKey);
+            return await _redisdatabase.ListRangeAsync(redisKey);
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<long> ListLeftPushAsync(string redisKey, string redisValue, int db = -1)
         {
-            return await _database.ListLeftPushAsync(redisKey, redisValue);
+            return await _redisdatabase.ListLeftPushAsync(redisKey, redisValue);
         }
         /// <summary>
         /// 在列表尾部插入值。如果键不存在，先创建再插入值
@@ -125,7 +124,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<long> ListRightPushAsync(string redisKey, string redisValue, int db = -1)
         {
-            return await _database.ListRightPushAsync(redisKey, redisValue);
+            return await _redisdatabase.ListRightPushAsync(redisKey, redisValue);
         }
 
         /// <summary>
@@ -141,7 +140,7 @@ namespace Good.Admin.Util
             {
                 redislist.Add(item);
             }
-            return await _database.ListRightPushAsync(redisKey, redislist.ToArray());
+            return await _redisdatabase.ListRightPushAsync(redisKey, redislist.ToArray());
         }
 
 
@@ -152,7 +151,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<T> ListLeftPopAsync<T>(string redisKey, int db = -1) where T : class
         {
-            return JsonConvert.DeserializeObject<T>(await _database.ListLeftPopAsync(redisKey));
+            return JsonConvert.DeserializeObject<T>(await _redisdatabase.ListLeftPopAsync(redisKey));
         }
 
         /// <summary>
@@ -163,7 +162,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<T> ListRightPopAsync<T>(string redisKey, int db = -1) where T : class
         {
-            return JsonConvert.DeserializeObject<T>(await _database.ListRightPopAsync(redisKey));
+            return JsonConvert.DeserializeObject<T>(await _redisdatabase.ListRightPopAsync(redisKey));
         }
 
         /// <summary>
@@ -174,7 +173,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<string> ListLeftPopAsync(string redisKey, int db = -1)
         {
-            return await _database.ListLeftPopAsync(redisKey);
+            return await _redisdatabase.ListLeftPopAsync(redisKey);
         }
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<string> ListRightPopAsync(string redisKey, int db = -1)
         {
-            return await _database.ListRightPopAsync(redisKey);
+            return await _redisdatabase.ListRightPopAsync(redisKey);
         }
 
         /// <summary>
@@ -197,7 +196,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<long> ListLengthAsync(string redisKey, int db = -1)
         {
-            return await _database.ListLengthAsync(redisKey);
+            return await _redisdatabase.ListLengthAsync(redisKey);
         }
 
         /// <summary>
@@ -207,7 +206,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<IEnumerable<string>> ListRangeAsync(string redisKey, int db = -1)
         {
-            var result = await _database.ListRangeAsync(redisKey);
+            var result = await _redisdatabase.ListRangeAsync(redisKey);
             return result.Select(o => o.ToString());
         }
 
@@ -221,7 +220,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<IEnumerable<string>> ListRangeAsync(string redisKey, int start, int stop, int db = -1)
         {
-            var result = await _database.ListRangeAsync(redisKey, start, stop);
+            var result = await _redisdatabase.ListRangeAsync(redisKey, start, stop);
             return result.Select(o => o.ToString());
         }
 
@@ -235,7 +234,7 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public async Task<long> ListDelRangeAsync(string redisKey, string redisValue, long type = 0, int db = -1)
         {
-            return await _database.ListRemoveAsync(redisKey, redisValue, type);
+            return await _redisdatabase.ListRemoveAsync(redisKey, redisValue, type);
         }
 
         /// <summary>
@@ -245,7 +244,7 @@ namespace Good.Admin.Util
         /// <param name="db"></param>
         public async Task ListClearAsync(string redisKey, int db = -1)
         {
-            await _database.ListTrimAsync(redisKey, 1, 0);
+            await _redisdatabase.ListTrimAsync(redisKey, 1, 0);
         }
     }
 

@@ -12,7 +12,10 @@ namespace Good.Admin.IBusiness
         /// 当前操作者UserId
         /// </summary>
         string UserId { get; }
-        Base_UserDTO Property { get; }
+        /// <summary>
+        /// 用户属性
+        /// </summary>
+        Base_UserDTO UserProperty { get; }
 
         #region 操作方法
         /// <summary>
@@ -26,9 +29,6 @@ namespace Good.Admin.IBusiness
         /// <param name="userLogType">用户日志类型</param>
         /// <param name="msg">内容</param>
         void WriteUserLog(UserLogType userLogType, string msg);
-
-        Task<object?> GetCache(string key);
-        Task SetCache(int AbsoluteExpiration, string key, object? value);
         #endregion
     }
 

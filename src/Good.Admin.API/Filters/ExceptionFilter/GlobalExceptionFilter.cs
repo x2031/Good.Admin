@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Good.Admin.API
 {
     //IAsyncExceptionFilter
-    public class GlobalExceptionFilter : BaseActionFilterAsync
+    public class GlobalExceptionFilter : BaseActionFilterAsync, IAsyncExceptionFilter
     {
         readonly ILogger _logger;
         public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger)
@@ -28,7 +28,7 @@ namespace Good.Admin.API
             else
             {
                 _logger.LogError(ex, "");
-                context.Result = Error("系统繁忙");
+                context.Result = Error("系统繁忙", 500);
             }
             await Task.CompletedTask;
         }

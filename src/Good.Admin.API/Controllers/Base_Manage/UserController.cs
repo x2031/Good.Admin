@@ -1,8 +1,6 @@
 ﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Util;
-using Mapster;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -29,6 +27,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
+        [ApiPermission("Base_User.GetDataList")]
         // [IgnoreVaild]        
         public async Task<PageResult<Base_UserDTO>> GetDataList([FromBody] PageInput<Base_UsersInputDTO> input)
         {
@@ -40,7 +39,8 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="name">名字</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<Base_UserDTO> GetTheDataAsync(string id)
+        [ApiPermission("Base_User.GetDataById")]
+        public async Task<Base_UserDTO> GetDataByIdAsync(string id)
         {
             return await _userBus.GetTheDataAsync(id);
         }
@@ -48,19 +48,20 @@ namespace Good.Admin.API.Controllers.Base_Manage
         #endregion
         #region 修改
         /// <summary>
-        /// 保存数据-实现更新和新增
+        /// 更新用户数据
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task SaveData(UserEditInputDTO input)
+        [ApiPermission("Base_User.Update")]
+        public async Task UpdateData(UserEditInputDTO input)
         {
             if (!input.newPwd.IsNullOrEmpty())
                 input.Password = input.newPwd.ToMD5String();
+
             if (input.Id.IsNullOrEmpty())
             {
-                InitEntity(input);
-                await _userBus.AddDataAsync(input);
+                throw new BusException("更新用户数据必须传入用户标识字符串!", 511);
             }
             else
             {
@@ -68,12 +69,47 @@ namespace Good.Admin.API.Controllers.Base_Manage
                 await _userBus.UpdateDataAsync(input);
             }
         }
+
+        /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ApiPermission("Base_User.Add")]
+        public async Task AddData(UserEditInputDTO input)
+        {
+            if (!input.newPwd.IsNullOrEmpty())
+                input.Password = input.newPwd.ToMD5String();
+
+            if (input.Id.IsNullOrEmpty())
+            {
+                InitEntity(input);
+                await _userBus.AddDataAsync(input);
+            }
+            else
+            {
+                throw new BusException("新增数据不允许传入用户ID!", 510);
+            }
+        }
+        /// <summary>
+        /// 修改用户密码
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ApiPermission("Base_User.ChangePwd")]
+        public async Task ChangePwdAsync(ChangePwdInputDTO inputDTO)
+        {
+            await _userBus.ChangePwdAsync(inputDTO);
+        }
         /// <summary>
         /// 删除数据
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
+        [ApiPermission("Base_User.Delete")]
         public async Task DeleteData(List<string> ids)
         {
             await _userBus.DeleteDataAsync(ids);

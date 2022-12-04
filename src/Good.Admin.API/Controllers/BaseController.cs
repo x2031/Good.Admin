@@ -8,7 +8,7 @@ namespace Good.Admin.API.Controllers
     /// <summary>
     /// 基控制器
     /// </summary>
-    //[FormatResponse]
+    [FormatResponse]
     public class BaseController : Controller
     {
         /// <summary>
@@ -25,7 +25,7 @@ namespace Good.Admin.API.Controllers
             if (obj.ContainsProperty("CreatorId"))
                 obj.SetPropertyValue("CreatorId", op?.UserId);
             if (obj.ContainsProperty("CreatorRealName"))
-                obj.SetPropertyValue("CreatorRealName", op?.Property?.RealName);
+                obj.SetPropertyValue("CreatorRealName", op?.UserProperty?.RealName);
         }
         /// <summary>
         /// 更新-初始化

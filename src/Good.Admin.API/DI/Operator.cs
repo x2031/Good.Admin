@@ -33,37 +33,33 @@ namespace Good.Admin.API.DI
         public string UserId { get; }
 
         /// <summary>
-        /// 属性
+        /// 用户属性
         /// </summary>
-        public Base_UserDTO Property {
+        public Base_UserDTO UserProperty {
             get {
                 if (UserId.IsNullOrEmpty())
                     return default;
 
-                //if (_property == null)
-                //{
-                //    lock (_lockObj)
-                //    {
-                //        if (_property == null)
-                //        {
-                //            _property = AsyncHelper.RunSync(() => _userCache.GetCacheAsync(UserId));
-                //        }
-                //    }
-                //}
-
+                if (_property == null)
+                {
+                    lock (_lockObj)
+                    {
+                        if (_property == null)
+                        {
+                            _property = AsyncHelper.RunSync(() => _rediscache.GetAsync<Base_UserDTO>(UserId));
+                        }
+                    }
+                }
                 return _property;
             }
         }
-
-        Base_UserDTO IOperator.Property => throw new NotImplementedException();
-
         /// <summary>
         /// 判断是否为超级管理员
         /// </summary>
         /// <returns></returns>
         public bool IsAdmin()
         {
-            var role = Property.RoleType;
+            var role = UserProperty.RoleType;
             if (UserId == GlobalAssemblies.ADMINID || role.HasFlag(RoleTypes.超级管理员))
                 return true;
             else
@@ -77,7 +73,7 @@ namespace Good.Admin.API.DI
                 Id = IdHelper.NextId(),
                 CreateTime = DateTime.Now,
                 CreatorId = UserId,
-                CreatorRealName = Property.RealName,
+                CreatorRealName = UserProperty.RealName,
                 LogContent = msg,
                 LogType = userLogType.ToString()
             };
@@ -95,7 +91,7 @@ namespace Good.Admin.API.DI
 
         public async Task<object?> GetCache(string key)
         {
-            var result = await _rediscache.GetValue(key);
+            var result = await _rediscache.GetValueAsync(key);
             if (result.IsNullOrEmpty())
             {
                 return null;
@@ -107,7 +103,7 @@ namespace Good.Admin.API.DI
         public async Task SetCache(int AbsoluteExpiration, string key, object? value)
         {
             var seconds = TimeSpan.FromSeconds(AbsoluteExpiration * 60);
-            await _rediscache.Set(key, JsonConvert.SerializeObject(value), seconds);
+            await _rediscache.SetAsync(key, JsonConvert.SerializeObject(value), seconds);
         }
     }
 

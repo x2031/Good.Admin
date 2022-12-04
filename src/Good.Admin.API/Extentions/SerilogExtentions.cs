@@ -55,7 +55,7 @@ namespace Good.Admin.API
                         rollOnFileSizeLimit: true
                         );
                 }
-                //是否输出到Elasticsearch中
+                //是否输出到Elasticsearch中0
                 if (logConfig.Elasticsearch.Enabled)
                 {
                     var uris = logConfig.Elasticsearch.Nodes.Select(x => new Uri(x)).ToList();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 
 namespace Good.Admin.Util
 {
@@ -14,28 +9,28 @@ namespace Good.Admin.Util
     {
 
         //获取 Reids 缓存值
-        Task<string> GetValue(string key);
+        Task<string> GetValueAsync(string key);
 
         //获取值，并序列化
-        Task<TEntity> Get<TEntity>(string key);
+        Task<TEntity> GetAsync<TEntity>(string key);
 
         //保存
-        Task Set(string key, object value, TimeSpan cacheTime);
+        Task SetAsync(string key, object value, TimeSpan cacheTime);
 
         //判断是否存在
-        Task<bool> Exist(string key);
+        Task<bool> ExistAsync(string key);
 
         //移除某一个缓存值
-        Task Remove(string key);
+        Task RemoveAsync(string key);
         /// <summary>
         /// 移除list中的所有缓存值
         /// </summary>
         /// <param name="keys"></param>
         /// <returns></returns>
-        Task Remove(List<string> keys);
+        Task RemoveAsync(List<string> keys);
 
         //全部清除
-        Task Clear();
+        Task ClearAsync();
 
         Task<RedisValue[]> ListRangeAsync(string redisKey);
         Task<long> ListLeftPushAsync(string redisKey, string redisValue, int db = -1);

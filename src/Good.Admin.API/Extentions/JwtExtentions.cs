@@ -31,7 +31,6 @@ namespace Good.Admin.API
                     ValidateAudience = false,
                 };
             });
-
             return services;
         }
     }

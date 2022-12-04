@@ -23,4 +23,8 @@
 	  <ProjectReference Include="..\Good.Admin.IBusiness\04.Good.Admin.IBusiness.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="AOP\Cache\" />
+	</ItemGroup>
+
 </Project>

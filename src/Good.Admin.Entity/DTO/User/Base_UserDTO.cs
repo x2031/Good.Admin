@@ -1,9 +1,4 @@
 ﻿using Good.Admin.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Good.Admin.Entity
 {
@@ -12,10 +7,8 @@ namespace Good.Admin.Entity
         public string RoleNames { get => string.Join(",", RoleNameList ?? new List<string>()); }
         public List<string> RoleIdList { get; set; }
         public List<string> RoleNameList { get; set; }
-        public RoleTypes RoleType
-        {
-            get
-            {
+        public RoleTypes RoleType {
+            get {
                 int type = 0;
 
                 var values = typeof(RoleTypes).GetEnumValues();

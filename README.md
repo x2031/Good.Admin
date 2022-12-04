@@ -1,4 +1,9 @@
+
 # Good.Admin
+
+<div align="center">
+<h2>未完成</h2>
+</div>
 
 <div align="center">
   <a href="https://github.com/x2031/Good.Admin/actions/workflows/dotnet.yml">
@@ -16,23 +21,20 @@
 
 ## 1.框架介绍✨
 
-- [x]  JWT
+- [x]  JWT Token
 - [x]  SqlSugar
 - [x]  MiniProfiler
 - [x]  SwaggerUI
 - [x]  全局异常检测
-- [x]  log记录
+- [x]  常规日志、数据操作日志、系统异常日志
 - [ ]  数据库读写分离
-- [ ]  全局参数值检测
-- [ ]  数据缓存
-- [ ]  Redis
+- [x]  参数值自动检测
+- [x]  Redis数据缓存
 - [ ]  AOP切面编程 实现 数据缓存、日志、审计、事务
-- [ ]  T4模板自动生成代码
-- [ ]  VUE前端界面
-- [ ]  流程组件
-- [ ]  多平台登录
+- [ ]  T4模板自动生成框架代码
+- [ ]  Vue3+pinia+Vue Router+antdv
+- [ ]  流程设计
 - [ ]  工具类
-- [ ]  缓存
 - [ ]  数据权限
 
 ## 2.后端核心🧡
