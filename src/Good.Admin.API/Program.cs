@@ -60,6 +60,7 @@ namespace Good.Admin.API
             services.AddSqlsugarSetup(); //注入Sqlsugar            
             services.AddFxServices();//自动注入需要注入的            
             services.AddScoped<MyContext>();//注入db启动相关服务
+            services.AddHttpContextAccessor();
             #region 添加MiniProfiler服务
             services.AddMiniProfiler(options =>
             {
@@ -122,7 +123,7 @@ namespace Good.Admin.API
             #region SwaggerUI
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireAuthorization();
             });
             app.UseOpenApi(); // serve OpenAPI/Swagger documents            
             var miniProfiler_headstream = _assembly.GetManifestResourceStream("Good.Admin.API.miniProfiler_head.js");

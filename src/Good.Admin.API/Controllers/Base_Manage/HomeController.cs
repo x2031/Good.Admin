@@ -69,7 +69,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         //[Authorize]
         [HttpPost]
-        [ApiPermission("Base_User.RefreshToken")]
+        [ApiPermission("Base_User.Add")]
         public async Task<TokenDTO> RefreshToken(TokenDTO tokenDTO)
         {
             TokenDTO result = new TokenDTO();

@@ -31,6 +31,11 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task<List<Base_ActionDTO>> GetUserMenuListAsync(string userId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new BusException("userId不能为空", 514);
+            }
+
             var actionIds = await GetUserActionIds(userId);
             return await _actionBus.GetTreeDataListAsync(new Base_ActionsInputDTO
             {
@@ -47,11 +52,30 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task<List<string>> GetUserPermissionValuesAsync(string userId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new BusException("userId不能为空", 514);
+            }
+
+            var actionIds = await GetUserActionIds(userId);
+            return (await _actionBus
+                .GetDataListAsync(new Base_ActionsInputDTO
+                {
+                    types = new ActionType[] { ActionType.权限 },
+                    ActionIds = actionIds
+                }))
+                .Where(x => !string.IsNullOrEmpty(x.Value))
+                .Select(x => x.Value)
+                .ToList();
         }
         #region 私有方法
         async Task<List<string>> GetUserActionIds(string userId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new BusException("userId不能为空", 514);
+            }
+
             var where = LinqHelper.False<Base_Action>();
             var theUser = await _userBus.GetTheDataAsync(userId);
             //不需要权限的菜单
@@ -80,7 +104,7 @@ namespace Good.Admin.Business.Base_Manage
                 where = where.Or(x => actionIds.Contains(x.Id));
             }
 
-            return await QueryListByClauseAsync<Base_Action, string>(where, (x) => new string(x.Id));
+            return await QueryListByClauseAsync<Base_Action, string>(where, (x) => x.Id);
         }
         #endregion
     }
