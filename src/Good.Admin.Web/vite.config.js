@@ -8,6 +8,7 @@ import { qrcode } from 'vite-plugin-qrcode'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
+
 // https://vitejs.dev/config/
 export default defineConfig({
   baseUrl: './',

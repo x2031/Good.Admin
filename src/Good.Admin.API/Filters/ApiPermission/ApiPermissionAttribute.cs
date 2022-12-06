@@ -10,6 +10,11 @@ namespace Good.Admin.API
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class ApiPermissionAttribute : BaseActionFilterAsync
     {
+        /// <summary>
+        /// 权限值
+        /// </summary>
+        /// <param name="permissionValue"></param>
+        /// <exception cref="Exception"></exception>
         public ApiPermissionAttribute(string permissionValue)
         {
             if (permissionValue.IsNullOrEmpty())
@@ -26,12 +31,20 @@ namespace Good.Admin.API
         /// <param name="context">过滤器上下文</param>
         public async override Task OnActionExecuting(ActionExecutingContext context)
         {
+            var permissions = new List<string>();
             if (context.ContainsFilter<NoApiPermissionAttribute>())
                 return;
+
             IServiceProvider serviceProvider = context.HttpContext.RequestServices;
+
             IPermissionBusiness _permissionBus = serviceProvider.GetService<IPermissionBusiness>();
             IOperator _operator = serviceProvider.GetService<IOperator>();
-            var permissions = await _permissionBus?.GetUserPermissionValuesAsync(_operator?.UserId);
+
+            if (_operator != null)
+            {
+                permissions = await _permissionBus?.GetUserPermissionValuesAsync(_operator?.UserId);
+            }
+
             if (!permissions.Contains(_permissionValue))
                 context.Result = Error("权限不足!");
         }

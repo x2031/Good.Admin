@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/jc-admin/user/login',
+    url: '/api/Home/Login',
     method: 'post',
     data
   })
