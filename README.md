@@ -2,6 +2,9 @@
 # Good.Admin
 
 <div align="center">
+<img src="./doc/img/github_logo.png" style="width:231px" alt="Good.Admin"/>
+</div>
+<div align="center">
 <h2>未完成</h2>
 </div>
 
@@ -15,9 +18,7 @@
  </a>
 </div>
 
-<div align="center">
-<img src="./doc/img/github_logo.png" style="width:231px" alt="Good.Admin"/>
-</div>
+
 
 ## 1.框架介绍✨
 
