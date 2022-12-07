@@ -41,9 +41,9 @@ export const useUserStore = defineStore({
       const { username, password } = userInfo
       await login({ username: username.trim(), password: password }).then(response => {
         console.log(response)
-        const { data } = response
-        this.token = data.token
-        resdata = data
+        const { Data } = response
+        this.token = Data.token
+        resdata = Data
       })
       return resdata
     },

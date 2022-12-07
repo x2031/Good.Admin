@@ -1,10 +1,6 @@
 ﻿//using AutoMapper;
 using Castle.DynamicProxy;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Good.Admin.Util
 {
@@ -15,42 +11,6 @@ namespace Good.Admin.Util
     {
         private static readonly ProxyGenerator _generator = new ProxyGenerator();
 
-        //        /// <summary>
-        //        /// 使用AutoMapper自动映射拥有MapAttribute的类
-        //        /// </summary>
-        //        /// <param name="services">服务集合</param>
-        //        /// <param name="configure">自定义配置</param>
-        //        public static IServiceCollection AddAutoMapper(this IServiceCollection services, Action<IMapperConfigurationExpression> configure = null)
-        //        {
-        //            List<(Type from, Type[] targets)> maps = new List<(Type from, Type[] targets)>();
-
-        //            maps.AddRange(GlobalAssemblies.AllTypes.Where(x => x.GetCustomAttribute<MapAttribute>() != null)
-        //                .Select(x => (x, x.GetCustomAttribute<MapAttribute>().TargetTypes)));
-
-        //            var configuration = new MapperConfiguration(cfg =>
-        //            {
-        //                maps.ForEach(aMap =>
-        //                {
-        //                    aMap.targets.ToList().ForEach(aTarget =>
-        //                    {
-        //                        cfg.CreateMap(aMap.from, aTarget).IgnoreAllNonExisting(aMap.from, aTarget).ReverseMap();
-        //                    });
-        //                });
-
-        //                cfg.AddMaps(GlobalAssemblies.AllAssemblies);
-
-        //                //自定义映射
-        //                configure?.Invoke(cfg);
-        //            });
-
-        //#if DEBUG
-        //            //只在Debug时检查配置
-        //            configuration.AssertConfigurationIsValid();
-        //#endif
-        //            services.AddSingleton(configuration.CreateMapper());
-
-        //            return services;
-        //        }
 
         /// <summary>
         /// 自动注入拥有ITransientDependency,IScopeDependency或ISingletonDependency的类

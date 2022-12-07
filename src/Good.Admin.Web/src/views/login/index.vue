@@ -18,7 +18,7 @@
 				<div class="flex-item login-form">
 					<div class="form-box enter-x-l">
 						<h1 class="login-title enter-x-l">登录</h1>
-						<a-form ref="loginForm" :model="formData" @finish="handleRegister" :rules="rules">
+						<a-form ref="loginForm" :model="formData" @finish="handleLogin" :rules="rules">
 							<a-form-item name="username" class="enter-x-l">
 								<a-input v-model:value="formData.username" size="large" placeholder="用户名" />
 							</a-form-item>
@@ -86,16 +86,18 @@ export default {
 			}, {})
 		}
 		//提交登录信息
-		const handleRegister = async (values) => {
-			console.log(values)
+		const handleLogin = async (values) => {
 			loading.value = true
 			await userstore
 				.userlogin(values)
 				.then((res) => {
+					//判断是否登录成功
+					console.log(res)
 					loading.value = false
 					router.push({ path: redirect.value || '/', query: otherQuery.value })
 				})
 				.catch((err) => {
+					console.log(err)
 					loading.value = false
 				})
 		}
@@ -119,7 +121,7 @@ export default {
 			loading,
 			formData,
 			rules,
-			handleRegister
+			handleLogin
 		}
 	}
 }
