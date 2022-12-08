@@ -92,7 +92,6 @@ export default {
 				.userlogin(values)
 				.then((res) => {
 					//判断是否登录成功
-					console.log(res)
 					loading.value = false
 					router.push({ path: redirect.value || '/', query: otherQuery.value })
 				})

@@ -18,7 +18,6 @@ router.beforeEach(async (to, from, next) => {
   document.title = getPageTitle(to.meta.title)
   console.log(document.title)
   // 获取用户token
-  console.log(userStore.token)
   if (userStore.token) {
     console.log('获取到token')
     if (to.path === '/login') {
@@ -37,9 +36,7 @@ router.beforeEach(async (to, from, next) => {
           // 获取权限路由
           await userStore.getInfo().then(res => {
             const { roles } = res
-            console.log(roles)
             accessRoutes = permissioStore.generateRoutes(roles)
-            console.log(accessRoutes)
             accessRoutes.forEach((route) => {
               router.addRoute(route)
             })
@@ -53,13 +50,10 @@ router.beforeEach(async (to, from, next) => {
         try {
           // 获取用户信息
           console.log("获取用户信息")
-          console.log("1")
           // 获取权限路由
           await userStore.getInfo().then(res => {
             const { roles } = res
-            console.log(roles)
             accessRoutes = permissioStore.generateRoutes(roles)
-            console.log(accessRoutes)
             accessRoutes.forEach((route) => {
               router.addRoute(route)
             })
@@ -78,7 +72,6 @@ router.beforeEach(async (to, from, next) => {
   }
   //未登录
   else {
-    console.log(whiteList)
     if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {

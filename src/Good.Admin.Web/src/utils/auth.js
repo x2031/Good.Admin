@@ -2,7 +2,6 @@
 const TokenKey = 'JC-Token'
 
 export function getToken() {
-  console.log(localStorage.getItem(TokenKey))
   return localStorage.getItem(TokenKey)
 }
 

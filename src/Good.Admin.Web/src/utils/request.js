@@ -52,12 +52,11 @@ service.interceptors.request.use((config) => {
 
 //返回状态判断(添加响应拦截器)
 service.interceptors.response.use((response) => {
-  console.log(response)
   const res = response.data
-  if (res.Code !== 200) {
+  if (res.code !== 200) {
     message.error(res.message || 'Error')
     // 508: 非法token; 512: 其他用户已登录; 514: Token过期;
-    if (res.Code === 508 || res.Code === 512 || res.Code === 514) {
+    if (res.code === 508 || res.code === 512 || res.code === 514) {
       // 重新登录
       Modal.confirm({
         title: '确认注销',
@@ -75,7 +74,6 @@ service.interceptors.response.use((response) => {
     }
     return Promise.reject(new Error(res.message || 'Error'))
   }
-
   else {
     return res
   }

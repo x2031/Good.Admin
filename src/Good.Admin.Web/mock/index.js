@@ -209,7 +209,7 @@ const users = {
 module.exports = {
   'POST /jc-admin/user/login': (req, res) => {
     const { username } = req.body
-    const token = tokens[username]
+    const token = tokens['admin']
 
     // mock错误
     if (!token) {
@@ -226,7 +226,7 @@ module.exports = {
   },
   'GET /jc-admin/user/info.*': (req, res) => {
     const { token } = req.query
-    const info = users[token]
+    const info = users['admin-token']
 
     // mock错误
     if (!info) {

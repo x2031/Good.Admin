@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using System;
 
 namespace Good.Admin.Util
 {
@@ -28,7 +26,6 @@ namespace Good.Admin.Util
         /// <returns></returns>
         public static string ToJson(this object obj)
         {
-            
             return JsonConvert.SerializeObject(obj);
         }
 

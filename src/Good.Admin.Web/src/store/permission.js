@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { asyncRoutes, constantRoutes } from '@/router/router.config'
+import { asyncRoutes, localdevRoutes, constantRoutes } from '@/router/router.config'
+import { ProcessHelper } from '@/utils/tool'
 /**
  * 通过meta.role来判断当前用户是否有权限
  * @param roles
@@ -50,17 +51,22 @@ export const permissionStore = defineStore({
     //权限判断
     generateRoutes(roles) {
       console.log('获取权限路由')
-      console.log(roles)
       let accessedRoutes
       if (roles.includes('admin')) {
-        console.log('admin')
-        console.log(asyncRoutes)
         accessedRoutes = asyncRoutes || []
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
       this.addRoutes = accessedRoutes;
-      accessedRoutes = constantRoutes.concat(this.addRoutes);
+
+      console.log('是否是正式:', ProcessHelper.isProduction())
+      //开发者模式下附加开发者路由
+      if (!ProcessHelper.isProduction()) {
+        accessedRoutes = constantRoutes.concat(this.addRoutes, localdevRoutes);
+      }
+      else {
+        accessedRoutes = constantRoutes.concat(this.addRoutes);
+      }
       this.routes = accessedRoutes
       console.log(this.routes)
       return accessedRoutes

@@ -60,7 +60,7 @@ namespace Good.Admin.Business
                  input.PageSize
                  );
 
-            await SetProperty(db_result.Data);
+            await SetProperty(db_result.data);
 
             return db_result;
 

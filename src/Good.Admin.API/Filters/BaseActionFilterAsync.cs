@@ -43,8 +43,8 @@ namespace Good.Admin.API
         {
             AjaxResult res = new AjaxResult
             {
-                Success = true,
-                Msg = "请求成功！"
+                success = true,
+                msg = "请求成功！"
             };
 
             return JsonContent(res.ToJson());
@@ -59,8 +59,8 @@ namespace Good.Admin.API
         {
             AjaxResult res = new AjaxResult
             {
-                Success = true,
-                Msg = msg
+                success = true,
+                msg = msg
             };
 
             return JsonContent(res.ToJson());
@@ -75,9 +75,9 @@ namespace Good.Admin.API
         {
             AjaxResult<T> res = new AjaxResult<T>
             {
-                Success = true,
-                Msg = "请求成功！",
-                Data = data
+                success = true,
+                msg = "请求成功！",
+                data = data
             };
 
             return JsonContent(res.ToJson());
@@ -91,8 +91,8 @@ namespace Good.Admin.API
         {
             AjaxResult res = new AjaxResult
             {
-                Success = false,
-                Msg = "请求失败！"
+                success = false,
+                msg = "请求失败！"
             };
 
             return JsonContent(res.ToJson());
@@ -107,8 +107,8 @@ namespace Good.Admin.API
         {
             AjaxResult res = new AjaxResult
             {
-                Success = false,
-                Msg = msg,
+                success = false,
+                msg = msg,
             };
             return JsonContent(res.ToJson());
         }
@@ -123,9 +123,9 @@ namespace Good.Admin.API
         {
             AjaxResult res = new AjaxResult
             {
-                Success = false,
-                Msg = msg,
-                Code = errorCode
+                success = false,
+                msg = msg,
+                code = errorCode
             };
             return JsonContent(res.ToJson());
         }

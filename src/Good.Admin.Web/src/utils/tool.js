@@ -369,3 +369,9 @@ export const encryptKeys = {
   key: 'goodadmin12345679',
   iv: '3',
 };
+
+export const ProcessHelper = {
+  isProduction() {
+    return import.meta.env.NODE_ENV == 'production'
+  },
+};

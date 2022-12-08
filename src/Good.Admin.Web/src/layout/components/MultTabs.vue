@@ -108,7 +108,6 @@ const activeKey = computed(() => tabsViewStore.getCurrentTab?.fullPath)
 const tabsList = computed(() => tabsViewStore.getTabsList)
 // 缓存的路由组件列表
 const keepAliveComponents = computed(() => keepAliveStore.list)
-console.log(keepAliveComponents)
 // 获取简易的路由对象
 const getSimpleRoute = (route) => {
 	const { fullPath, hash, meta, name, params, path, query } = route
@@ -120,8 +119,6 @@ let routes = []
 try {
 	const routesStr = storage.get('TABS_ROUTES')
 	routes = routesStr ? JSON.parse(routesStr) : [getSimpleRoute(route)]
-	console.log('routes')
-	console.log(routes)
 } catch (e) {
 	routes = [getSimpleRoute(route)]
 }
@@ -169,7 +166,6 @@ const changePage = (key) => {
 
 // 刷新页面
 const reloadPage = () => {
-	console.log(unref(route).fullPath)
 	// router.replace({
 	// 	name: 'Redirect',
 	// 	params: {

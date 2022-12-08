@@ -30,7 +30,7 @@ namespace Good.Admin.Business
             var db_result = await QueryPageListByClauseAsync(expable, pageIndex: input.PageIndex, pagesize: input.PageSize);
             var result = db_result.Adapt<PageResult<Base_RoleInfoDTO>>();
 
-            await SetProperty(result.Data);
+            await SetProperty(result.data);
 
             return result;
 
@@ -54,7 +54,7 @@ namespace Good.Admin.Business
 
         public async Task<Base_RoleInfoDTO> GetTheDataAsync(string id)
         {
-            return (await GetDataListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).Data.FirstOrDefault();
+            return (await GetDataListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
         }
 
         #endregion

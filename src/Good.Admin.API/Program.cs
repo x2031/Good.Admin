@@ -4,11 +4,11 @@ using Good.Admin.Util;
 using MicroElements.NSwag.FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Newtonsoft.Json.Serialization;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using Spectre.Console;
 using System.Reflection;
-
 namespace Good.Admin.API
 {
     public class Program
@@ -50,7 +50,10 @@ namespace Good.Admin.API
                 //禁用model验证失败后的自动400响应
                 options.SuppressModelStateInvalidFilter = true;
             })
-            .AddNewtonsoftJson();
+            .AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
 
             //注入FluentValidation 参数验证
             services.AddFluentValidation(c =>

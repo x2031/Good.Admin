@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Data;
-using System.Linq;
 using System.Linq.Dynamic.Core;
 
 namespace Good.Admin.Util
@@ -94,7 +91,7 @@ namespace Good.Admin.Util
                 .Take(pageInput.PageSize)
                 .ToList();
 
-            return new PageResult<T> { Data = list, Total = count };
+            return new PageResult<T> { data = list, dotal = count };
         }
 
         /// <summary>

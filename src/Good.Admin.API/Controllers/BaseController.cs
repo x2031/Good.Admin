@@ -80,13 +80,13 @@ namespace Good.Admin.API.Controllers
         /// 返回成功
         /// </summary>
         /// <returns></returns>
-        protected AjaxResult Success()
+        protected AjaxResult success()
         {
             AjaxResult res = new AjaxResult
             {
-                Success = true,
-                Code = 200,
-                Msg = "请求成功！",
+                success = true,
+                code = 200,
+                msg = "请求成功！",
             };
 
             return res;
@@ -96,14 +96,14 @@ namespace Good.Admin.API.Controllers
         /// </summary>
         /// <param name="data">返回数据</param>
         /// <returns></returns>
-        protected AjaxResult<T> Success<T>(T data)
+        protected AjaxResult<T> success<T>(T data)
         {
             AjaxResult<T> res = new AjaxResult<T>
             {
-                Success = true,
-                Code = 200,
-                Msg = "操作成功",
-                Data = data
+                success = true,
+                code = 200,
+                msg = "操作成功",
+                data = data
             };
 
             return res;
@@ -114,14 +114,14 @@ namespace Good.Admin.API.Controllers
         /// <param name="data">返回数据</param>
         /// <param name="msg">返回消息</param>
         /// <returns></returns>
-        protected AjaxResult<T> Success<T>(T data, string msg)
+        protected AjaxResult<T> success<T>(T data, string msg)
         {
             AjaxResult<T> res = new AjaxResult<T>
             {
-                Success = true,
-                Code = 200,
-                Msg = msg,
-                Data = data
+                success = true,
+                code = 200,
+                msg = msg,
+                data = data
             };
 
 
@@ -135,9 +135,9 @@ namespace Good.Admin.API.Controllers
         {
             AjaxResult res = new AjaxResult
             {
-                Success = false,
-                Code = 400,
-                Msg = "请求失败！",
+                success = false,
+                code = 400,
+                msg = "请求失败！",
             };
 
             return res;
@@ -151,9 +151,9 @@ namespace Good.Admin.API.Controllers
         {
             AjaxResult res = new AjaxResult
             {
-                Success = false,
-                Code = 400,
-                Msg = msg,
+                success = false,
+                code = 400,
+                msg = msg,
             };
 
             return res;

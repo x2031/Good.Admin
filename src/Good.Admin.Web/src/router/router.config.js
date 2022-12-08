@@ -132,5 +132,40 @@ export const asyncRoutes = [
   },
   { path: '/:pathMatch(.*)*', name: 'NoFound', redirect: '/404', hidden: true }
 ]
+//开发模式额外路由
+export const localdevRoutes = [
+  {
+    path: '/developer',
+    component: Layout,
+    redirect: '/developer/index',
+    alwaysShow: true,
+    name: 'developer',
+    meta: {
+      title: '开发',
+      icon: 'SettingOutlined',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: '/developer/index',
+        component: () => import('@/views/system/approvalFlowConfig.vue'),
+        name: 'index',
+        meta: {
+          title: '代码生成',
+          roles: ['admin'],
+        }
+      },
+      {
+        path: '/developer/dbmanage',
+        component: () => import('@/views/system/roleList.vue'),
+        name: 'dbmanage',
+        meta: {
+          title: '数据库管理',
+          roles: ['admin']
+        }
+      }
+    ]
+  }
+]
 
 export default constantRoutes
