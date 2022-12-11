@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { message, Modal } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { useUserStoreWithOut } from '@/store/user'
+import 'ant-design-vue/es/message/style/css';
 import { v4 as uuid } from 'uuid'
 import md5 from 'crypto-js/md5'
 
@@ -54,9 +55,9 @@ service.interceptors.request.use((config) => {
 service.interceptors.response.use((response) => {
   const res = response.data
   if (res.code !== 200) {
-    message.error(res.message || 'Error')
+    //  message.error(res.msg || 'Error')
     // 508: 非法token; 512: 其他用户已登录; 514: Token过期;
-    if (res.code === 508 || res.code === 512 || res.code === 514) {
+    if (res.code === 401) {
       // 重新登录
       Modal.confirm({
         title: '确认注销',
@@ -72,14 +73,27 @@ service.interceptors.response.use((response) => {
         onCancel() { }
       })
     }
-    return Promise.reject(new Error(res.message || 'Error'))
+    else if (res.code === 500) {
+      //提示
+      //服务器内部错误
+      //message.error(res.msg || 'Error', 3)
+      return Promise.reject(new Error(res.msg || 'Error'))
+    }
+    else if (res.code === 503) {
+      //提示
+      //服务挂掉了
+      message.error('服务器不可用' || 'Error', 3)
+    }
+    else {
+      return Promise.reject(new Error(res.msg || 'Error'))
+    }
   }
   else {
     return res
   }
 },
   (error, res) => {
-    message.error(error.message || 'Error', 5000)
+    message.error(error.message || 'Error', 3)
     return Promise.reject(error)
   }
 )

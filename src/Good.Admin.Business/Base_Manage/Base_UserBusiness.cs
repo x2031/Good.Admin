@@ -137,7 +137,7 @@ namespace Good.Admin.Business
         {
             var theUser = _operator.UserProperty;
             if (theUser.Password != input.oldPwd?.ToMD5String())
-                throw new BusException("账号或密码不正确!", 513);
+                throw new BusException("账号或密码不正确!", 500);
 
             theUser.Password = input.newPwd.ToMD5String();
             var mpdto = theUser.Adapt<Base_User>();

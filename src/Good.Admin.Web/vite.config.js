@@ -7,6 +7,7 @@ import mockPlugin from 'vite-plugin-mockit'
 import { qrcode } from 'vite-plugin-qrcode'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { createStyleImportPlugin, VxeTableResolve } from 'vite-plugin-style-import'
 
 // https://vitejs.dev/config/
 
@@ -32,9 +33,13 @@ export default defineConfig(({ command, mode }) => {
       Components({
         resolvers: [AntDesignVueResolver()],
       }),
+      createStyleImportPlugin({
+        resolves: [
+          VxeTableResolve()
+        ],
+      }),
       vue(),
       vueJsx(),
-
       mockPlugin({
         entry: './mock/index.js',
         watchFiles: [], // watch file or dir change refresh mock

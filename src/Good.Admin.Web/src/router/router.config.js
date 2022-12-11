@@ -139,7 +139,7 @@ export const localdevRoutes = [
     component: Layout,
     redirect: '/developer/index',
     alwaysShow: true,
-    name: 'developer',
+    name: 'Developer',
     meta: {
       title: '开发',
       icon: 'SettingOutlined',
@@ -148,16 +148,17 @@ export const localdevRoutes = [
     children: [
       {
         path: '/developer/index',
-        component: () => import('@/views/system/approvalFlowConfig.vue'),
+        component: () => import('@/views/developer/index.vue'),
         name: 'index',
         meta: {
           title: '代码生成',
+          icon: 'SettingOutlined',
           roles: ['admin'],
         }
       },
       {
         path: '/developer/dbmanage',
-        component: () => import('@/views/system/roleList.vue'),
+        component: () => import('@/views/developer/dbmanage.vue'),
         name: 'dbmanage',
         meta: {
           title: '数据库管理',

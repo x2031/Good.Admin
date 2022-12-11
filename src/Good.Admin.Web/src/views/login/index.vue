@@ -55,6 +55,8 @@
 import { ref, reactive, toRaw, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
+import { message } from 'ant-design-vue'
+import 'ant-design-vue/es/message/style/css'
 
 export default {
 	name: 'Login',
@@ -96,7 +98,8 @@ export default {
 					router.push({ path: redirect.value || '/', query: otherQuery.value })
 				})
 				.catch((err) => {
-					console.log(err)
+					console.log(err.message)
+					message.error(err.message)
 					loading.value = false
 				})
 		}

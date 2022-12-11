@@ -18,7 +18,7 @@
 			v-model:openKeys="openKeys"
 		>
 			<sidebar-item
-				v-for="route in permission.addRoutes"
+				v-for="route in permission.routes"
 				:key="route.path"
 				:item="route"
 				:base-path="route.path"

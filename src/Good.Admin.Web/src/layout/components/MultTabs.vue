@@ -8,7 +8,11 @@
 			@change="changePage"
 			@edit="editTabItem"
 		>
-			<Tabs.TabPane v-for="pageItem in tabsList" :key="pageItem.fullPath">
+			<Tabs.TabPane
+				v-for="pageItem in tabsList"
+				:key="pageItem.fullPath"
+				:closable="tabsList.length != 1"
+			>
 				<template #tab>
 					<Dropdown :trigger="['contextmenu']">
 						<div style="display: inline-block"> {{ pageItem.meta?.title }} </div>
@@ -18,25 +22,25 @@
 									<reload-outlined />
 									重新加载
 								</Menu.Item>
-								<Menu.Item key="2" @click="removeTab(pageItem)">
+								<Menu.Item key="2" :disabled="tabsList.length == 1" @click="removeTab(pageItem)">
 									<close-outlined />
 									关闭
 								</Menu.Item>
 								<Menu.Divider />
-								<Menu.Item key="3" @click="closeLeft(pageItem)">
+								<Menu.Item key="3" :disabled="tabsList.length == 1" @click="closeLeft(pageItem)">
 									<vertical-right-outlined />
 									关闭左侧
 								</Menu.Item>
-								<Menu.Item key="4" @click="closeRight(pageItem)">
+								<Menu.Item key="4" :disabled="tabsList.length == 1" @click="closeRight(pageItem)">
 									<vertical-left-outlined />
 									关闭右侧
 								</Menu.Item>
 								<Menu.Divider />
-								<Menu.Item key="5" @click="closeOther(pageItem)">
+								<Menu.Item key="5" :disabled="tabsList.length == 1" @click="closeOther(pageItem)">
 									<column-width-outlined />
 									关闭其他
 								</Menu.Item>
-								<Menu.Item key="6" @click="closeAll">
+								<Menu.Item key="6" :disabled="tabsList.length == 1" @click="closeAll">
 									<minus-outlined />
 									关闭所有
 								</Menu.Item>
@@ -57,16 +61,16 @@
 								<reload-outlined />
 								重新加载
 							</Menu.Item>
-							<Menu.Item key="2" @click="removeTab(route)">
+							<Menu.Item key="2" :disabled="tabsList.length == 1" @click="removeTab(route)">
 								<close-outlined />
 								关闭当前
 							</Menu.Item>
 							<Menu.Divider />
-							<Menu.Item key="5" @click="closeOther(route)">
+							<Menu.Item key="5" :disabled="tabsList.length == 1" @click="closeOther(route)">
 								<column-width-outlined />
 								关闭其它
 							</Menu.Item>
-							<Menu.Item key="6" @click="closeAll">
+							<Menu.Item key="6" :disabled="tabsList.length == 1" @click="closeAll">
 								<minus-outlined />
 								关闭所有
 							</Menu.Item>
@@ -216,7 +220,7 @@ const closeAll = () => {
 	:deep(.tabs) {
 		.ant-tabs-nav {
 			@apply bg-white dark:bg-black;
-			padding: 4px 20px 0 10px;
+			padding: 0px 20px 0 10px;
 			background-color: white;
 			margin: 0;
 			user-select: none;

@@ -33,7 +33,7 @@ namespace Good.Admin.Business.Base_Manage
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new BusException("userId不能为空", 514);
+                throw new BusException("userId不能为空", 500);
             }
 
             var actionIds = await GetUserActionIds(userId);
@@ -54,7 +54,7 @@ namespace Good.Admin.Business.Base_Manage
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new BusException("userId不能为空", 514);
+                throw new BusException("userId不能为空", 500);
             }
 
             var actionIds = await GetUserActionIds(userId);
@@ -73,7 +73,7 @@ namespace Good.Admin.Business.Base_Manage
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new BusException("userId不能为空", 514);
+                throw new BusException("userId不能为空", 500);
             }
 
             var where = LinqHelper.False<Base_Action>();
