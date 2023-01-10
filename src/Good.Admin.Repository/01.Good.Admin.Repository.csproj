@@ -12,16 +12,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="MongoRepository\**" />
+	  <EmbeddedResource Remove="MongoRepository\**" />
+	  <EntityDeploy Remove="MongoRepository\**" />
+	  <None Remove="MongoRepository\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Remove="BaseRepository.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="Base\BaseRepository.cs" />
 	  <None Include="D:\Codes\Good.Admin.Public\src\Good.Admin.Repository\.editorconfig" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="MongoRepository\" />
 	</ItemGroup>
 
 	<ItemGroup>

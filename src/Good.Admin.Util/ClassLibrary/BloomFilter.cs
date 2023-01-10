@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace Good.Admin.Util
 {
@@ -20,7 +18,7 @@ namespace Good.Admin.Util
         /// </summary>
         /// <param name="bitSize">布隆过滤器的大小(m)默认为10E消耗100M内存</param>
         /// <param name="setSize">集合的大小 (n)默认为1000W</param>
-        public BloomFilter(int bitSize=1000000000, int setSize=10000000)
+        public BloomFilter(int bitSize = 1000000000, int setSize = 10000000)
         {
             _bitSize = bitSize;
             _bitArray = new BitArray(bitSize);
@@ -39,36 +37,27 @@ namespace Good.Admin.Util
         #endregion
 
         #region 属性
-        public int NumberOfHashes
-        {
-            set
-            {
+        public int NumberOfHashes {
+            set {
                 _numberOfHashes = value;
             }
-            get
-            {
+            get {
                 return _numberOfHashes;
             }
         }
-        public int SetSize
-        {
-            set
-            {
+        public int SetSize {
+            set {
                 _setSize = value;
             }
-            get
-            {
+            get {
                 return _setSize;
             }
         }
-        public int BitSize
-        {
-            set
-            {
+        public int BitSize {
+            set {
                 _bitSize = value;
             }
-            get
-            {
+            get {
                 return _bitSize;
             }
         }
@@ -89,7 +78,9 @@ namespace Good.Admin.Util
             for (int i = 0; i < _numberOfHashes; i++)
             {
                 if (!_bitArray[_random.Next(_bitSize)])
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -101,7 +92,9 @@ namespace Good.Admin.Util
             foreach (T item in items)
             {
                 if (Contains(item))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -112,7 +105,9 @@ namespace Good.Admin.Util
             foreach (T item in items)
             {
                 if (!Contains(item))
+                {
                     return false;
+                }
             }
 
             return true;
@@ -157,7 +152,7 @@ namespace Good.Admin.Util
         /// <param name="bloomName"></param>
         /// <param name="bitSize">布隆过滤器的大小(m)默认为10E消耗100M内存</param>
         /// <param name="setSize">集合的大小 (n)默认为1000W</param>
-        public BloomFilterWithShareMemory(string bloomName,int bitSize = 1000000000, int setSize = 10000000)
+        public BloomFilterWithShareMemory(string bloomName, int bitSize = 1000000000, int setSize = 10000000)
         {
             sm = new ShareMenmory(bloomName, 1000000000);
             _bitSize = bitSize;
@@ -168,36 +163,27 @@ namespace Good.Admin.Util
         #endregion
 
         #region 属性
-        public int NumberOfHashes
-        {
-            set
-            {
+        public int NumberOfHashes {
+            set {
                 _numberOfHashes = value;
             }
-            get
-            {
+            get {
                 return _numberOfHashes;
             }
         }
-        public int SetSize
-        {
-            set
-            {
+        public int SetSize {
+            set {
                 _setSize = value;
             }
-            get
-            {
+            get {
                 return _setSize;
             }
         }
-        public int BitSize
-        {
-            set
-            {
+        public int BitSize {
+            set {
                 _bitSize = value;
             }
-            get
-            {
+            get {
                 return _bitSize;
             }
         }
@@ -211,9 +197,9 @@ namespace Good.Admin.Util
             for (int i = 0; i < _numberOfHashes; i++)
             {
                 int index = _random.Next(_bitSize);
-                int j=0;
-                int offSet=0;
-                if((index+1) % 8==0)
+                int j;
+                int offSet = 0;
+                if ((index + 1) % 8 == 0)
                 {
                     j = (index + 1) / 8 - 1;
                 }
@@ -231,13 +217,15 @@ namespace Good.Admin.Util
                 for (int k = 0; k < 8; k++)
                 {
                     if (bitArry[k] == true)
+                    {
                         tmp += (int)Math.Pow(2, k);
+                    }
                 }
 
                 byte[] setData = new byte[1];
                 setData[0] = (byte)tmp;
 
-                sm.Write(setData,j);
+                sm.Write(setData, j);
             }
         }
         public bool Contains(T item)
@@ -262,7 +250,9 @@ namespace Good.Admin.Util
                 byte[] getData = sm.Read(1, j);
                 BitArray bitArry = new BitArray(getData);
                 if (bitArry[offSet] == false)
+                {
                     return false;
+                }
             }
             return true;
         }
@@ -279,7 +269,9 @@ namespace Good.Admin.Util
             foreach (T item in items)
             {
                 if (Contains(item))
+                {
                     return true;
+                }
             }
             return false;
         }

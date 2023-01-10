@@ -19,10 +19,10 @@ namespace Good.Admin.API
 
 #if DEBUG
             #region Êä³ö¿ò¼ÜÐÅÏ¢
-            AnsiConsole.Write(new FigletText("Good.Admin").LeftAligned().Color(Color.Red));
+            AnsiConsole.Write(new FigletText("Good.Admin").LeftJustified().Color(Color.Red));
             var rule = new Rule();
             rule.RuleStyle("green dim");
-            rule.Alignment = Justify.Left;
+            rule.Justification = Justify.Left;
             AnsiConsole.Write(rule);
             #endregion
 #endif
