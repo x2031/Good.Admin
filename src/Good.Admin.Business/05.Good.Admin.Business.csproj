@@ -8,10 +8,15 @@
 		<AssemblyName>Good.Admin.Business</AssemblyName>
     <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
     <RestoreLockedMode>false</RestoreLockedMode>
+    <CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <EditorConfigFiles Remove="D:\Codes\Good.Admin\src\Good.Admin.Business\.editorconfig" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
 	</ItemGroup>
 
 	<ItemGroup>

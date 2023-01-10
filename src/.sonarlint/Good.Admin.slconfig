@@ -1,0 +1,23 @@
+{
+  "ServerUri": "https://sonarcloud.io/",
+  "Organization": {
+    "Key": "x2031",
+    "Name": "x2031"
+  },
+  "ProjectKey": "x2031_Good.Admin.Public",
+  "ProjectName": "Good.Admin",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AYPWuYGXlxjQnG_y4k7X",
+      "ProfileTimestamp": "2022-12-21T10:42:51Z"
+    },
+    "Js": {
+      "ProfileKey": "AYPWuYGXlxjQnG_y4k7p",
+      "ProfileTimestamp": "2022-12-07T09:34:26Z"
+    },
+    "Ts": {
+      "ProfileKey": "AYPWuYGXlxjQnG_y4k7l",
+      "ProfileTimestamp": "2022-12-07T09:41:27Z"
+    }
+  }
+}

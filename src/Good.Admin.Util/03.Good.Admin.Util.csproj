@@ -8,7 +8,12 @@
 		<AssemblyName>Good.Admin.Util</AssemblyName>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
+		<CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="6.0.2" />

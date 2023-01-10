@@ -11,6 +11,7 @@
 		<RestoreLockedMode>false</RestoreLockedMode>
 		<StartupObject>Good.Admin.API.Program</StartupObject>
 		<UserSecretsId>b83d9305-85a9-4497-9db1-8317b03a8a35</UserSecretsId>
+		<CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 
@@ -18,6 +19,12 @@
 	<ItemGroup>
 		<None Remove="06.Good.Admin.API.csproj.bak" />
 		<None Remove="miniProfiler_head.js" />
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+	  <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
