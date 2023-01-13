@@ -7,7 +7,7 @@ using SqlSugar;
 
 namespace Good.Admin.Business
 {
-    public class Base_UserBusiness : BaseRepository<Base_User>, IBase_UserBusiness, ITransientDependency
+    public class Base_UserBusiness : BaseRepository<Base_User>, IBase_UserBusiness, ISingletonDependency
     {
         public Base_UserBusiness(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache) : base(unitOfWork)
         {

@@ -3,7 +3,7 @@ using SqlSugar;
 
 namespace Good.Admin.Repository
 {
-    public class UnitOfWork : IUnitOfWork,ITransientDependency
+    public class UnitOfWork : IUnitOfWork, ISingletonDependency
     {
         private readonly ISqlSugarClient _sqlSugarClient;
 

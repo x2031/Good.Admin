@@ -5,6 +5,7 @@
 		<RootNamespace>Good.Admin.Util</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<AssemblyName>Good.Admin.Util</AssemblyName>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>

@@ -24,6 +24,11 @@ namespace Good.Admin.Repository
                  * 1、在appsettings.json 中开启MutiDBEnabled节点为true，必填
                  * 2、设置一个主连接的数据库ID，节点MainDB，对应的连接字符串的Enabled也必须true，必填
                  */
+                if (Db != null)
+                {
+                    return Db;
+                }
+
                 if (Appsettings.app(new string[] { "MutiDBEnabled" }).ObjToBool())
                 {
                     if (typeof(T).GetTypeInfo().GetCustomAttributes(typeof(SugarTable), true).FirstOrDefault((x => x.GetType() == typeof(SugarTable))) is SugarTable sugarTable && !string.IsNullOrEmpty(sugarTable.TableDescription))
@@ -35,6 +40,7 @@ namespace Good.Admin.Repository
                         _dbBase.ChangeDatabase(MainDb.CurrentDbConnId.ToLower());
                     }
                 }
+                var reslt = _dbBase.CopyNew().Ado.IsValidConnection();
 
                 return _dbBase;
             }
@@ -502,9 +508,10 @@ namespace Good.Admin.Repository
         /// <returns></returns>
         public async Task<T> QueryByClauseAsync(Expression<Func<T, bool>> predicate, bool blUseNoLock = false)
         {
+            var rr = _dbBase.CopyNew().Ado.IsValidConnection();
             return blUseNoLock
-                ? await _db.Queryable<T>().With(SqlWith.NoLock).FirstAsync(predicate)
-                : await _db.Queryable<T>().FirstAsync(predicate);
+                ? await _dbBase.Queryable<T>().With(SqlWith.NoLock).FirstAsync(predicate)
+                : await _dbBase.Queryable<T>().FirstAsync(predicate);
         }
 
         /// <summary>

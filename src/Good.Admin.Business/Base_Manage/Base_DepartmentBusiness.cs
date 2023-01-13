@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Good.Admin.Entity;
+﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Repository;
 using Good.Admin.Util;

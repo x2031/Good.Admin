@@ -8,6 +8,7 @@
 		<AssemblyName>Good.Admin.API</AssemblyName>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<RestoreLockedMode>false</RestoreLockedMode>
 		<StartupObject>Good.Admin.API.Program</StartupObject>
 		<UserSecretsId>b83d9305-85a9-4497-9db1-8317b03a8a35</UserSecretsId>

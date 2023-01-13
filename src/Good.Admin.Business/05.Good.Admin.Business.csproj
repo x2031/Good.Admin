@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<RootNamespace>Good.Admin.Business</RootNamespace>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AssemblyName>Good.Admin.Business</AssemblyName>

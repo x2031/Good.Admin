@@ -9,7 +9,7 @@ namespace Good.Admin.API.DI
     /// <summary>
     /// 操作者
     /// </summary>
-    public class Operator : IOperator, IScopedDependency
+    public class Operator : IOperator, ISingletonDependency
     {
         readonly IServiceProvider _serviceProvider;
         //readonly ICaching _cache;
