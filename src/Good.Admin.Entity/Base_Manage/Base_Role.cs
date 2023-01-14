@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using SqlSugar;
+﻿using SqlSugar;
 
 namespace Good.Admin.Entity
 {
@@ -9,7 +6,7 @@ namespace Good.Admin.Entity
     ///系统角色表
     ///</summary>
     [SugarTable("Base_Role")]
-    public  class Base_Role
+    public class Base_Role
     {
         public Base_Role()
         {

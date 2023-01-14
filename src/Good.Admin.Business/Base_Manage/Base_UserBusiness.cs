@@ -96,7 +96,7 @@ namespace Good.Admin.Business
             {
                 input.password = input.password.ToMD5String();
             }
-            var theUser = await QueryByClauseAsync(x => x.UserName == input.userName && x.Password == input.password);
+            var theUser = await QueryByClauseAsync(x => x.UserName.ToLower() == input.userName.ToLower() && x.Password == input.password);
             if (theUser.IsNullOrEmpty())
                 throw new BusException("账号或密码不正确！");
 

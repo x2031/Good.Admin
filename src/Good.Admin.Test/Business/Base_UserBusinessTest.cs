@@ -31,6 +31,18 @@ namespace Good.Admin.Test.Business
             Assert.True(res == "Admin");
         }
         /// <summary>
+        /// 无md5加密登录
+        /// </summary>
+        [Fact]
+        public async void UseLoginNoMd52()
+        {
+            LoginInputDTO inputDTO = new LoginInputDTO();
+            inputDTO.userName = "admin";
+            inputDTO.password = "123456";
+            var res = await _business.LoginAsync(inputDTO, true);
+            Assert.True(res == "Admin");
+        }
+        /// <summary>
         /// md5密码加密登录
         /// </summary>
         [Fact]
@@ -38,6 +50,18 @@ namespace Good.Admin.Test.Business
         {
             LoginInputDTO inputDTO = new LoginInputDTO();
             inputDTO.userName = "Admin";
+            inputDTO.password = "e10adc3949ba59abbe56e057f20f883e";
+            var res = await _business.LoginAsync(inputDTO);
+            Assert.True(res == "Admin");
+        }
+        /// <summary>
+        /// md5密码加密登录
+        /// </summary>
+        [Fact]
+        public async void UseLoginMd52()
+        {
+            LoginInputDTO inputDTO = new LoginInputDTO();
+            inputDTO.userName = "admin";
             inputDTO.password = "e10adc3949ba59abbe56e057f20f883e";
             var res = await _business.LoginAsync(inputDTO);
             Assert.True(res == "Admin");
