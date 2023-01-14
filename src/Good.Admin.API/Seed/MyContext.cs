@@ -7,10 +7,8 @@ namespace Good.Admin.API
     {
 
         private static MutiDBOperate connectObject => GetMainConnectionDb();
-        private static string _connectionString = connectObject.Connection;
-        private static DbType _dbType = (DbType)connectObject.DbType;
+
         public static string ConnId = connectObject.ConnId;
-        private SqlSugarScope _db;
 
         /// <summary>
         /// 连接字符串         
@@ -35,34 +33,25 @@ namespace Good.Admin.API
         /// <summary>
         /// 连接字符串         
         /// </summary>
-        public static string ConnectionString {
-            get { return _connectionString; }
-            set { _connectionString = value; }
-        }
+        public static string ConnectionString { get; set; } = connectObject.Connection;
         /// <summary>
         /// 数据库类型         
         /// </summary>
-        public static DbType DbType {
-            get { return _dbType; }
-            set { _dbType = value; }
-        }
+        public static DbType DbType { get; set; } = (DbType)connectObject.DbType;
         /// <summary>
         /// 数据连接对象         
         /// </summary>
-        public SqlSugarScope Db {
-            get { return _db; }
-            private set { _db = value; }
-        }
+        public SqlSugarScope Db { get; private set; }
 
         /// <summary>
         /// 功能描述:构造函数     
         /// </summary>
         public MyContext(ISqlSugarClient sqlSugarClient)
         {
-            if (string.IsNullOrEmpty(_connectionString))
+            if (string.IsNullOrEmpty(ConnectionString))
                 throw new ArgumentNullException("数据库连接字符串为空");
 
-            _db = sqlSugarClient as SqlSugarScope;
+            Db = sqlSugarClient as SqlSugarScope;
 
         }
 
@@ -74,7 +63,7 @@ namespace Good.Admin.API
         /// <returns>返回值</returns>
         public SimpleClient<T> GetEntityDB<T>() where T : class, new()
         {
-            return new SimpleClient<T>(_db);
+            return new SimpleClient<T>(Db);
         }
         /// <summary>
         /// 功能描述:获取数据库处理对象        
@@ -93,7 +82,7 @@ namespace Good.Admin.API
         #region 根据数据库生成实体
         public void CreateEntityByTable()
         {
-            _db.DbFirst.IsCreateAttribute().CreateClassFile(@"D:\Codes\Good.Admin\src\Good.Admin.Entity\Base_Manage", "Good.Admin.Entity");
+            Db.DbFirst.IsCreateAttribute().CreateClassFile(@"D:\Codes\Good.Admin\src\Good.Admin.Entity\Base_Manage", "Good.Admin.Entity");
         }
         #endregion
 
@@ -128,11 +117,11 @@ namespace Good.Admin.API
         {
             if (blnBackupTable)
             {
-                _db.CodeFirst.BackupTable().InitTables(lstEntitys); //change entity backupTable            
+                Db.CodeFirst.BackupTable().InitTables(lstEntitys); //change entity backupTable            
             }
             else
             {
-                _db.CodeFirst.InitTables(lstEntitys);
+                Db.CodeFirst.InitTables(lstEntitys);
             }
         }
         #endregion
@@ -156,8 +145,8 @@ namespace Good.Admin.API
         /// <param name="enmDbType">数据库类型</param>
         public static void Init(string strConnectionString, DbType enmDbType = SqlSugar.DbType.SqlServer)
         {
-            _connectionString = strConnectionString;
-            _dbType = enmDbType;
+            ConnectionString = strConnectionString;
+            DbType = enmDbType;
         }
 
         /// <summary>
@@ -170,8 +159,8 @@ namespace Good.Admin.API
         {
             ConnectionConfig config = new ConnectionConfig()
             {
-                ConnectionString = _connectionString,
-                DbType = _dbType,
+                ConnectionString = ConnectionString,
+                DbType = DbType,
                 IsAutoCloseConnection = blnIsAutoCloseConnection,
                 ConfigureExternalServices = new ConfigureExternalServices()
                 {

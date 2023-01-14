@@ -9,10 +9,12 @@ namespace Good.Admin.Business
 {
     public class Base_UserBusiness : BaseRepository<Base_User>, IBase_UserBusiness, ISingletonDependency
     {
+        //readonly IBaseRepository1<Base_User> _dal;
         public Base_UserBusiness(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache) : base(unitOfWork)
         {
             _operator = @operator;
             _rediscache = rediscache;
+            // _dal = dal;
         }
         readonly IOperator _operator;
         readonly IRedisBasketRepository _rediscache;
@@ -95,7 +97,6 @@ namespace Good.Admin.Business
                 input.password = input.password.ToMD5String();
             }
             var theUser = await QueryByClauseAsync(x => x.UserName == input.userName && x.Password == input.password);
-
             if (theUser.IsNullOrEmpty())
                 throw new BusException("账号或密码不正确！");
 

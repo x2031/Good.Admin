@@ -554,7 +554,7 @@ namespace Good.Admin.Repository
         Task<bool> DeleteByIdsAsync(List<long> ids);
 
         /// <summary>
-        ///     判断数据是否存在
+        /// 判断数据是否存在
         /// </summary>
         /// <param name="predicate">条件表达式树</param>
         /// <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
@@ -711,7 +711,7 @@ namespace Good.Admin.Repository
         Task<TResult> QueryMuchFirstAsync<T1, T2, TResult>(
             Expression<Func<T1, T2, object[]>> joinExpression,
             Expression<Func<T1, T2, TResult>> selectExpression,
-            Expressionable<T1, T2> whereLambda = null, 
+            Expressionable<T1, T2> whereLambda = null,
             bool blUseNoLock = false)
             where T1 : class, new()
             where T2 : class, new();
@@ -767,7 +767,7 @@ namespace Good.Admin.Repository
             where T3 : class, new();
 
 
-      
+
         /// <summary>
         ///     执行sql语句并返回List<T>
         /// </summary>

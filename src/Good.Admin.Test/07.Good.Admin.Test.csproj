@@ -10,12 +10,6 @@
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
 	</PropertyGroup>
-	<Target Name="CopyDepsJsonFiles" AfterTargets="Publish">
-		<ItemGroup>
-			<DepsJsonFiles Include="$(TargetDir)*.deps.json" />
-		</ItemGroup>
-		<Copy SourceFiles="@(DepsJsonFiles)" DestinationFolder="$(PublishDir)" />
-	</Target>
 
 	<ItemGroup>
 		<PackageReference Include="BenchmarkDotNet" Version="0.13.3" />
@@ -38,11 +32,17 @@
 		<Folder Include="Repository\" />
 		<Folder Include="Controllers\" />
 		<Folder Include="Util\" />
+		<Folder Include="Middlewares\" />
+		<Folder Include="Filters\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Good.Admin.API\06.Good.Admin.API.csproj" />
 	</ItemGroup>
-
+	<ItemGroup>
+		<Content Update="xunit.runner.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
 </Project>

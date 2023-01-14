@@ -12,6 +12,12 @@ namespace Good.Admin.IBusiness
         Task AddDataAsync(UserEditInputDTO input);
         Task UpdateDataAsync(UserEditInputDTO input);
         Task DeleteDataAsync(List<string> ids);
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="input">用户名密码</param>
+        /// <param name="pwdtomd5">是否转md5</param>
+        /// <returns></returns>
         Task<string> LoginAsync(LoginInputDTO input, bool pwdtomd5 = false);
         Task ChangePwdAsync(ChangePwdInputDTO iqnput);
     }

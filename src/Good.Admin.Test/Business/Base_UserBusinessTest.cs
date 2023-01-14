@@ -1,23 +1,22 @@
 ﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.Repository;
 using Xunit;
 
 namespace Good.Admin.Test.Business
 {
 
-    public class Base_UserBusinessTest : BaseTest
+    public class Base_UserBusinessTest : IClassFixture<TestServerFixture>
     {
 
         private readonly IBase_UserBusiness _business;
         private readonly IOperator _operator;
-        private readonly IUnitOfWork _IUnitOfWork;
+        private readonly TestServerFixture _testServerFixture;
 
-        public Base_UserBusinessTest()
+        public Base_UserBusinessTest(TestServerFixture testServerFixture)
         {
-
-            _operator = GetService<IOperator>();
-            _business = GetService<IBase_UserBusiness>();
+            _testServerFixture = testServerFixture;
+            _operator = _testServerFixture.GetService<IOperator>();
+            _business = _testServerFixture.GetService<IBase_UserBusiness>();
         }
         /// <summary>
         /// 无md5加密登录
@@ -26,9 +25,9 @@ namespace Good.Admin.Test.Business
         public async void UseLoginNoMd5()
         {
             LoginInputDTO inputDTO = new LoginInputDTO();
-            inputDTO.userName = "admin";
+            inputDTO.userName = "Admin";
             inputDTO.password = "123456";
-            var res = await _business.LoginAsync(inputDTO);
+            var res = await _business.LoginAsync(inputDTO, true);
             Assert.True(res == "Admin");
         }
         /// <summary>
@@ -38,9 +37,9 @@ namespace Good.Admin.Test.Business
         public async void UseLoginMd5()
         {
             LoginInputDTO inputDTO = new LoginInputDTO();
-            inputDTO.userName = "admin";
+            inputDTO.userName = "Admin";
             inputDTO.password = "e10adc3949ba59abbe56e057f20f883e";
-            var res = await _business.LoginAsync(inputDTO, true);
+            var res = await _business.LoginAsync(inputDTO);
             Assert.True(res == "Admin");
         }
     }

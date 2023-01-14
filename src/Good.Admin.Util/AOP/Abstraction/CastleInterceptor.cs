@@ -38,7 +38,7 @@ namespace Good.Admin.Util
                 .Select(x => (BaseAOPAttribute)x)
                 .ToList();
         }
-        protected override async Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task> proceed)
+        protected async override Task InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task> proceed)
         {
             Init(invocation);
             await Befor();
@@ -46,7 +46,7 @@ namespace Good.Admin.Util
             await After();
         }
 
-        protected override async Task<TResult> InterceptAsync<TResult>(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task<TResult>> proceed)
+        protected async override Task<TResult> InterceptAsync<TResult>(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func<IInvocation, IInvocationProceedInfo, Task<TResult>> proceed)
         {
             Init(invocation);
             TResult result;

@@ -11,7 +11,7 @@ using Spectre.Console;
 using System.Reflection;
 namespace Good.Admin.API
 {
-    public class Program
+    public partial class Program
     {
         public static void Main(string[] args)
         {
@@ -60,8 +60,10 @@ namespace Good.Admin.API
                {
                    c.RegisterValidatorsFromAssemblyContaining<Base_UsersInputDTOValidator>();
                });
-            services.AddSqlsugarSetup(); //注入Sqlsugar            
-            services.AddFxServices();//自动注入需要注入的            
+            //注入Sqlsugar 
+            services.AddSqlsugarSetup();
+            //自动注入需要注入的
+            services.AddFxServices();
             services.AddScoped<MyContext>();//注入db启动相关服务
             services.AddHttpContextAccessor();
             #region 添加MiniProfiler服务

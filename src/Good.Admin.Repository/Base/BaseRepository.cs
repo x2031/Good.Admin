@@ -5,7 +5,9 @@ using System.Linq.Expressions;
 namespace Good.Admin.Repository
 {
     //IBaseRepository<T>
-    public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
+    //SimpleClient<T> where T : class, new()
+    //: IBaseRepository<T> where T : class, new()
+    public class BaseRepository<T> : ISingletonDependency, IBaseRepository1<T> where T : class, new()
     {
         private readonly SqlSugarScope _dbBase;
         private readonly IUnitOfWork _unitOfWork;
@@ -24,9 +26,9 @@ namespace Good.Admin.Repository
                  * 1、在appsettings.json 中开启MutiDBEnabled节点为true，必填
                  * 2、设置一个主连接的数据库ID，节点MainDB，对应的连接字符串的Enabled也必须true，必填
                  */
-                if (Db != null)
+                if (_dbBase != null)
                 {
-                    return Db;
+                    return _dbBase;
                 }
 
                 if (Appsettings.app(new string[] { "MutiDBEnabled" }).ObjToBool())
@@ -46,7 +48,7 @@ namespace Good.Admin.Repository
             }
         }
         /// <summary>
-        ///     根据主值查询单条数据
+        /// 根据主值查询单条数据
         /// </summary>
         /// <param name="pkValue">主键值</param>
         /// <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
@@ -148,7 +150,7 @@ namespace Good.Admin.Repository
         }
 
         /// <summary>
-        ///     根据条件查询数据
+        ///  根据条件查询数据
         /// </summary>
         /// <param name="strWhere">条件</param>
         /// <param name="orderBy">排序字段，如name asc,age desc</param>
@@ -508,10 +510,12 @@ namespace Good.Admin.Repository
         /// <returns></returns>
         public async Task<T> QueryByClauseAsync(Expression<Func<T, bool>> predicate, bool blUseNoLock = false)
         {
-            var rr = _dbBase.CopyNew().Ado.IsValidConnection();
+            var rr = _db.CopyNew().Ado.IsValidConnection();
+
+            var count = _db.Ado.SqlQuerySingle<int>("select COUNT(*) FROM Base_User");
             return blUseNoLock
-                ? await _dbBase.Queryable<T>().With(SqlWith.NoLock).FirstAsync(predicate)
-                : await _dbBase.Queryable<T>().FirstAsync(predicate);
+                ? await _db.Queryable<T>().With(SqlWith.NoLock).FirstAsync(predicate)
+                : await _db.Queryable<T>().FirstAsync(predicate);
         }
 
         /// <summary>
