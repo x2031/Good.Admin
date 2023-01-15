@@ -1,32 +1,41 @@
 <template>
-	<a-layout-footer class="{styles.page_footer}">
-		<div class="{styles.page_footer_link}">
-			<a href="https://github.com/vuejs/vue-next" target="_blank"> vue 3.0 </a>
-			<a href="https://github.com/buqiyuan" target="_blank">
+	<a-layout-footer class="page_footer">
+		<div class="page_footer_link">
+			<div>
+				<a href="https://github.com/x2031/" target="_blank">
+					Good.Admin Copyright <CopyrightOutlined /> 2022 Created by x2031
+				</a>
+			</div>
+			<a href="https://github.com/x2031/Good.Admin" target="_blank">
 				<GithubOutlined />
 			</a>
-			<a href="https://github.com/vueComponent/ant-design-vue" target="_blank">
-				{' '} ant-design-vue 2.0
-			</a>
-		</div>
-		<div class="{styles.copyright}">
-			Copyright <CopyrightOutlined /> 2020
-			<a href="https://buqiyuan.gitee.io" target="_blank"> buqiyuan.gitee.io </a>
 		</div>
 	</a-layout-footer>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-
-// const { Footer: ALayoutFooter } = Layout
-
-export default defineComponent({
+export default {
 	name: 'PageFooter',
-	// components: { ALayoutFooter },
-	setup() {
-		// data
-		return {}
-	}
-})
+	setup() {}
+}
 </script>
+<style lang="less">
+.page_footer {
+	text-align: center;
+	a {
+		color: rgba(0, 0, 0, 0.45);
+		margin-left: 10px;
+	}
+	.page_footer_link {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 8px;
+		a:not(:last-child) {
+			margin-right: 40px;
+		}
+		.copyright {
+			color: rgba(0, 0, 0, 0.45);
+		}
+	}
+}
+</style>

@@ -6,6 +6,7 @@ import router from '@/router'
 import _ from 'lodash'
 import { setupAntd } from '@/plugins/antd'
 import { setupDay } from '@/plugins/day'
+import { setupVxeTable } from '@/plugins/vxetable'
 import '@/router/permission' //路由权限
 import permission from '@/directive/permission' // 权限按钮
 
@@ -23,6 +24,7 @@ app.use(router)
 app.config.productionTip = false
 setupAntd(app)
 setupDay(app)
+setupVxeTable(app)
 app.directive('permission', permission)
 
 app.mount('#app')

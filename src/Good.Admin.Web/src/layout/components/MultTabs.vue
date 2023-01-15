@@ -264,11 +264,10 @@ const closeAll = () => {
 			}
 		}
 	}
-
 	.tabs-view-content {
 		/* height: calc(100vh - #{$header-height}); */
 		height: calc(100vh - 110px);
-		padding: 20px 14px 0;
+		padding: 10px 14px 0;
 		overflow: auto;
 	}
 }

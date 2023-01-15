@@ -14,17 +14,17 @@
 			<a-layout-content class="layout-content">
 				<MultTabs />
 			</a-layout-content>
-			<!-- <PageFooter /> -->
+			<PageFooter />
 		</a-layout>
 	</a-layout>
 </template>
 
 <script>
-import { Sidebar, MultTabs, PageHeader } from '@/layout/components'
+import { Sidebar, MultTabs, PageHeader, PageFooter } from '@/layout/components'
 import { ref } from 'vue'
 export default {
 	name: 'Layout',
-	components: { Sidebar, MultTabs, PageHeader },
+	components: { Sidebar, MultTabs, PageHeader, PageFooter },
 	setup() {
 		// data
 		const isCollapsed = ref(false)
