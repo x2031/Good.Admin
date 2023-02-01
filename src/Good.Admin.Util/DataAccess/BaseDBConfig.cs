@@ -74,34 +74,6 @@
             return (listdatabase, listdatabaseSlaveDB);
 
         }
-
-        /// <summary>
-        /// 定制Db字符串
-        /// 目的是保证安全：优先从本地txt文件获取，若没有文件则从appsettings.json中获取
-        /// </summary>
-        /// <param name="mutiDBOperate"></param>
-        /// <returns></returns>
-        private static MutiDBOperate SpecialDbString(MutiDBOperate mutiDBOperate)
-        {
-            if (mutiDBOperate.DbType == DataBaseType.Sqlite)
-            {
-                mutiDBOperate.Connection = $"DataSource=" + Path.Combine(Environment.CurrentDirectory, mutiDBOperate.Connection);
-            }
-            else if (mutiDBOperate.DbType == DataBaseType.SqlServer)
-            {
-                mutiDBOperate.Connection = DifDBConnOfSecurity(@"D:\my-file\dbCountPsw1_SqlserverConn.txt", mutiDBOperate.Connection);
-            }
-            else if (mutiDBOperate.DbType == DataBaseType.MySql)
-            {
-                mutiDBOperate.Connection = DifDBConnOfSecurity(@"D:\my-file\dbCountPsw1_MySqlConn.txt", mutiDBOperate.Connection);
-            }
-            else if (mutiDBOperate.DbType == DataBaseType.Oracle)
-            {
-                mutiDBOperate.Connection = DifDBConnOfSecurity(@"D:\my-file\dbCountPsw1_OracleConn.txt", mutiDBOperate.Connection);
-            }
-
-            return mutiDBOperate;
-        }
     }
 
     public class MutiDBOperate

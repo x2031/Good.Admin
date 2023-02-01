@@ -11,7 +11,7 @@
 				<a-row :gutter="24">
 					<a-col :span="6">
 						<a-form-item name="dbtype" label="数据库类型">
-							<a-select v-model:value="formState.dbtype" placeholder="数据库类型">
+							<a-select v-model:value="formState.dbtype" placeholder="Select a person">
 								<a-select-option value="mysql">mysql</a-select-option>
 								<a-select-option value="sqlserver">sqlserver</a-select-option>
 								<a-select-option value="oracle">oracle</a-select-option>
@@ -94,63 +94,6 @@
 				</a-col>
 			</a-row>
 		</div>
-		<a-row :gutter="20" class="home-main">
-			<a-col :span="16" class="home-left">
-				<a-card class="project-box enter-y" title="进行中的项目" :loading="loading">
-					<template #extra>
-						<a href="#">更多</a>
-					</template>
-					<a-card-grid class="project-item" v-for="(item, index) in projectData" :key="index">
-						<a-card :bordered="false">
-							<a-card-meta :title="item.title">
-								<template #description>{{ item.content }}</template>
-							</a-card-meta>
-							<div class="card-footer">
-								<div>{{ item.userName }}</div>
-								<div>{{ item.date }}</div>
-							</div>
-						</a-card>
-					</a-card-grid>
-				</a-card>
-				<a-card class="pending-box enter-y" title="待办任务" :loading="loading">
-					<template #extra>
-						<a href="#">更多</a>
-					</template>
-					<a-list item-layout="horizontal" :data-source="pendingData">
-						<template #renderItem="{ item }">
-							<a-list-item>
-								<a-list-item-meta :description="item.content">
-									<template #title>
-										<a href="#">{{ item.title }}</a>
-									</template>
-									<template #avatar>
-										<a-avatar
-											src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
-										/>
-									</template>
-								</a-list-item-meta>
-							</a-list-item>
-						</template>
-					</a-list>
-				</a-card>
-			</a-col>
-			<a-col :span="8" class="home-right">
-				<a-card class="chart-box enter-y" title="活动指数" :loading="loading">
-					<div>
-						<Chart />
-					</div>
-				</a-card>
-				<a-card class="black-box enter-y" title="黑名单" :loading="loading">
-					<div>
-						<ul>
-							<li>上海虎扑体育有限公司</li>
-							<li>北京百度科技有限公司</li>
-							<li>深圳腾讯科技有限公司</li>
-						</ul>
-					</div>
-				</a-card>
-			</a-col>
-		</a-row>
 	</div>
 </template>
 
