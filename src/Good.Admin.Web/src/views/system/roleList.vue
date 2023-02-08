@@ -1,230 +1,219 @@
 <template>
-	<div class="role-container">
-		<div class="wrapper">
-			<div class="search-box">
-				<a-button type="primary" @click="handleShowDrawer(1)">
-					<template #icon>
-						<PlusOutlined />
-					</template>
-					新增
-				</a-button>
-			</div>
-			<div class="content-box">
-				<a-table
-					bordered
-					:dataSource="roleData"
-					:columns="columns"
-					size="small"
-					:pagination="pagination"
-					:loading="loading"
-				>
-					<template #operation="{ record, index }">
-						<a @click="handleShowDrawer(2, record)" v-permission="['admin']">编辑</a>
-						<a-divider type="vertical" />
-						<a @click="handleShowDrawer(3, record)">详情</a>
-						<a-divider type="vertical" />
-						<a-popconfirm
-							v-if="roleData.length"
-							cancelText="取消"
-							okText="确认"
-							title="确认删除?"
-							@confirm="handleRowDelete(index, record)"
-						>
-							<a>删除</a>
-						</a-popconfirm>
-					</template>
-				</a-table>
-			</div>
-		</div>
-
-		<a-drawer
-			:title="drawerTitle"
-			:width="720"
-			:visible="isShowDrawer"
-			:body-style="{ paddingBottom: '80px' }"
-			:maskClosable="false"
-			@close="handleCloseDrawer"
-		>
-			<a-form :model="formData" layout="vertical" v-if="!isDetail">
-				<a-row :gutter="16">
-					<a-col :span="12">
-						<a-form-item label="角色名" name="name">
-							<a-input v-model:value="formData.name" placeholder="请输入" />
+	<div>
+		<div class="searchbox">
+			<a-form
+				:model="modelRef"
+				autocomplete="off"
+				@finish="onFinish"
+				@finishFailed="onFinishFailed"
+			>
+				<a-row :gutter="24">
+					<!-- v-show="expand || i <= 6"  -->
+					<a-col :span="6">
+						<a-form-item label="用户名" name="roleName">
+							<a-input placeholder="输入用户名" v-model:value="modelRef.roleName" />
 						</a-form-item>
 					</a-col>
-					<a-col :span="12">
-						<a-form-item label="角色key" name="key">
-							<a-input v-model:value="formData.key" placeholder="请输入" />
+					<a-col :span="6">
+						<a-form-item label="备注" name="remark">
+							<a-input placeholder="输入备注" v-model:value="modelRef.remark" />
 						</a-form-item>
 					</a-col>
 				</a-row>
-				<a-row :gutter="16">
-					<a-col :span="24">
-						<a-form-item label="备注" name="description">
-							<a-textarea v-model:value="formData.description" :rows="4" placeholder="请输入" />
-						</a-form-item>
+				<a-row>
+					<a-col :span="24" style="text-align: right">
+						<a-button type="primary" html-type="submit">搜索</a-button>
+						<a-button style="margin: 0 8px" @click="resetFields">重置</a-button>
+						<a style="font-size: 12px" @click="expand = !expand">
+							<template v-if="expand">
+								<UpOutlined />
+							</template>
+							<template v-else>
+								<DownOutlined />
+							</template>
+							Collapse
+						</a>
 					</a-col>
 				</a-row>
 			</a-form>
-			<a-descriptions title="角色信息" v-if="isDetail">
-				<a-descriptions-item label="角色名" :span="2">{{ formData.name }}</a-descriptions-item>
-				<a-descriptions-item label="角色key" :span="1">{{ formData.key }}</a-descriptions-item>
-				<a-descriptions-item label="备注" :span="3">
-					{{ formData.description }}
-				</a-descriptions-item>
-			</a-descriptions>
-			<div
-				:style="{
-					position: 'absolute',
-					right: 0,
-					bottom: 0,
-					width: '100%',
-					borderTop: '1px solid #e9e9e9',
-					padding: '10px 16px',
-					background: '#fff',
-					textAlign: 'right',
-					zIndex: 1
-				}"
-			>
-				<a-button style="margin-right: 8px" @click="handleCloseDrawer">取消</a-button>
-				<a-button type="primary" @click="handleCloseDrawer" v-if="!isDetail">提交</a-button>
-			</div>
-		</a-drawer>
+		</div>
+		<div class="vxetablebox">
+			<a-row :gutter="24" class="home-main">
+				<a-col :span="24">
+					<vxe-toolbar>
+						<template #buttons>
+							<a-button @click="allAlign = 'right'" type="primary">
+								<template #icon><plus-outlined /></template>新增
+							</a-button>
+
+							<a-button type="primary" danger>
+								<template #icon><delete-outlined /></template>删除
+							</a-button>
+							<a-button>
+								<template #icon><reload-outlined /></template>刷新
+							</a-button>
+							<a-button>
+								<template #icon><file-excel-outlined /></template>导出
+							</a-button>
+							<!-- <a-button @click="allAlign = 'left'" type="primary">居左</a-button>
+							<a-button @click="allAlign = 'center'" type="primary">居中</a-button>
+							<a-button @click="allAlign = 'right'" type="primary">居右</a-button> -->
+						</template>
+					</vxe-toolbar>
+
+					<vxe-table round :align="allAlign" :data="tableData1" :row-config="{ isHover: true }">
+						<vxe-column type="seq" width="60"></vxe-column>
+						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
+						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
+						<vxe-column field="remark" title="备注"></vxe-column>
+					</vxe-table>
+
+					<vxe-pager
+						background
+						v-model:current-page="page5.currentPage"
+						v-model:page-size="page5.pageSize"
+						:total="page5.totalResult"
+						:layouts="[
+							'PrevJump',
+							'PrevPage',
+							'JumpNumber',
+							'NextPage',
+							'NextJump',
+							'Sizes',
+							'FullJump',
+							'Total'
+						]"
+					>
+					</vxe-pager>
+				</a-col>
+			</a-row>
+		</div>
 	</div>
 </template>
 
 <script>
-import { getRoles, deleteRole } from '@/api/role'
-import { ref, reactive, onMounted, computed } from 'vue'
+import Chart from '@/components/Charts/index.vue'
+import { UserOutlined } from '@ant-design/icons-vue'
+import { reactive, defineComponent, ref, onMounted } from 'vue'
+import { Form } from 'ant-design-vue'
+const useForm = Form.useForm
+
 export default {
-	name: 'RoleList',
+	name: 'Dbmanage',
+	components: { Chart, UserOutlined },
 	setup() {
-		// data
-		const titleState = {
-			1: '新增',
-			2: '编辑',
-			3: '详情'
-		}
-		const loading = ref(false)
-
-		const pagination = reactive({
-			total: 0,
-			size: 'middle',
-			defaultPageSize: 20,
-			current: 1,
-			pageSize: 20, //每页中显示10条数据
-			showSizeChanger: true,
-			showQuickJumper: true,
-			pageSizeOptions: ['10', '20', '30'], //每页中显示的数据
-			showTotal: (total) => `共有 ${total} 条数据`, //分页中显示总的数据
-			onShowSizeChange: (current, pageSize) => (pagination.pageSize = pageSize), // 改变每页数量时更新显示
-			onChange: (page, pageSize) => (pagination.current = page) //点击页码事件
+		const loading = ref(true)
+		const allAlign = ref(null)
+		const modelRef = reactive({
+			roleName: '',
+			createTime: '',
+			remark: ''
 		})
-
-		const roleData = ref([])
-
-		const columns = ref([
-			{
-				title: '序号',
-				dataIndex: 'serial',
-				width: 60,
-				align: 'center',
-				customRender: ({ t, r, index }) => {
-					return `${(pagination.current - 1) * pagination.pageSize + parseInt(index) + 1}`
-				}
-			},
-			{
-				title: '角色名',
-				dataIndex: 'name',
-				width: 120
-			},
-			{
-				title: '角色key',
-				dataIndex: 'key',
-				width: 120
-			},
-			{
-				title: '描述',
-				dataIndex: 'description'
-			},
-			{
-				title: '操作',
-				dataIndex: 'operation',
-				slots: { customRender: 'operation' }
-			}
+		const rulesRef = reactive({})
+		const { resetFields, validate, validateInfos, mergeValidateInfo } = useForm(modelRef, rulesRef)
+		const tableData1 = ref([
+			{ id: 10001, RoleName: '超级管理员', CreateTime: '', remark: '' },
+			{ id: 10002, RoleName: '部门管理员', CreateTime: '', remark: '' },
+			{ id: 10003, RoleName: '普通员工', CreateTime: '', remark: '' },
+			{ id: 10004, RoleName: '其他', CreateTime: '', remark: '' }
 		])
 
-		const formData = ref({
-			name: '',
-			key: '',
-			description: ''
+		const page5 = reactive({
+			currentPage: 1,
+			pageSize: 10,
+			totalResult: 300
 		})
 
-		const isShowDrawer = ref(false)
-		const drawerTitle = ref('新增')
-		const drawerStatus = ref(1)
-		const isDetail = computed(() => {
-			return drawerStatus.value != 1 && drawerStatus.value != 2
-		})
-
-		// methods
-		const getRoleData = () => {
-			loading.value = true
-			getRoles().then((res) => {
-				if (res.code === 200) {
-					setTimeout(() => {
-						roleData.value = res.data
-						pagination.total = res.data.length
-						loading.value = false
-					}, 2000)
-				}
-			})
+		const onFinish = (values) => {
+			console.log('Success:', values)
 		}
 
-		const handleRowDelete = (index, row) => {
-			deleteRole(row.key)
-			roleData.value.splice(index, 1)
-			message.success('删除成功')
+		const onFinishFailed = (errorInfo) => {
+			console.log('Failed:', errorInfo)
 		}
-
-		const handleShowDrawer = (index, row) => {
-			isShowDrawer.value = true
-			drawerStatus.value = index
-			drawerTitle.value = titleState[index]
-			formData.value = Object.assign({}, formData.value, row)
-		}
-
-		const handleCloseDrawer = () => {
-			isShowDrawer.value = false
-		}
-
 		// mounted
 		onMounted(() => {
-			getRoleData()
+			setTimeout(() => {
+				loading.value = false
+			}, 1000)
 		})
 
 		return {
-			roleData,
-			columns,
-			pagination,
 			loading,
-			formData,
-			isShowDrawer,
-			drawerTitle,
-			drawerStatus,
-			isDetail,
-
-			handleShowDrawer,
-			handleCloseDrawer,
-			getRoleData,
-			handleRowDelete
+			allAlign,
+			tableData1,
+			page5,
+			validateInfos,
+			modelRef,
+			resetFields,
+			onFinish,
+			onFinishFailed
 		}
 	}
 }
 </script>
 
-<style lang="less" scoped>
-.role-container {
-	padding: 20px;
+<style lang="less">
+.loopX(@n, @i: 1) when (@i =< @n ) {
+	.enter-x:nth-child(@{i}) {
+		opacity: 0;
+		z-index: @i;
+		animation: enter-x-animation 0.4s ease-in-out 0.3s;
+		animation-fill-mode: forwards;
+		animation-delay: @i * 0.1s;
+	}
+
+	.loopX(@n, (@i + 1));
+}
+
+.loopY(@n, @i: 1) when (@i =< @n ) {
+	.enter-y:nth-child(@{i}) {
+		opacity: 0;
+		z-index: @i;
+		animation: enter-y-animation 0.4s ease-in-out 0.3s;
+		animation-fill-mode: forwards;
+		animation-delay: @i * 0.1s;
+	}
+
+	.loopY(@n, (@i + 1));
+}
+
+.loopX(1);
+.loopY(4);
+
+@keyframes enter-x-animation {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes enter-y-animation {
+	from {
+		transform: translateY(50px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.vxetablebox {
+	overflow-x: hidden;
+	overflow-y: hidden;
+	margin-bottom: 20px;
+	padding: 10px 24px 16px;
+	background: #fff;
+}
+
+.searchbox {
+	margin-bottom: 20px;
+	padding: 24px 24px 2px;
+	background: #fff;
 }
 </style>

@@ -1,9 +1,8 @@
 <template>
-	<div class="dashboard-container">
+	<div>
 		<div class="searchbox">
 			<a-form
-				:model="formState"
-				name="basic"
+				:model="modelRef"
 				autocomplete="off"
 				@finish="onFinish"
 				@finishFailed="onFinishFailed"
@@ -11,7 +10,7 @@
 				<a-row :gutter="24">
 					<a-col :span="6">
 						<a-form-item name="dbtype" label="数据库类型">
-							<a-select v-model:value="formState.dbtype" placeholder="Select a person">
+							<a-select v-model:value="modelRef.dbtype" placeholder="Select a person">
 								<a-select-option value="mysql">mysql</a-select-option>
 								<a-select-option value="sqlserver">sqlserver</a-select-option>
 								<a-select-option value="oracle">oracle</a-select-option>
@@ -20,15 +19,20 @@
 					</a-col>
 					<!-- v-show="expand || i <= 6"  -->
 					<a-col :span="6">
-						<a-form-item label="IP" name="IP" :rules="[{ required: true, message: '输入IP' }]">
-							<a-input placeholder="输入IP" v-model:value="formState.username" />
+						<a-form-item label="IP" name="IP">
+							<a-input placeholder="输入IP" v-model:value="modelRef.ip" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="6">
+						<a-form-item label="备注" name="remark">
+							<a-input placeholder="输入备注" v-model:value="modelRef.remark" />
 						</a-form-item>
 					</a-col>
 				</a-row>
 				<a-row>
 					<a-col :span="24" style="text-align: right">
 						<a-button type="primary" html-type="submit">搜索</a-button>
-						<a-button style="margin: 0 8px" @click="() => formRef.resetFields()">重置</a-button>
+						<a-button style="margin: 0 8px" @click="resetFields">重置</a-button>
 						<a style="font-size: 12px" @click="expand = !expand">
 							<template v-if="expand">
 								<UpOutlined />
@@ -69,9 +73,9 @@
 
 					<vxe-table round :align="allAlign" :data="tableData1" :row-config="{ isHover: true }">
 						<vxe-column type="seq" width="60"></vxe-column>
-						<vxe-column field="name" title="Name"></vxe-column>
-						<vxe-column field="sex" title="Sex"></vxe-column>
-						<vxe-column field="age" title="Age"></vxe-column>
+						<vxe-column field="dbtype" title="数据库类型"></vxe-column>
+						<vxe-column field="ip" title="ip"></vxe-column>
+						<vxe-column field="remark" title="备注"></vxe-column>
 					</vxe-table>
 
 					<vxe-pager
@@ -98,56 +102,38 @@
 </template>
 
 <script>
-import { timeFix } from '@/utils/tool'
 import Chart from '@/components/Charts/index.vue'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { reactive, defineComponent, ref, onMounted } from 'vue'
-import userUrl from '@/assets/images/user.png'
+import { Form } from 'ant-design-vue'
+const useForm = Form.useForm
 
 export default {
 	name: 'Dbmanage',
 	components: { Chart, UserOutlined },
 	setup() {
-		const timeFormat = timeFix()
-		const timeToFix = ref(timeFormat)
-		const avatarUrl = ref(userUrl)
 		const loading = ref(true)
-		const projectData = reactive([
-			{ title: '阿里', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' },
-			{ title: '百度', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' },
-			{ title: '腾讯', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' },
-			{ title: '携程', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' },
-			{ title: '美团', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' },
-			{ title: '饿了么', content: 'this is a test', userName: 'Jason Chen', date: '2021-07-07' }
-		])
-		const pendingData = reactive([
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' },
-			{ title: '项目申请', content: 'this is a test' }
-		])
 		const allAlign = ref(null)
-		const tableData1 = ref([
-			{ id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'test abc' },
-			{ id: 10002, name: 'Test2', role: 'Test', sex: 'Women', age: 22, address: 'Guangzhou' },
-			{ id: 10003, name: 'Test3', role: 'PM', sex: 'Man', age: 32, address: 'Shanghai' },
-			{ id: 10004, name: 'Test4', role: 'Designer', sex: 'Women', age: 24, address: 'Shanghai' }
-		])
-		const formState = reactive({
-			username: '',
-			password: '',
-			remember: true,
+		const modelRef = reactive({
+			remark: '',
+			ip: '',
 			dbtype: ''
 		})
+		const rulesRef = reactive({})
+		const { resetFields, validate, validateInfos, mergeValidateInfo } = useForm(modelRef, rulesRef)
+		const tableData1 = ref([
+			{ id: 10001, dbtype: 'mysql', ip: '192.168.1.1', remark: '' },
+			{ id: 10002, dbtype: 'mysql', ip: '192.168.1.1', remark: '' },
+			{ id: 10003, dbtype: 'mysql', ip: '192.168.1.1', remark: '' },
+			{ id: 10004, dbtype: 'mysql', ip: '192.168.1.1', remark: '' }
+		])
+
 		const page5 = reactive({
 			currentPage: 1,
 			pageSize: 10,
 			totalResult: 300
 		})
+
 		const onFinish = (values) => {
 			console.log('Success:', values)
 		}
@@ -163,67 +149,19 @@ export default {
 		})
 
 		return {
-			timeToFix,
-			avatarUrl,
 			loading,
-			projectData,
-			pendingData,
 			allAlign,
 			tableData1,
 			page5,
-			formState,
+			validateInfos,
+			modelRef,
+			resetFields,
 			onFinish,
 			onFinishFailed
 		}
 	}
 }
 </script>
-
-<style lang="less" scoped>
-.dashboard-container {
-	overflow-x: hidden;
-	.home-main {
-		display: flex;
-
-		.home-left {
-			.project-box {
-				.project-item {
-					cursor: pointer;
-
-					.card-footer {
-						display: flex;
-						justify-content: space-between;
-						color: rgba(0, 0, 0, 0.45);
-						margin-top: 8px;
-					}
-				}
-			}
-
-			.pending-box {
-				margin-top: 14px;
-			}
-		}
-
-		.home-right {
-			.chart-box {
-				margin-bottom: 20px;
-			}
-
-			.black-box {
-				ul {
-					padding: 0 14px;
-
-					li {
-						color: rgba(0, 0, 0, 0.65);
-						font-size: 14px;
-						padding: 12px 0;
-					}
-				}
-			}
-		}
-	}
-}
-</style>
 
 <style lang="less">
 .loopX(@n, @i: 1) when (@i =< @n ) {
@@ -279,13 +217,13 @@ export default {
 	overflow-x: hidden;
 	overflow-y: hidden;
 	margin-bottom: 20px;
-	padding: 24px 24px 16px;
+	padding: 10px 24px 16px;
 	background: #fff;
 }
 
 .searchbox {
 	margin-bottom: 20px;
-	padding: 24px 24px 16px;
+	padding: 24px 24px 2px;
 	background: #fff;
 }
 </style>
