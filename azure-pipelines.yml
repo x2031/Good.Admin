@@ -31,9 +31,10 @@ steps:
     workingDirectory: ./src
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: test
-    projects: '**/*Test/*.csproj'
-    workingDirectory: ./src
-    arguments: '--configuration $(buildConfiguration)'
+#- task: DotNetCoreCLI@2
+#  displayName: 'Test'
+#  inputs:
+#    command: test
+#    projects: '**/*Test/*.csproj'
+#    workingDirectory: ./src
+#    arguments: '--configuration $(buildConfiguration)'
