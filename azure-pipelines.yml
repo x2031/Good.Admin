@@ -24,7 +24,7 @@ steps:
     workingDirectory: ./src
     projects: '**/*.csproj'
     feedsToUse: 'select'
-    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+    #vstsFeed: 'my-vsts-feed' # A series of numbers and letters
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
