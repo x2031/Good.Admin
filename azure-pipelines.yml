@@ -14,16 +14,21 @@ variables:
 
 steps:
 - task: UseDotNet@2
+  displayName: InsertDotNetSdk
   inputs:
     version: '6.x'
 - task: DotNetCoreCLI@2
+  displayName: restore
   inputs:
     command: 'restore'
+    workingDirectory: ./src
+    projects: '**/*.csproj'
     feedsToUse: 'select'
     vstsFeed: 'my-vsts-feed' # A series of numbers and letters
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+    workingDirectory: ./src
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(buildConfiguration)'
 - task: DotNetCoreCLI@2
