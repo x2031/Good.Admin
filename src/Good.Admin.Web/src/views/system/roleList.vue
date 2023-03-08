@@ -14,11 +14,6 @@
 							<a-input placeholder="输入用户名" v-model:value="modelRef.roleName" />
 						</a-form-item>
 					</a-col>
-					<a-col :span="6">
-						<a-form-item label="备注" name="remark">
-							<a-input placeholder="输入备注" v-model:value="modelRef.remark" />
-						</a-form-item>
-					</a-col>
 				</a-row>
 				<a-row>
 					<a-col :span="24" style="text-align: right">
@@ -49,30 +44,32 @@
 							<a-button type="primary" danger>
 								<template #icon><delete-outlined /></template>删除
 							</a-button>
-							<a-button>
+							<a-button @click="refresh()">
 								<template #icon><reload-outlined /></template>刷新
 							</a-button>
 							<a-button>
 								<template #icon><file-excel-outlined /></template>导出
 							</a-button>
-							<!-- <a-button @click="allAlign = 'left'" type="primary">居左</a-button>
-							<a-button @click="allAlign = 'center'" type="primary">居中</a-button>
-							<a-button @click="allAlign = 'right'" type="primary">居右</a-button> -->
 						</template>
 					</vxe-toolbar>
 
-					<vxe-table round :align="allAlign" :data="roleData" :row-config="{ isHover: true }">
+					<vxe-table
+						round
+						:align="allAlign"
+						:data="tableDate.roleData"
+						:row-config="{ isHover: true }"
+						:loading="tableDate.loading"
+					>
 						<vxe-column type="seq" width="60"></vxe-column>
 						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
 						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
-						<vxe-column field="remark" title="备注"></vxe-column>
 					</vxe-table>
 
 					<vxe-pager
 						background
-						v-model:current-page="pagination.currentPage"
-						v-model:page-size="pagination.pageSize"
-						:total="pagination.totalResult"
+						v-model:current-page="tableDate.pagination.currentPage"
+						v-model:page-size="tableDate.pagination.pageSize"
+						:total="tableDate.pagination.totalResult"
 						:layouts="[
 							'PrevJump',
 							'PrevPage',
@@ -101,6 +98,7 @@ const useForm = Form.useForm
 
 export default {
 	name: 'Dbmanage',
+
 	components: { Chart, UserOutlined },
 	setup() {
 		const loading = ref(true)
@@ -110,17 +108,20 @@ export default {
 			createTime: '',
 			remark: ''
 		})
-		const roleData = ref([])
+		const tableDate = reactive({
+			loading: false,
+			roleData: [],
+			pagination: {
+				currentPage: 1,
+				pageSize: 20,
+				totalResult: 0
+			}
+		})
 		const rulesRef = reactive({})
 		const { resetFields, validate, validateInfos, mergeValidateInfo } = useForm(modelRef, rulesRef)
-		const pagination = reactive({
-			currentPage: 1,
-			pageSize: 20,
-			totalResult: 0
-		})
 		const searchdata = reactive({
-			PageIndex: pagination.currentPage,
-			PageSize: pagination.pageSize,
+			PageIndex: tableDate.pagination.currentPage,
+			PageSize: tableDate.pagination.pageSize,
 			SortField: '',
 			SortType: '',
 			Search: {
@@ -131,17 +132,24 @@ export default {
 
 		const getRoleData = (searchdata) => {
 			// 获取权限数据
-			loading.value = true
+			tableDate.loading = true
 			getRoles(searchdata).then((res) => {
 				if (res.code === 200) {
-					roleData.value = res.data
-					pagination.totalResult = res.total
-					loading.value = false
+					tableDate.roleData = res.data
+					tableDate.pagination.totalResult = res.total
+					tableDate.loading = false
 				}
 			})
 		}
+		const refresh = () => {
+			getRoleData(searchdata)
+		}
 		const onFinish = (values) => {
+			console.log(modelRef)
 			console.log('Success:', values)
+			searchdata.Search.roleName = values.roleName
+			console.log(searchdata)
+			getRoleData(searchdata)
 		}
 		const onFinishFailed = (errorInfo) => {
 			console.log('Failed:', errorInfo)
@@ -152,13 +160,13 @@ export default {
 		})
 
 		return {
-			roleData,
+			tableDate,
 			loading,
 			allAlign,
-			pagination,
 			validateInfos,
 			modelRef,
 			searchdata,
+			refresh,
 			getRoleData,
 			resetFields,
 			onFinish,

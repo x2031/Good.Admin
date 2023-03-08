@@ -24,7 +24,6 @@ namespace Good.Admin.Business
             var search = input.Search;
             //构建查询条件
             var expable = Expressionable.Create<Base_Role>();
-            expable.AndIF(!search.roleId.IsNullOrEmpty(), x => x.Id == search.roleId);
             expable.AndIF(!search.roleName.IsNullOrEmpty(), x => x.RoleName.Contains(search.roleName));
 
             var db_result = await QueryPageListByClauseAsync(expable, pageIndex: input.PageIndex, pagesize: input.PageSize);
