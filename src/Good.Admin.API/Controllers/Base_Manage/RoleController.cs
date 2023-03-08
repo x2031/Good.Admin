@@ -34,10 +34,10 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<Base_RoleInfoDTO> GetTheData(IdInputDTO input)
+        [HttpGet]
+        public async Task<Base_RoleInfoDTO> GetTheData(string id)
         {
-            return await _roleBus.GetTheDataAsync(input.id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheDataAsync(id) ?? new Base_RoleInfoDTO();
         }
 
         #endregion

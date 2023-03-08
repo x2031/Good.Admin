@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace Good.Admin.Util
 {
@@ -20,7 +15,6 @@ namespace Good.Admin.Util
             Assembly.Load("Good.Admin.IBusiness"),
             Assembly.Load("Good.Admin.Business"),
             Assembly.Load("Good.Admin.Api"),
-    
         };
 
         /// <summary>

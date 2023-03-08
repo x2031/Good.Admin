@@ -91,7 +91,7 @@ namespace Good.Admin.Util
                 .Take(pageInput.PageSize)
                 .ToList();
 
-            return new PageResult<T> { data = list, dotal = count };
+            return new PageResult<T> { data = list, total = count };
         }
 
         /// <summary>

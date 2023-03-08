@@ -123,7 +123,7 @@ export default {
 				if (res.code === 200) {
 					setTimeout(() => {
 						roleData.value = res.data
-						pagination.total = res.data.length
+						pagination.total = res.dotal
 						loading.value = false
 					}, 2000)
 				}

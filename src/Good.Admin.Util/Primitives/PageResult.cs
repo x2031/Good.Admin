@@ -11,7 +11,7 @@
         public PageResult(int page, int total, int pageSize, List<T> data)
         {
             this.page = page;
-            this.dotal = total;
+            this.total = total;
             base.data = data;
 
             if (pageSize != 0)
@@ -23,7 +23,7 @@
         /// <summary>
         /// 总记录数
         /// </summary>
-        public int dotal { get; set; } = 0;
+        public int total { get; set; } = 0;
         /// <summary>
         /// 每页大小
         /// </summary>
@@ -35,6 +35,6 @@
         /// <summary>
         /// 总页数
         /// </summary>
-        public int pageCount => (int)Math.Ceiling((decimal)dotal / pageSize);
+        public int pageCount => (int)Math.Ceiling((decimal)total / pageSize);
     }
 }

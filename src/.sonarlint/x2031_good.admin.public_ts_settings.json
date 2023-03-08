@@ -1,6 +1,110 @@
 {
   "sonarlint.rules": {
-    "typescript:S6480": {
+    "tssecurity:S5696": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S6105": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S3649": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "typescript:S6330": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6327": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6319": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6303": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6308": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6332": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6275": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6481": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6478": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6486": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6479": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6477": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S6317": {
+      "level": "On",
+      "severity": "Critical"
+    },
+    "typescript:S6302": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "typescript:S6270": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "typescript:S6333": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "typescript:S6329": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "typescript:S5860": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S4507": {
+      "level": "On",
+      "severity": "Minor"
+    },
+    "typescript:S2612": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S1848": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "typescript:S5725": {
+      "level": "On",
+      "severity": "Minor"
+    },
+    "typescript:S4423": {
+      "level": "On",
+      "severity": "Critical"
+    },
+    "typescript:S6442": {
       "level": "On",
       "severity": "Major"
     },
@@ -56,14 +160,6 @@
       "level": "On",
       "severity": "Minor"
     },
-    "typescript:S6275": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6270": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "typescript:S6249": {
       "level": "On",
       "severity": "Critical"
@@ -76,20 +172,12 @@
       "level": "On",
       "severity": "Minor"
     },
-    "typescript:S4507": {
-      "level": "On",
-      "severity": "Minor"
-    },
     "typescript:S5604": {
       "level": "On",
       "parameters": {
         "permissions": "geolocation"
       },
       "severity": "Major"
-    },
-    "typescript:S5725": {
-      "level": "On",
-      "severity": "Minor"
     },
     "typescript:S5728": {
       "level": "On",
@@ -142,18 +230,6 @@
       },
       "severity": "Blocker"
     },
-    "typescript:S6303": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6302": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "typescript:S6308": {
-      "level": "On",
-      "severity": "Major"
-    },
     "typescript:S5691": {
       "level": "On",
       "severity": "Major"
@@ -170,10 +246,6 @@
       "level": "On",
       "severity": "Major"
     },
-    "typescript:S6319": {
-      "level": "On",
-      "severity": "Major"
-    },
     "typescript:S5689": {
       "level": "On",
       "severity": "Minor"
@@ -181,10 +253,6 @@
     "typescript:S5443": {
       "level": "On",
       "severity": "Critical"
-    },
-    "typescript:S2612": {
-      "level": "On",
-      "severity": "Major"
     },
     "typescript:S1523": {
       "level": "On",
@@ -202,37 +270,17 @@
       "level": "On",
       "severity": "Minor"
     },
-    "typescript:S6327": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6329": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "typescript:S4036": {
       "level": "On",
       "severity": "Minor"
     },
-    "typescript:S6333": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "typescript:S5247": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6330": {
       "level": "On",
       "severity": "Major"
     },
     "typescript:S5122": {
       "level": "On",
       "severity": "Minor"
-    },
-    "typescript:S6332": {
-      "level": "On",
-      "severity": "Major"
     },
     "typescript:S2092": {
       "level": "On",
@@ -286,35 +334,11 @@
       "level": "On",
       "severity": "Blocker"
     },
-    "typescript:S6486": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6481": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6477": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6479": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S6478": {
-      "level": "On",
-      "severity": "Major"
-    },
     "typescript:S4325": {
       "level": "On",
       "severity": "Minor"
     },
     "typescript:S5542": {
-      "level": "On",
-      "severity": "Critical"
-    },
-    "typescript:S6317": {
       "level": "On",
       "severity": "Critical"
     },
@@ -325,10 +349,6 @@
     "typescript:S6321": {
       "level": "On",
       "severity": "Minor"
-    },
-    "typescript:S4423": {
-      "level": "On",
-      "severity": "Critical"
     },
     "typescript:S107": {
       "level": "On",
@@ -344,10 +364,6 @@
     "typescript:S1226": {
       "level": "On",
       "severity": "Minor"
-    },
-    "tssecurity:S3649": {
-      "level": "On",
-      "severity": "Blocker"
     },
     "typescript:S5547": {
       "level": "On",
@@ -379,10 +395,6 @@
     "typescript:S6353": {
       "level": "On",
       "severity": "Minor"
-    },
-    "typescript:S6442": {
-      "level": "On",
-      "severity": "Major"
     },
     "typescript:S6443": {
       "level": "On",
@@ -496,14 +508,6 @@
       "level": "On",
       "severity": "Critical"
     },
-    "tssecurity:S5696": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S6105": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "typescript:S1534": {
       "level": "On",
       "severity": "Major"
@@ -603,10 +607,6 @@
       "level": "On",
       "severity": "Major"
     },
-    "typescript:S5860": {
-      "level": "On",
-      "severity": "Major"
-    },
     "typescript:S5868": {
       "level": "On",
       "severity": "Major"
@@ -692,10 +692,6 @@
       "severity": "Major"
     },
     "typescript:S2137": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "typescript:S2814": {
       "level": "On",
       "severity": "Major"
     },
@@ -797,10 +793,6 @@
     "typescript:S3001": {
       "level": "On",
       "severity": "Minor"
-    },
-    "typescript:S1848": {
-      "level": "On",
-      "severity": "Major"
     },
     "typescript:S3854": {
       "level": "On",
@@ -928,6 +920,18 @@
       "level": "On",
       "severity": "Minor"
     },
+    "typescript:S3514": {
+      "level": "Off"
+    },
+    "typescript:S6480": {
+      "level": "Off"
+    },
+    "typescript:S6304": {
+      "level": "Off"
+    },
+    "typescript:S2814": {
+      "level": "Off"
+    },
     "typescript:S1440": {
       "level": "Off"
     },
@@ -938,9 +942,6 @@
       "level": "Off"
     },
     "typescript:S2255": {
-      "level": "Off"
-    },
-    "typescript:S6304": {
       "level": "Off"
     },
     "typescript:S4817": {
@@ -1133,9 +1134,6 @@
       "level": "Off"
     },
     "typescript:S2427": {
-      "level": "Off"
-    },
-    "typescript:S3514": {
       "level": "Off"
     },
     "typescript:S3402": {

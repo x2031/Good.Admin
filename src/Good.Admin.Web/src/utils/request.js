@@ -31,26 +31,19 @@ service.interceptors.request.use((config) => {
   if (!reg.test(config.url)) {
     config.baseURL = 'http://127.0.0.1:5173'
   }
-  if (useUserStoreWithOut.token) {
-    // const token = storage.get('X-Token')
-    // if (token) {
-    //   console.debug(token)
-    //   //config.headers['Access-Token'] = token
-    //   config.headers['X-Token'] = getToken()
-    // }
-    const token_type = "Bearer "
-    // config.headers['Authorization'] = useUserStoreWithOut.token
-    config.headers.Authorization = token_type + useUserStoreWithOut.token
+  else {
+    config.baseURL = import.meta.env.VITE_APP_BASE_API
   }
-  // console.log(import.meta.env.VITE_APP_BASE_API)
-  // console.log(config)
+  if (useUserStoreWithOut().token) {
+    const token_type = "Bearer "
+    config.headers.Authorization = token_type + useUserStoreWithOut().token
+  }
   return config
 }, (error) => {
   // 请求错误
   return Promise.reject(error)
 }
 )
-
 //返回状态判断(添加响应拦截器)
 service.interceptors.response.use((response) => {
   const res = response.data

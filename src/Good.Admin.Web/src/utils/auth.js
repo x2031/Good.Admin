@@ -1,14 +1,14 @@
 
-const TokenKey = 'JC-Token'
+
 
 export function getToken() {
-  return localStorage.getItem(TokenKey)
+  return localStorage.getItem()
 }
 
 export function setToken(token) {
-  return localStorage.setItem(TokenKey, token)
+  return localStorage.setItem(token)
 }
 
 export function removeToken() {
-  return localStorage.setItem(TokenKey)
+  return localStorage.setItem()
 }

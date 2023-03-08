@@ -61,7 +61,7 @@
 						</template>
 					</vxe-toolbar>
 
-					<vxe-table round :align="allAlign" :data="tableData1" :row-config="{ isHover: true }">
+					<vxe-table round :align="allAlign" :data="roleData" :row-config="{ isHover: true }">
 						<vxe-column type="seq" width="60"></vxe-column>
 						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
 						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
@@ -70,9 +70,9 @@
 
 					<vxe-pager
 						background
-						v-model:current-page="page5.currentPage"
-						v-model:page-size="page5.pageSize"
-						:total="page5.totalResult"
+						v-model:current-page="pagination.currentPage"
+						v-model:page-size="pagination.pageSize"
+						:total="pagination.totalResult"
 						:layouts="[
 							'PrevJump',
 							'PrevPage',
@@ -96,6 +96,7 @@ import Chart from '@/components/Charts/index.vue'
 import { UserOutlined } from '@ant-design/icons-vue'
 import { reactive, defineComponent, ref, onMounted } from 'vue'
 import { Form } from 'ant-design-vue'
+import { getRoles } from '@/api/role'
 const useForm = Form.useForm
 
 export default {
@@ -109,42 +110,56 @@ export default {
 			createTime: '',
 			remark: ''
 		})
+		const roleData = ref([])
 		const rulesRef = reactive({})
 		const { resetFields, validate, validateInfos, mergeValidateInfo } = useForm(modelRef, rulesRef)
-		const tableData1 = ref([
-			{ id: 10001, RoleName: '超级管理员', CreateTime: '', remark: '' },
-			{ id: 10002, RoleName: '部门管理员', CreateTime: '', remark: '' },
-			{ id: 10003, RoleName: '普通员工', CreateTime: '', remark: '' },
-			{ id: 10004, RoleName: '其他', CreateTime: '', remark: '' }
-		])
-
-		const page5 = reactive({
+		const pagination = reactive({
 			currentPage: 1,
-			pageSize: 10,
-			totalResult: 300
+			pageSize: 20,
+			totalResult: 0
+		})
+		const searchdata = reactive({
+			PageIndex: pagination.currentPage,
+			PageSize: pagination.pageSize,
+			SortField: '',
+			SortType: '',
+			Search: {
+				roleId: '',
+				roleName: modelRef.roleName
+			}
 		})
 
+		const getRoleData = (searchdata) => {
+			// 获取权限数据
+			loading.value = true
+			getRoles(searchdata).then((res) => {
+				if (res.code === 200) {
+					roleData.value = res.data
+					pagination.totalResult = res.total
+					loading.value = false
+				}
+			})
+		}
 		const onFinish = (values) => {
 			console.log('Success:', values)
 		}
-
 		const onFinishFailed = (errorInfo) => {
 			console.log('Failed:', errorInfo)
 		}
 		// mounted
 		onMounted(() => {
-			setTimeout(() => {
-				loading.value = false
-			}, 1000)
+			getRoleData(searchdata)
 		})
 
 		return {
+			roleData,
 			loading,
 			allAlign,
-			tableData1,
-			page5,
+			pagination,
 			validateInfos,
 			modelRef,
+			searchdata,
+			getRoleData,
 			resetFields,
 			onFinish,
 			onFinishFailed

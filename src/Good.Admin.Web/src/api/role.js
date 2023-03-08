@@ -1,47 +1,48 @@
 import request from '@/utils/request'
 import { Descriptions } from 'ant-design-vue'
 
-export function getRoutes() {
+/**
+ * @Descriptions 获取角色列表
+ * @param {*} data 筛选数据及分页数据 
+ */
+export function getRoles(data) {
   return request({
-    url: '/jc-admin/routes',
-    method: 'get'
+    url: '/api/Role/getDataList',
+    method: 'post',
+    data
+  })
+}
+/**
+ * @Descriptions 根据id获取单个角色信息
+ * @param {string} id 角色id 
+*/
+export function getRole(id) {
+  return request({
+    url: `/api/Role/GetTheData?id=${id}`,
+    method: 'get',
   })
 }
 
-export function getRoles() {
-  return request({
-    url: '/jc-admin/roles',
-    method: 'get'
-  })
-}
-
+/**
+ * @Descriptions 添加角色
+ * @param {*} data 
+ */
 export function addRole(data) {
   return request({
-    url: '/jc-admin/role',
+    url: '/api/Role/SaveData',
     method: 'post',
     data
   })
 }
 
 /**
- * @Descriptions 更新角色
- * @param {String} id 角色id
- * @param {*} data 角色数据 
+ * @Descriptions 删除角色
+ * @param {Array<string>} ids 角色id  
  */
-export function updateRole(id, data) {
+export function deleteRole(ids) {
   return request({
-    url: `/jc-admin/role/${id}`,
-    method: 'put',
-    data
-  })
-}
-/**
- * @description: 删除角色
- * @param {String} id 角色id  
- */
-export function deleteRole(id) {
-  return request({
-    url: `/jc-admin/role/${id}`,
-    method: 'delete'
+    url: '/api/Role/DeleteData',
+    method: 'delete',
+    ids
   })
 }
