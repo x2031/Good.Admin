@@ -5,6 +5,9 @@ using Xunit;
 namespace Good.Admin.Test.Business
 {
 
+    /// <summary>
+    /// 用户相关业务层测试
+    /// </summary>
     public class Base_UserBusinessTest : IClassFixture<TestServerFixture>
     {
 

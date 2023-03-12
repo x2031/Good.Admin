@@ -19,7 +19,7 @@
 					<a-col :span="24" style="text-align: right">
 						<a-button type="primary" html-type="submit">搜索</a-button>
 						<a-button style="margin: 0 8px" @click="resetFields">重置</a-button>
-						<a style="font-size: 12px" @click="expand = !expand">
+						<!-- <a style="font-size: 12px" @click="expand = !expand">
 							<template v-if="expand">
 								<UpOutlined />
 							</template>
@@ -27,7 +27,7 @@
 								<DownOutlined />
 							</template>
 							Collapse
-						</a>
+						</a> -->
 					</a-col>
 				</a-row>
 			</a-form>
@@ -37,11 +37,10 @@
 				<a-col :span="24">
 					<vxe-toolbar>
 						<template #buttons>
-							<a-button @click="allAlign = 'right'" type="primary">
+							<a-button @click="addRolehandle()" type="primary">
 								<template #icon><plus-outlined /></template>新增
 							</a-button>
-
-							<a-button type="primary" danger>
+							<a-button type="primary" danger @click="deletehandle()">
 								<template #icon><delete-outlined /></template>删除
 							</a-button>
 							<a-button @click="refresh()">
@@ -54,15 +53,27 @@
 					</vxe-toolbar>
 
 					<vxe-table
+						ref="xTable"
 						round
-						:align="allAlign"
 						:data="tableDate.roleData"
-						:row-config="{ isHover: true }"
+						:row-config="{ keyField: 'Id', isHover: true }"
 						:loading="tableDate.loading"
+						@checkbox-change="selectChangeEvent"
+						@checkbox-all="selectAllChangeEvent"
 					>
+						<vxe-column type="checkbox" width="60"></vxe-column>
+						<!-- <vxe-column field="Id" width="60" title="ID"></vxe-column> -->
 						<vxe-column type="seq" width="60"></vxe-column>
 						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
 						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
+						<vxe-column title="操作" width="200" show-overflow>
+							<template #default="{ row }">
+								<!-- <vxe-button type="text" icon="vxe-icon-edit" @click="editEvent(row)"></vxe-button> -->
+								<a-button size="middle" @click="edithandle(row)">
+									<template #icon><edit-outlined /></template>
+								</a-button>
+							</template>
+						</vxe-column>
 					</vxe-table>
 
 					<vxe-pager
@@ -70,6 +81,7 @@
 						v-model:current-page="tableDate.pagination.currentPage"
 						v-model:page-size="tableDate.pagination.pageSize"
 						:total="tableDate.pagination.totalResult"
+						@page-change="handlePageChange"
 						:layouts="[
 							'PrevJump',
 							'PrevPage',
@@ -85,94 +97,112 @@
 				</a-col>
 			</a-row>
 		</div>
+		<roleListEdit :title="modeltitle" ref="editRef" @submit="savedatahandle($event)" />
 	</div>
 </template>
 
-<script>
-import Chart from '@/components/Charts/index.vue'
-import { UserOutlined } from '@ant-design/icons-vue'
+<script setup>
+import roleListEdit from './components/roleListEdit.vue'
 import { reactive, defineComponent, ref, onMounted } from 'vue'
-import { Form } from 'ant-design-vue'
-import { getRoles } from '@/api/role'
+import { Form, message } from 'ant-design-vue'
+import { getRoles, addRole } from '@/api/role'
+
 const useForm = Form.useForm
-
-export default {
-	name: 'Dbmanage',
-
-	components: { Chart, UserOutlined },
-	setup() {
-		const loading = ref(true)
-		const allAlign = ref(null)
-		const modelRef = reactive({
-			roleName: '',
-			createTime: '',
-			remark: ''
-		})
-		const tableDate = reactive({
-			loading: false,
-			roleData: [],
-			pagination: {
-				currentPage: 1,
-				pageSize: 20,
-				totalResult: 0
-			}
-		})
-		const rulesRef = reactive({})
-		const { resetFields, validate, validateInfos, mergeValidateInfo } = useForm(modelRef, rulesRef)
-		const searchdata = reactive({
-			PageIndex: tableDate.pagination.currentPage,
-			PageSize: tableDate.pagination.pageSize,
-			SortField: '',
-			SortType: '',
-			Search: {
-				roleId: '',
-				roleName: modelRef.roleName
-			}
-		})
-
-		const getRoleData = (searchdata) => {
-			// 获取权限数据
-			tableDate.loading = true
-			getRoles(searchdata).then((res) => {
-				if (res.code === 200) {
-					tableDate.roleData = res.data
-					tableDate.pagination.totalResult = res.total
-					tableDate.loading = false
-				}
-			})
-		}
-		const refresh = () => {
-			getRoleData(searchdata)
-		}
-		const onFinish = (values) => {
-			console.log(modelRef)
-			console.log('Success:', values)
-			searchdata.Search.roleName = values.roleName
-			console.log(searchdata)
-			getRoleData(searchdata)
-		}
-		const onFinishFailed = (errorInfo) => {
-			console.log('Failed:', errorInfo)
-		}
-		// mounted
-		onMounted(() => {
-			getRoleData(searchdata)
-		})
-
-		return {
-			tableDate,
-			loading,
-			allAlign,
-			validateInfos,
-			modelRef,
-			searchdata,
-			refresh,
-			getRoleData,
-			resetFields,
-			onFinish,
-			onFinishFailed
-		}
+const xTable = ref()
+const editRef = ref(roleListEdit)
+const modeltitle = ref('新增角色')
+const modelRef = reactive({
+	roleName: '',
+	createTime: '',
+	remark: ''
+})
+const tableDate = reactive({
+	loading: false,
+	roleData: [],
+	pagination: {
+		currentPage: 1,
+		pageSize: 10,
+		totalResult: 0
 	}
+})
+const searchdata = reactive({
+	PageIndex: 1,
+	PageSize: 10,
+	SortField: '',
+	SortType: '',
+	Search: {
+		roleId: '',
+		roleName: modelRef.roleName
+	}
+})
+const { resetFields } = useForm(modelRef)
+
+const refresh = () => {
+	getRoleData()
+}
+const addRolehandle = () => {
+	editRef.value.show()
+}
+const deletehandle = () => {
+	console.log('delete')
+	message.success('删除成功')
+}
+const edithandle = (row) => {
+	console.log(row)
+}
+const savedatahandle = (value) => {
+	console.log(value)
+	addRole(value).then((res) => {
+		if (res.code === 200 && res.success) {
+			editRef.value.close()
+			message.success('新增成功')
+			getRoleData()
+		}
+	})
+}
+const onFinish = (values) => {
+	searchdata.Search.roleName = values.roleName
+	console.log(searchdata)
+	getRoleData()
+}
+const onFinishFailed = (errorInfo) => {
+	console.log('Failed:', errorInfo)
+}
+// mounted
+onMounted(() => {
+	getRoleData()
+})
+
+const getRoleData = () => {
+	// 获取权限数据
+	tableDate.loading = true
+	getRoles(searchdata).then((res) => {
+		if (res.code === 200) {
+			tableDate.roleData = res.data
+			tableDate.pagination.totalResult = res.total
+			tableDate.loading = false
+		}
+	})
+}
+const handlePageChange = ({ currentPage, pageSize }) => {
+	tableDate.pagination.currentPage = currentPage
+	tableDate.pagination.pageSize = pageSize
+	searchdata.PageIndex = currentPage
+	searchdata.PageSize = pageSize
+	console.log(pageSize)
+	console.log(searchdata)
+	console.log(tableDate)
+	getRoleData()
+}
+const selectChangeEvent = ({ checked }) => {
+	const $table = xTable.value
+	const records = $table.getCheckboxRecords()
+	console.log(checked ? '勾选事件' : '取消事件', records)
+}
+const selectAllChangeEvent = () => {
+	const $table = xTable.value
+	const records = $table.getCheckboxRecords()
+	console.log(records)
 }
 </script>
 

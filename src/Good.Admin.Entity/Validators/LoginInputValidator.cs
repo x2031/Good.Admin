@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Good.Admin.Util;
 
 namespace Good.Admin.Entity
 {

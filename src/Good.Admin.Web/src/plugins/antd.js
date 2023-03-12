@@ -41,6 +41,8 @@ import {
 import * as antIcons from '@ant-design/icons-vue'
 // import '@/styles/antd.less'
 
+
+
 export function setupAntd(app) {
   // app.use(Button)
   // app.use(Table)
@@ -82,9 +84,8 @@ export function setupAntd(app) {
   message.config({
     top: `50px`,
     duration: 3,
-    maxCount: 3,
-    rtl: true,
-    prefixCls: 'my-message',
+    maxCount: 5,
+    rtl: false,
   });
   for (let c in antIcons) {
     app.component(c, antIcons[c])

@@ -1,6 +1,7 @@
 ﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Util;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -48,18 +49,18 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task SaveData(Base_RoleInfoDTO input)
+        public async Task SaveData(Base_RoleSaveDto input)
         {
+            var role = input.Adapt<Base_Role>();
             if (input.Id.IsNullOrEmpty())
             {
-                InitEntity(input);
-
-                await _roleBus.AddDataAsync(input);
+                InitEntity(role);
+                await _roleBus.AddDataAsync(role, input.Actions);
             }
             else
             {
-                UpdateInitEntity(input);
-                await _roleBus.UpdateDataAsync(input);
+                UpdateInitEntity(role);
+                await _roleBus.UpdateDataAsync(role, input.Actions);
             }
         }
         /// <summary>

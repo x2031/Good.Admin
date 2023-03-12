@@ -14,10 +14,6 @@ import permission from '@/directive/permission' // 权限按钮
 import 'normalize.css/normalize.css'
 import './styles/index.less'
 
-
-
-
-
 const app = createApp(App)
 app.use(store)
 app.use(router)
@@ -26,6 +22,9 @@ setupAntd(app)
 setupDay(app)
 setupVxeTable(app)
 app.directive('permission', permission)
+
+
+
 
 app.mount('#app')
 

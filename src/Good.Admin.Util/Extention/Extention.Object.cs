@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -25,6 +24,7 @@ namespace Good.Admin.Util
                 return string.IsNullOrEmpty(objStr);
             }
         }
+
 
         /// <summary>
         /// 实体类转json数据，速度快

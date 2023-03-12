@@ -58,10 +58,14 @@ namespace Good.Admin.Business
 
         #endregion
         #region 修改
-        public async Task AddDataAsync(Base_RoleInfoDTO input)
+        public async Task AddDataAsync(Base_Role role, List<string> actions)
         {
-            await InsertAsync(input.Adapt<Base_Role>());
-            await SetRoleActionAsync(input.Id, input.Actions);
+            await InsertAsync(role);
+            if (actions != null && actions.Count > 0)
+            {
+                await SetRoleActionAsync(role.Id, actions);
+            }
+
         }
 
 
@@ -71,10 +75,13 @@ namespace Good.Admin.Business
             await Db.Deleteable<Base_RoleAction>(x => ids.Contains(x.RoleId)).ExecuteCommandHasChangeAsync();
         }
 
-        public async Task UpdateDataAsync(Base_RoleInfoDTO input)
+        public async Task UpdateDataAsync(Base_Role role, List<string> actions)
         {
-            await UpdateAsync(input.Adapt<Base_Role>());
-            await SetRoleActionAsync(input.Id, input.Actions);
+            await UpdateAsync(role);
+            if (actions != null && actions.Count > 0)
+            {
+                await SetRoleActionAsync(role.Id, actions);
+            }
         }
         #endregion
 

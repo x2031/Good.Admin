@@ -59,8 +59,8 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: '/system/roleList',
-        component: () => import('@/views/system/roleList.vue'),
+        path: '/system/role/roleList',
+        component: () => import('@/views/system/role/index.vue'),
         name: 'RoleList',
         meta: {
           title: '角色管理',
@@ -83,9 +83,9 @@ export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/rolePermissionList',
+    redirect: '/system/approvalFlowConfig',
     alwaysShow: true,
-    name: 'Permission',
+    name: 'approvalFlowConfig',
     meta: {
       title: '权限管理',
       icon: 'KeyOutlined',
@@ -94,9 +94,9 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: '/permission/rolePermissionList',
-        component: () => import('@/views/permission/rolePermissionList.vue'),
-        name: 'RolePermissionList',
+        path: '/system/approvalFlowConfig',
+        component: () => import('@/views/system/approvalFlowConfig.vue'),
+        name: 'approvalFlowConfig',
         meta: {
           title: '角色权限',
           roles: ['admin'],

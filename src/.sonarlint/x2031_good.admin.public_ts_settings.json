@@ -1,14 +1,58 @@
 {
   "sonarlint.rules": {
+    "tssecurity:S2631": {
+      "level": "On",
+      "severity": "Critical"
+    },
+    "tssecurity:S5883": {
+      "level": "On",
+      "severity": "Minor"
+    },
+    "tssecurity:S5146": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S2076": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S5147": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S5334": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S3649": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S5131": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S5144": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "tssecurity:S2083": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S6287": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "tssecurity:S6096": {
+      "level": "On",
+      "severity": "Blocker"
+    },
     "tssecurity:S5696": {
       "level": "On",
       "severity": "Blocker"
     },
     "tssecurity:S6105": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S3649": {
       "level": "On",
       "severity": "Blocker"
     },
@@ -286,53 +330,9 @@
       "level": "On",
       "severity": "Minor"
     },
-    "tssecurity:S2631": {
-      "level": "On",
-      "severity": "Critical"
-    },
-    "tssecurity:S5883": {
-      "level": "On",
-      "severity": "Minor"
-    },
-    "tssecurity:S5146": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S2076": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S5147": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S5334": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S5131": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S5144": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "tssecurity:S2083": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "tssecurity:S6287": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "tssecurity:S6350": {
       "level": "On",
       "severity": "Major"
-    },
-    "tssecurity:S6096": {
-      "level": "On",
-      "severity": "Blocker"
     },
     "typescript:S4325": {
       "level": "On",

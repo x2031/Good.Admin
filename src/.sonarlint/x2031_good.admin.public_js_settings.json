@@ -1,14 +1,58 @@
 {
   "sonarlint.rules": {
+    "jssecurity:S2631": {
+      "level": "On",
+      "severity": "Critical"
+    },
+    "jssecurity:S5883": {
+      "level": "On",
+      "severity": "Minor"
+    },
+    "jssecurity:S5146": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S2076": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S5147": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S5334": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S3649": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S5131": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S5144": {
+      "level": "On",
+      "severity": "Major"
+    },
+    "jssecurity:S2083": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S6287": {
+      "level": "On",
+      "severity": "Blocker"
+    },
+    "jssecurity:S6096": {
+      "level": "On",
+      "severity": "Blocker"
+    },
     "jssecurity:S5696": {
       "level": "On",
       "severity": "Blocker"
     },
     "jssecurity:S6105": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S3649": {
       "level": "On",
       "severity": "Blocker"
     },
@@ -76,53 +120,9 @@
       "level": "On",
       "severity": "Minor"
     },
-    "jssecurity:S2631": {
-      "level": "On",
-      "severity": "Critical"
-    },
-    "jssecurity:S5883": {
-      "level": "On",
-      "severity": "Minor"
-    },
-    "jssecurity:S5146": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S2076": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S5147": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S5334": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S5131": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S5144": {
-      "level": "On",
-      "severity": "Major"
-    },
-    "jssecurity:S2083": {
-      "level": "On",
-      "severity": "Blocker"
-    },
-    "jssecurity:S6287": {
-      "level": "On",
-      "severity": "Blocker"
-    },
     "jssecurity:S6350": {
       "level": "On",
       "severity": "Major"
-    },
-    "jssecurity:S6096": {
-      "level": "On",
-      "severity": "Blocker"
     },
     "javascript:S5732": {
       "level": "On",

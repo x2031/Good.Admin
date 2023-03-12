@@ -7,7 +7,7 @@ namespace Good.Admin.Repository
     //IBaseRepository<T>
     //SimpleClient<T> where T : class, new()
     //: IBaseRepository<T> where T : class, new()
-    public class BaseRepository<T> : ISingletonDependency, IBaseRepository1<T> where T : class, new()
+    public class BaseRepository<T> : ISingletonDependency, IBaseRepository<T> where T : class, new()
     {
         private readonly SqlSugarScope _dbBase;
         private readonly IUnitOfWork _unitOfWork;

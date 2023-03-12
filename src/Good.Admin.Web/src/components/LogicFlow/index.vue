@@ -11,7 +11,6 @@ import { Control, Menu, DndPanel, SelectionSelect } from '@logicflow/extension'
 import '@logicflow/core/dist/style/index.css'
 import '@logicflow/extension/lib/style/index.css'
 import { registerCircle, registerRect } from './registerNode'
-// import { message } from 'ant-design-vue'
 
 LogicFlow.use(Control) // 控制面板
 LogicFlow.use(Menu) // 右键菜单

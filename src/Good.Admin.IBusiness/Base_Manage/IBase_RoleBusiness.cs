@@ -1,10 +1,5 @@
 ﻿using Good.Admin.Entity;
 using Good.Admin.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Good.Admin.IBusiness
 {
@@ -27,13 +22,13 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddDataAsync(Base_RoleInfoDTO input);
+        Task AddDataAsync(Base_Role role, List<string> actions);
         /// <summary>
         /// 更新
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task UpdateDataAsync(Base_RoleInfoDTO input);
+        Task UpdateDataAsync(Base_Role role, List<string> actions);
         /// <summary>
         /// 删除
         /// </summary>
