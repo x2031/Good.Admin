@@ -9,7 +9,6 @@ namespace Good.Admin.API.Controllers.Base_Manage
 {
     [OpenApiTag("角色管理")]
     [Route("api/[controller]/[action]")]
-
     public class RoleController : BaseApiController
     {
         readonly IBase_RoleBusiness _roleBus;
@@ -38,7 +37,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         [HttpGet]
         public async Task<Base_RoleInfoDTO> GetTheData(string id)
         {
-            return await _roleBus.GetTheDataAsync(id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheDataRoleInfoAsync(id) ?? new Base_RoleInfoDTO();
         }
 
         #endregion
@@ -51,16 +50,22 @@ namespace Good.Admin.API.Controllers.Base_Manage
         [HttpPost]
         public async Task SaveData(Base_RoleSaveDto input)
         {
-            var role = input.Adapt<Base_Role>();
             if (input.Id.IsNullOrEmpty())
             {
+                var role = input.Adapt<Base_Role>();
                 InitEntity(role);
                 await _roleBus.AddDataAsync(role, input.Actions);
             }
             else
             {
-                UpdateInitEntity(role);
-                await _roleBus.UpdateDataAsync(role, input.Actions);
+                var editrole = await _roleBus.GetTheDataAsync(input.Id);
+                if (editrole != null)
+                {
+                    throw new BusException("查询不到该数据", 500);
+                }
+
+                UpdateInitEntity(editrole);
+                await _roleBus.UpdateDataAsync(editrole, input.Actions);
             }
         }
         /// <summary>

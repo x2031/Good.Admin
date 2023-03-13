@@ -16,7 +16,13 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Base_RoleInfoDTO> GetTheDataAsync(string id);
+        Task<Base_Role> GetTheDataAsync(string id);
+        /// <summary>
+        /// 获取角色详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<Base_RoleInfoDTO> GetTheDataRoleInfoAsync(string id);
         /// <summary>
         /// 新增
         /// </summary>

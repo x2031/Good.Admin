@@ -40,9 +40,10 @@ export function addRole(data) {
  * @param {Array<string>} ids 角色id  
  */
 export function deleteRole(ids) {
+  console.log(ids)
   return request({
     url: '/api/Role/DeleteData',
     method: 'delete',
-    ids
+    data: ids
   })
 }

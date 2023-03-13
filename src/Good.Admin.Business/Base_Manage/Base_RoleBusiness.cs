@@ -51,9 +51,13 @@ namespace Good.Admin.Business
             }
         }
 
-        public async Task<Base_RoleInfoDTO> GetTheDataAsync(string id)
+        public async Task<Base_RoleInfoDTO> GetTheDataRoleInfoAsync(string id)
         {
             return (await GetDataListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
+        }
+        public async Task<Base_Role> GetTheDataAsync(string id)
+        {
+            return await QueryByIdAsync(id);
         }
 
         #endregion

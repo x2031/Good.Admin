@@ -25,8 +25,7 @@ service.interceptors.request.use((config) => {
   //  config.headers.appId = appId;
   //  config.headers.time = time;
   //  config.headers.guid = guid;
-  //  config.headers.sign = sign;
-  console.log(config)
+  //  config.headers.sign = sign;  
   let reg = /api/
   if (!reg.test(config.url)) {
     config.baseURL = 'http://127.0.0.1:5173'

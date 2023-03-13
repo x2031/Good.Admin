@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { reactive, defineExpose, ref, toRaw, onMounted } from 'vue'
+import { reactive, ref, toRaw, onMounted } from 'vue'
 import { Form } from 'ant-design-vue'
 
 const useForm = Form.useForm
@@ -45,7 +45,7 @@ const props = defineProps({
 const labelCol = { span: 4, offset: 4 }
 const wrapperCol = { span: 12 }
 
-const editmodelRef = reactive({
+let editmodelRef = reactive({
 	RoleName: '',
 	RoleType: '',
 	Actions: [],
@@ -78,9 +78,11 @@ const handleOk = () => {
 		}
 	})
 }
-const show = () => {
+const show = (editrow) => {
 	resetFields()
 	editvisible.value = true
+	editmodelRef = Object.assign(editmodelRef, editrow)
+	console.log('show:', editmodelRef)
 }
 const close = () => {
 	editvisible.value = false

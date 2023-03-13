@@ -40,7 +40,7 @@
 							<a-button @click="addRolehandle()" type="primary">
 								<template #icon><plus-outlined /></template>新增
 							</a-button>
-							<a-button type="primary" danger @click="deletehandle()">
+							<a-button type="primary" danger :disabled="deleteVisible" @click="deletehandle()">
 								<template #icon><delete-outlined /></template>删除
 							</a-button>
 							<a-button @click="refresh()">
@@ -69,9 +69,12 @@
 						<vxe-column title="操作" width="200" show-overflow>
 							<template #default="{ row }">
 								<!-- <vxe-button type="text" icon="vxe-icon-edit" @click="editEvent(row)"></vxe-button> -->
-								<a-button size="middle" @click="edithandle(row)">
-									<template #icon><edit-outlined /></template>
-								</a-button>
+								<!-- <a-button size="middle" @click="edithandle(row)">
+									<template #icon></template>
+								</a-button> -->
+								<div @click="edithandle(row)">
+									<edit-outlined style="font-size: medium" />
+								</div>
 							</template>
 						</vxe-column>
 					</vxe-table>
@@ -103,14 +106,17 @@
 
 <script setup>
 import roleListEdit from './components/roleListEdit.vue'
-import { reactive, defineComponent, ref, onMounted } from 'vue'
-import { Form, message } from 'ant-design-vue'
-import { getRoles, addRole } from '@/api/role'
+import { reactive, createVNode, toRaw, ref, onMounted } from 'vue'
+import { Form, message, Modal } from 'ant-design-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { getRoles, addRole, deleteRole } from '@/api/role'
 
 const useForm = Form.useForm
 const xTable = ref()
 const editRef = ref(roleListEdit)
 const modeltitle = ref('新增角色')
+const deleteVisible = ref(true)
+const selectId = reactive([])
 const modelRef = reactive({
 	roleName: '',
 	createTime: '',
@@ -135,8 +141,8 @@ const searchdata = reactive({
 		roleName: modelRef.roleName
 	}
 })
-const { resetFields } = useForm(modelRef)
 
+const { resetFields } = useForm(modelRef)
 const refresh = () => {
 	getRoleData()
 }
@@ -144,14 +150,32 @@ const addRolehandle = () => {
 	editRef.value.show()
 }
 const deletehandle = () => {
-	console.log('delete')
-	message.success('删除成功')
+	Modal.confirm({
+		title: '提醒',
+		icon: createVNode(ExclamationCircleOutlined),
+		content: '确定要删除所选数据么？',
+		okText: '确认删除',
+		okType: 'danger',
+		cancelText: '取消',
+		onOk() {
+			deleteRole(selectId.value).then((res) => {
+				if (res.code === 200 && res.success) {
+					message.success('删除成功')
+					deleteVisible.value = true
+					getRoleData()
+				}
+			})
+		},
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		onCancel() {}
+	})
 }
 const edithandle = (row) => {
-	console.log(row)
+	var editrow = toRaw(row)
+	modeltitle.value = '编辑角色'
+	editRef.value.show(editrow)
 }
 const savedatahandle = (value) => {
-	console.log(value)
 	addRole(value).then((res) => {
 		if (res.code === 200 && res.success) {
 			editRef.value.close()
@@ -168,9 +192,10 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
 	console.log('Failed:', errorInfo)
 }
-// mounted
-onMounted(() => {
-	getRoleData()
+let person = reactive({
+	name: 'Alice',
+	age: 18,
+	gender: 'female'
 })
 
 const getRoleData = () => {
@@ -183,6 +208,9 @@ const getRoleData = () => {
 			tableDate.loading = false
 		}
 	})
+
+	person = Object.assign(person, { name: 'Bob', age: 20 })
+	console.log(person)
 }
 const handlePageChange = ({ currentPage, pageSize }) => {
 	tableDate.pagination.currentPage = currentPage
@@ -194,16 +222,32 @@ const handlePageChange = ({ currentPage, pageSize }) => {
 	console.log(tableDate)
 	getRoleData()
 }
+
 const selectChangeEvent = ({ checked }) => {
+	deleteVisible.value = false
 	const $table = xTable.value
 	const records = $table.getCheckboxRecords()
+	if (records.length === 0) {
+		deleteVisible.value = true
+	}
 	console.log(checked ? '勾选事件' : '取消事件', records)
+	selectId.value = records.map((item) => item.Id)
 }
 const selectAllChangeEvent = () => {
+	deleteVisible.value = false
 	const $table = xTable.value
 	const records = $table.getCheckboxRecords()
-	console.log(records)
+	if (records.length === 0) {
+		deleteVisible.value = true
+	}
+	//获取所有选中的id
+	selectId.value = records.map((item) => item.Id)
 }
+
+// mounted
+onMounted(() => {
+	getRoleData()
+})
 </script>
 
 <style lang="less">
