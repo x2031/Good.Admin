@@ -20,9 +20,15 @@ namespace Good.Admin.IBusiness
         /// <summary>
         /// 获取角色详情
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">角色id</param>
         /// <returns></returns>
         Task<Base_RoleInfoDTO> GetTheDataRoleInfoAsync(string id);
+        /// <summary>
+        /// 查询是否存在指定名称的数据
+        /// </summary>
+        /// <param name="name">角色名</param>
+        /// <returns></returns>
+        Task<bool> ExistByRoleName(string name);
         /// <summary>
         /// 新增
         /// </summary>
@@ -38,7 +44,7 @@ namespace Good.Admin.IBusiness
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="ids"></param>
+        /// <param name="ids">id 数组</param>
         /// <returns></returns>
         Task DeleteDataAsync(List<string> ids);
     }

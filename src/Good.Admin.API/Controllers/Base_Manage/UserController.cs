@@ -38,11 +38,16 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// </summary>
         /// <param name="name">名字</param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [ApiPermission("Base_User.GetDataById")]
-        public async Task<Base_UserDTO> GetDataByIdAsync(string id)
+        public async Task<Base_UserDTO> GetDataByIdAsync(IdInputDTO input)
         {
-            return await _userBus.GetTheDataAsync(id);
+            return await _userBus.GetTheDataAsync(input.id);
+        }
+
+        public async Task<bool> ExistByName(NameInputDTO input)
+        {
+            return await _userBus.ExistByName(input.name);
         }
 
         #endregion

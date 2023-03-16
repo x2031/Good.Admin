@@ -55,6 +55,10 @@ namespace Good.Admin.Business
         {
             return (await GetDataListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
         }
+        public async Task<bool> ExistByRoleName(string name)
+        {
+            return await ExistsAsync(x => x.RoleName == name);
+        }
         public async Task<Base_Role> GetTheDataAsync(string id)
         {
             return await QueryByIdAsync(id);

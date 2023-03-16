@@ -34,12 +34,21 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<Base_RoleInfoDTO> GetTheData(string id)
+        [HttpPost]
+        public async Task<Base_RoleInfoDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheDataRoleInfoAsync(id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheDataRoleInfoAsync(input.id) ?? new Base_RoleInfoDTO();
         }
-
+        /// <summary>
+        /// 查询是否存在角色名称
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> ExistByRoleName(NameInputDTO input)
+        {
+            return await _roleBus.ExistByRoleName(input.name);
+        }
         #endregion
         #region 修改
         /// <summary>

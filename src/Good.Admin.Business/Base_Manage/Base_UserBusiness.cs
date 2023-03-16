@@ -89,6 +89,10 @@ namespace Good.Admin.Business
                 });
             }
         }
+        public async Task<bool> ExistByName(string name)
+        {
+            return await ExistsAsync(x => x.UserName == name);
+        }
 
         public async Task<string> LoginAsync(LoginInputDTO input, bool pwdtomd5 = false)
         {
