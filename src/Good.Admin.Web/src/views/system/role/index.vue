@@ -179,7 +179,7 @@ const savedatahandle = (value) => {
 	addRole(value).then((res) => {
 		if (res.code === 200 && res.success) {
 			editRef.value.close()
-			message.success('新增成功')
+			message.success('保存成功')
 			getRoleData()
 		}
 	})

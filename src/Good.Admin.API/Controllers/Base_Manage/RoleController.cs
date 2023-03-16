@@ -59,11 +59,11 @@ namespace Good.Admin.API.Controllers.Base_Manage
             else
             {
                 var editrole = await _roleBus.GetTheDataAsync(input.Id);
-                if (editrole != null)
+                if (editrole == null)
                 {
                     throw new BusException("查询不到该数据", 500);
                 }
-
+                editrole.RoleName = input.RoleName;
                 UpdateInitEntity(editrole);
                 await _roleBus.UpdateDataAsync(editrole, input.Actions);
             }

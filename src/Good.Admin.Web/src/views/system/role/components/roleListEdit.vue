@@ -22,9 +22,9 @@
 				</a-form-item>
 				<a-form-item label="角色类型" v-bind="validateInfos.RoleType">
 					<a-select v-model:value="editmodelRef.RoleType" placeholder="请选择角色类型">
-						<a-select-option value="1">超级管理员</a-select-option>
-						<a-select-option value="2">部门管理员</a-select-option>
-						<a-select-option value="3">普通用户</a-select-option>
+						<a-select-option :value="1">超级管理员</a-select-option>
+						<a-select-option :value="2">部门管理员</a-select-option>
+						<a-select-option :value="3">普通用户</a-select-option>
 					</a-select>
 				</a-form-item>
 			</a-form>
@@ -47,7 +47,7 @@ const wrapperCol = { span: 12 }
 
 let editmodelRef = reactive({
 	RoleName: '',
-	RoleType: '',
+	RoleType: 1,
 	Actions: [],
 	Id: ''
 })
