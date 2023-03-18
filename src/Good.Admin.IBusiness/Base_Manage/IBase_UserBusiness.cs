@@ -10,7 +10,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput<Base_UsersInputDTO> input);
+        Task<PageResult<Base_UserDTO>> GetListAsync(PageInput<Base_UsersInputDTO> input);
         //Task<List<SelectOption>> GetOptionListAsync(OptionListInputDTO input);
         /// <summary>
         /// 根据id获取单个用户信息
@@ -29,19 +29,19 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddDataAsync(UserEditInputDTO input);
+        Task AddAsync(UserEditInputDTO input);
         /// <summary>
         /// 更新用户信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task UpdateDataAsync(UserEditInputDTO input);
+        Task UpdateAsync(UserEditInputDTO input);
         /// <summary>
         /// 删除用户
         /// </summary>
         /// <param name="ids">id数据</param>
         /// <returns></returns>
-        Task DeleteDataAsync(List<string> ids);
+        Task DeleteAsync(List<string> ids);
         /// <summary>
         /// 登录
         /// </summary>

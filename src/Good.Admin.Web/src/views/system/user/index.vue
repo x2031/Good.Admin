@@ -10,8 +10,27 @@
 				<a-row :gutter="24">
 					<!-- v-show="expand || i <= 6"  -->
 					<a-col :span="6">
-						<a-form-item label="角色名" name="roleName">
-							<a-input placeholder="输入角色名" v-model:value="modelRef.roleName" />
+						<a-form-item label="用户名" name="Username">
+							<a-input placeholder="输入用户名" v-model:value="modelRef.Username" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="6">
+						<a-form-item label="姓名" name="RealName">
+							<a-input placeholder="输入姓名" v-model:value="modelRef.RealName" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="6">
+						<a-form-item label="部门" name="DepartmentId">
+							<a-select
+								ref="select"
+								placeholder="选择部门"
+								:allowClear="true"
+								v-model:value="modelRef.DepartmentId"
+							>
+								<template v-for="item in deparmenSelect.value" :key="item.Id">
+									<a-select-option :value="item.Id">{{ item.Name }}</a-select-option>
+								</template>
+							</a-select>
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -55,7 +74,7 @@
 					<vxe-table
 						ref="xTable"
 						round
-						:data="tableDate.roleData"
+						:data="tableDate.ListData"
 						:row-config="{ keyField: 'Id', isHover: true }"
 						:loading="tableDate.loading"
 						@checkbox-change="selectChangeEvent"
@@ -64,8 +83,10 @@
 						<vxe-column type="checkbox" width="60"></vxe-column>
 						<!-- <vxe-column field="Id" width="60" title="ID"></vxe-column> -->
 						<vxe-column type="seq" width="60"></vxe-column>
-						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
-						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
+						<vxe-column field="UserName" title="用户名"></vxe-column>
+						<vxe-column field="RealName" title="姓名"></vxe-column>
+						<vxe-column field="SexTex" title="性别"></vxe-column>
+						<vxe-column field="DepartmentName" title="部门"></vxe-column>
 						<vxe-column title="操作" width="200" show-overflow>
 							<template #default="{ row }">
 								<!-- <vxe-button type="text" icon="vxe-icon-edit" @click="editEvent(row)"></vxe-button> -->
@@ -109,22 +130,25 @@ import roleListEdit from './components/roleListEdit.vue'
 import { reactive, createVNode, toRaw, ref, onMounted } from 'vue'
 import { Form, message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { getRoles, addRole, deleteRole } from '@/api/role'
+import { getList } from '@/api/user'
+import { GetDepartmentInfo } from '@/api/department'
 
 const useForm = Form.useForm
 const xTable = ref()
 const editRef = ref(roleListEdit)
-const modeltitle = ref('新增角色')
+const modeltitle = ref('新增用户')
 const deleteVisible = ref(true)
 const selectId = reactive([])
+const deparmenSelect = reactive([])
 const modelRef = reactive({
-	roleName: '',
-	createTime: '',
-	remark: ''
+	Id: '',
+	RealName: '',
+	Username: '',
+	DepartmentId: undefined
 })
 const tableDate = reactive({
 	loading: false,
-	roleData: [],
+	ListData: [],
 	pagination: {
 		currentPage: 1,
 		pageSize: 10,
@@ -137,14 +161,16 @@ const searchdata = reactive({
 	SortField: '',
 	SortType: '',
 	Search: {
-		roleId: '',
-		roleName: modelRef.roleName
+		Id: modelRef.Id,
+		RealName: modelRef.RealName,
+		Username: modelRef.Username,
+		DepartmentId: modelRef.DepartmentId == undefined ? '' : modelRef.DepartmentId
 	}
 })
 
 const { resetFields } = useForm(modelRef)
 const refresh = () => {
-	getRoleData()
+	getListData()
 }
 const addRolehandle = () => {
 	editRef.value.show()
@@ -162,7 +188,7 @@ const deletehandle = () => {
 				if (res.code === 200 && res.success) {
 					message.success('删除成功')
 					deleteVisible.value = true
-					getRoleData()
+					getListData()
 				}
 			})
 		},
@@ -172,7 +198,7 @@ const deletehandle = () => {
 }
 const edithandle = (row) => {
 	var editrow = toRaw(row)
-	modeltitle.value = '编辑角色'
+	modeltitle.value = '编辑用户'
 	editRef.value.show(editrow)
 }
 const savedatahandle = (value) => {
@@ -180,26 +206,39 @@ const savedatahandle = (value) => {
 		if (res.code === 200 && res.success) {
 			editRef.value.close()
 			message.success('保存成功')
-			getRoleData()
+			getListData()
 		}
 	})
 }
 const onFinish = (values) => {
-	searchdata.Search.roleName = values.roleName
-	console.log(searchdata)
-	getRoleData()
+	searchdata.Search.Username = values.Username
+	searchdata.Search.RealName = values.RealName
+	if (values.DepartmentId == undefined) {
+		values.DepartmentId = ''
+	}
+	searchdata.Search.DepartmentId = values.DepartmentId
+	getListData()
 }
 const onFinishFailed = (errorInfo) => {
 	console.log('Failed:', errorInfo)
 }
-const getRoleData = () => {
+const getListData = () => {
 	// 获取权限数据
 	tableDate.loading = true
-	getRoles(searchdata).then((res) => {
-		if (res.code === 200) {
-			tableDate.roleData = res.data
+	getList(searchdata).then((res) => {
+		if (res.code === 200 && res.success) {
+			tableDate.ListData = res.data
 			tableDate.pagination.totalResult = res.total
 			tableDate.loading = false
+		}
+	})
+}
+const getDepartment = () => {
+	// 获取部门数据
+	GetDepartmentInfo({ Id: '' }).then((res) => {
+		if (res.code === 200 && res.success) {
+			deparmenSelect.value = res.data
+			console.log(deparmenSelect)
 		}
 	})
 }
@@ -211,7 +250,7 @@ const handlePageChange = ({ currentPage, pageSize }) => {
 	console.log(pageSize)
 	console.log(searchdata)
 	console.log(tableDate)
-	getRoleData()
+	getListData()
 }
 
 const selectChangeEvent = ({ checked }) => {
@@ -237,7 +276,8 @@ const selectAllChangeEvent = () => {
 
 // mounted
 onMounted(() => {
-	getRoleData()
+	getListData()
+	getDepartment()
 })
 </script>
 

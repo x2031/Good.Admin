@@ -11,8 +11,6 @@ namespace Good.Admin.Entity
     {
         public Base_User()
         {
-
-
         }
         /// <summary>
         /// Desc:主键
@@ -88,10 +86,10 @@ namespace Good.Admin.Entity
     }
     public enum Sex
     {
-        [Description("男人")]
+        [Description("男")]
         Man = 1,
 
-        [Description("女人")]
+        [Description("女")]
         Woman = 0
     }
 }

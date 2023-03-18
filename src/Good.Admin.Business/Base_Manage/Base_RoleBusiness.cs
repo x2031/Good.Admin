@@ -19,7 +19,7 @@ namespace Good.Admin.Business
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PageResult<Base_RoleInfoDTO>> GetDataListAsync(PageInput<RolesInputDTO> input)
+        public async Task<PageResult<Base_RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input)
         {
             var search = input.Search;
             //构建查询条件
@@ -51,9 +51,9 @@ namespace Good.Admin.Business
             }
         }
 
-        public async Task<Base_RoleInfoDTO> GetTheDataRoleInfoAsync(string id)
+        public async Task<Base_RoleInfoDTO> GetTheRoleInfoAsync(string id)
         {
-            return (await GetDataListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
+            return (await GetListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
         }
         public async Task<bool> ExistByRoleName(string name)
         {
@@ -66,7 +66,7 @@ namespace Good.Admin.Business
 
         #endregion
         #region 修改
-        public async Task AddDataAsync(Base_Role role, List<string> actions)
+        public async Task AddAsync(Base_Role role, List<string> actions)
         {
             await InsertAsync(role);
             if (actions != null && actions.Count > 0)
@@ -77,13 +77,13 @@ namespace Good.Admin.Business
         }
 
 
-        public async Task DeleteDataAsync(List<string> ids)
+        public async Task DeleteAsync(List<string> ids)
         {
             await DeleteByIdsAsync(ids);
             await Db.Deleteable<Base_RoleAction>(x => ids.Contains(x.RoleId)).ExecuteCommandHasChangeAsync();
         }
 
-        public async Task UpdateDataAsync(Base_Role role, List<string> actions)
+        public async Task UpdateAsync(Base_Role role, List<string> actions)
         {
             await UpdateAsync(role);
             if (actions != null && actions.Count > 0)

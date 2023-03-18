@@ -7,7 +7,7 @@ import { Descriptions } from 'ant-design-vue'
  */
 export function getRoles(data) {
   return request({
-    url: '/api/Role/getDataList',
+    url: '/api/Role/getList',
     method: 'post',
     data
   })
@@ -29,7 +29,7 @@ export function getRole(id) {
  */
 export function addRole(data) {
   return request({
-    url: '/api/Role/SaveData',
+    url: '/api/Role/Save',
     method: 'post',
     data
   })
@@ -42,7 +42,7 @@ export function addRole(data) {
 export function deleteRole(ids) {
   console.log(ids)
   return request({
-    url: '/api/Role/DeleteData',
+    url: '/api/Role/Delete',
     method: 'delete',
     data: ids
   })

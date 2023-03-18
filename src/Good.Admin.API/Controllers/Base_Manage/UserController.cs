@@ -27,11 +27,10 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        [ApiPermission("Base_User.GetDataList")]
-        // [IgnoreVaild]        
-        public async Task<PageResult<Base_UserDTO>> GetDataList([FromBody] PageInput<Base_UsersInputDTO> input)
+        //[ApiPermission("Base_User.GetDataList")]
+        public async Task<PageResult<Base_UserDTO>> GetList([FromBody] PageInput<Base_UsersInputDTO> input)
         {
-            return await _userBus.GetDataListAsync(input);
+            return await _userBus.GetListAsync(input);
         }
         /// <summary>
         /// 根据id获取用户
@@ -59,7 +58,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         [ApiPermission("Base_User.Update")]
-        public async Task UpdateData(UserEditInputDTO input)
+        public async Task Update(UserEditInputDTO input)
         {
             if (!input.newPwd.IsNullOrEmpty())
                 input.Password = input.newPwd.ToMD5String();
@@ -71,7 +70,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
             else
             {
                 UpdateInitEntity(input);
-                await _userBus.UpdateDataAsync(input);
+                await _userBus.UpdateAsync(input);
             }
         }
 
@@ -82,7 +81,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         [ApiPermission("Base_User.Add")]
-        public async Task AddData(UserEditInputDTO input)
+        public async Task Add(UserEditInputDTO input)
         {
             if (!input.newPwd.IsNullOrEmpty())
                 input.Password = input.newPwd.ToMD5String();
@@ -90,7 +89,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
             if (input.Id.IsNullOrEmpty())
             {
                 InitEntity(input);
-                await _userBus.AddDataAsync(input);
+                await _userBus.AddAsync(input);
             }
             else
             {
@@ -115,9 +114,9 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpDelete]
         [ApiPermission("Base_User.Delete")]
-        public async Task DeleteData(List<string> ids)
+        public async Task Delete(List<string> ids)
         {
-            await _userBus.DeleteDataAsync(ids);
+            await _userBus.DeleteAsync(ids);
         }
         #endregion
     }

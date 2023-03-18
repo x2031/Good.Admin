@@ -507,12 +507,11 @@ namespace Good.Admin.Repository
         /// </summary>
         /// <param name="predicate">条件表达式树</param>
         /// <param name="blUseNoLock">是否使用WITH(NOLOCK)</param>
-        /// <returns></returns>
+        /// <returns></returns>     
         public async Task<T> QueryByClauseAsync(Expression<Func<T, bool>> predicate, bool blUseNoLock = false)
         {
             var rr = _db.CopyNew().Ado.IsValidConnection();
 
-            var count = _db.Ado.SqlQuerySingle<int>("select COUNT(*) FROM Base_User");
             return blUseNoLock
                 ? await _db.Queryable<T>().With(SqlWith.NoLock).FirstAsync(predicate)
                 : await _db.Queryable<T>().FirstAsync(predicate);

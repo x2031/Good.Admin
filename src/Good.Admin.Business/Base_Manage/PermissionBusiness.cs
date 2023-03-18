@@ -37,7 +37,7 @@ namespace Good.Admin.Business.Base_Manage
             }
 
             var actionIds = await GetUserActionIds(userId);
-            return await _actionBus.GetTreeDataListAsync(new Base_ActionsInputDTO
+            return await _actionBus.GetTreeListAsync(new Base_ActionsInputDTO
             {
                 types = new ActionType[] { ActionType.菜单, ActionType.页面 },
                 ActionIds = actionIds,
@@ -59,7 +59,7 @@ namespace Good.Admin.Business.Base_Manage
 
             var actionIds = await GetUserActionIds(userId);
             return (await _actionBus
-                .GetDataListAsync(new Base_ActionsInputDTO
+                .GetListAsync(new Base_ActionsInputDTO
                 {
                     types = new ActionType[] { ActionType.权限 },
                     ActionIds = actionIds

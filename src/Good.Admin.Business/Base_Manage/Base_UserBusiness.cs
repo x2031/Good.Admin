@@ -38,14 +38,15 @@ namespace Good.Admin.Business
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>      
-        public async Task<PageResult<Base_UserDTO>> GetDataListAsync(PageInput<Base_UsersInputDTO> input)
+        public async Task<PageResult<Base_UserDTO>> GetListAsync(PageInput<Base_UsersInputDTO> input)
         {
             var search = input.Search;
             //构建查询条件
             var expable = Expressionable.Create<Base_User, Base_Department>();
-            expable.AndIF(!search.userId.IsNullOrEmpty(), (x, y) => x.Id == search.userId);
-            expable.AndIF(!search.keyword.IsNullOrEmpty(), (x, y) => x.Id.Contains(search.keyword));
-            expable.AndIF(!search.keyword.IsNullOrEmpty(), (x, y) => x.UserName.Contains(search.keyword));
+            expable.AndIF(!search.Id.IsNullOrEmpty(), (x, y) => x.Id == search.Id);
+            expable.AndIF(!search.Username.IsNullOrEmpty(), (x, y) => x.UserName.Contains(search.Username));
+            expable.AndIF(!search.RealName.IsNullOrEmpty(), (x, y) => x.RealName.Contains(search.RealName));
+            expable.AndIF(!search.DepartmentId.IsNullOrEmpty(), (x, y) => x.DepartmentId == search.DepartmentId);
 
             //构建查询func 
             var db_result = await QueryMuchPageAsync<Base_User, Base_Department, Base_UserDTO>(
@@ -70,6 +71,7 @@ namespace Good.Admin.Business
             {
                 var expable = Expressionable.Create<Base_UserRole, Base_Role>();
                 List<string> userIds = users.Select(x => x.Id).ToList();
+                List<string> departments = users.Select(x => x.DepartmentId).ToList();
                 expable.And((x, y) => userIds.Contains(x.UserId));
                 //补充用户角色属性             
                 var userRoles = await Db.Queryable<Base_UserRole>()
@@ -87,6 +89,20 @@ namespace Good.Admin.Business
                     aUser.RoleIdList = roleList.Select(x => x.RoleId).ToList();
                     aUser.RoleNameList = roleList.Select(x => x.RoleName).ToList();
                 });
+
+
+                var departmentnames = await Db.Queryable<Base_Department>()
+                    .Where(x => departments.Contains(x.Id))
+                    .Select(x => new {
+                        x.Id,
+                        x.Name
+                    }).ToListAsync();
+
+                users.ForEach(aUser =>
+              {
+                  var departList = departmentnames.Where(x => x.Id == aUser.DepartmentId);
+                  aUser.DepartmentName = departList.Select(x => x.Name).First();
+              });
             }
         }
         public async Task<bool> ExistByName(string name)
@@ -108,12 +124,12 @@ namespace Good.Admin.Business
         }
         #endregion
         #region 修改
-        public async Task AddDataAsync(UserEditInputDTO input)
+        public async Task AddAsync(UserEditInputDTO input)
         {
             await InsertAsync(input.Adapt<Base_User>());
             await SetUserRoleAsync(input.Id, input.RoleIdList);
         }
-        public async Task UpdateDataAsync(UserEditInputDTO input)
+        public async Task UpdateAsync(UserEditInputDTO input)
         {
             if (input.Id == GlobalAssemblies.ADMINID && _operator?.UserId != input.Id)
                 throw new BusException("禁止更改超级管理员！");
@@ -123,7 +139,7 @@ namespace Good.Admin.Business
             //TODO 缓存更新
             //await _userCache.UpdateCacheAsync(input.Id);
         }
-        public async Task DeleteDataAsync(List<string> ids)
+        public async Task DeleteAsync(List<string> ids)
         {
             if (ids.Contains(GlobalAssemblies.ADMINID))
                 throw new BusException("超级管理员是内置账号,禁止删除！");

@@ -2,6 +2,7 @@
 using Good.Admin.IBusiness;
 using Good.Admin.Repository;
 using Good.Admin.Util;
+using SqlSugar;
 
 namespace Good.Admin.Business
 {
@@ -12,11 +13,11 @@ namespace Good.Admin.Business
         }
 
         #region 修改
-        public async Task AddDataAsync(Base_Department model)
+        public async Task AddAsync(Base_Department model)
         {
             await InsertAsync(model);
         }
-        public async Task DeleteDataAsync(List<string> ids)
+        public async Task DeleteAsync(List<string> ids)
         {
             if (await ExistsAsync(x => ids.Contains(x.ParentId)))
             {
@@ -25,9 +26,9 @@ namespace Good.Admin.Business
             await DeleteByIdAsync(ids);
         }
 
-        public async Task UpdateDataAsync(Base_Department model)
+        public async Task UpdateAsync(Base_Department model)
         {
-            await UpdateDataAsync(model);
+            await UpdateAsync(model);
         }
         #endregion
         #region 查询
@@ -42,9 +43,16 @@ namespace Good.Admin.Business
             return await QueryByIdAsync(id);
         }
 
-        public Task<List<Base_DepartmentTreeDTO>> GetTreeDataListAsync(DepartmentsTreeInputDTO input)
+        public Task<List<Base_DepartmentTreeDTO>> GetTreeListAsync(DepartmentsTreeInputDTO input)
         {
             throw new NotImplementedException();
+        }
+        public async Task<List<Base_DepartmentDto>> GetListByParentId(string id)
+        {
+            var expable = Expressionable.Create<Base_Department>();
+            expable.AndIF(!id.IsNullOrEmpty(), x => x.ParentId == id);
+
+            return await QueryListByClauseAsync<Base_Department, Base_DepartmentDto>(expable.ToExpression(), (x) => new Base_DepartmentDto { Id = x.Id, Name = x.Name });
         }
 
         #endregion

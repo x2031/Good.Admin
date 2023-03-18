@@ -7,6 +7,13 @@
         /// </summary>
         public string id { get; set; }
     }
+    public class IdInputNullDTO
+    {
+        /// <summary>
+        /// id
+        /// </summary>
+        public string id { get; set; }
+    }
     public class NameInputDTO
     {
         /// <summary>

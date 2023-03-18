@@ -24,7 +24,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<Base_Action>> GetDataListAsync(Base_ActionsInputDTO input)
+        public async Task<List<Base_Action>> GetListAsync(Base_ActionsInputDTO input)
         {
             var where = LinqHelper.True<Base_Action>();
             where.AndIf(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
@@ -49,9 +49,9 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<Base_ActionDTO>> GetTreeDataListAsync(Base_ActionsInputDTO input)
+        public async Task<List<Base_ActionDTO>> GetTreeListAsync(Base_ActionsInputDTO input)
         {
-            var qList = await GetDataListAsync(input);
+            var qList = await GetListAsync(input);
             var treeList = qList.Select(x => new Base_ActionDTO
             {
                 Id = x.Id,
@@ -98,7 +98,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task UpdateDataAsync(ActionEditInputDTO input)
+        public async Task UpdateAsync(ActionEditInputDTO input)
         {
             await UpdateAsync(input.Adapt<Base_Action>());
             await SavePermissionAsync(input.Id, input.permissionList);
@@ -108,7 +108,7 @@ namespace Good.Admin.Business.Base_Manage
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddDataAsync(ActionEditInputDTO input)
+        public async Task AddAsync(ActionEditInputDTO input)
         {
             await InsertAsync(input.Adapt<Base_Action>());
         }
@@ -148,7 +148,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="ids"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task DeleteDataAsync(List<string> ids)
+        public async Task DeleteAsync(List<string> ids)
         {
             await DeleteByIdsAsync(ids);
             await DeleteAsync(x => ids.Contains(x.ParentId));

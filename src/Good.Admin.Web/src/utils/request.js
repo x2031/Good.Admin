@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { useUserStoreWithOut } from '@/store/user'
 import 'ant-design-vue/es/message/style/css';
 import { v4 as uuid } from 'uuid'
@@ -48,24 +48,7 @@ service.interceptors.response.use((response) => {
   const res = response.data
   if (res.code !== 200) {
     //  message.error(res.msg || 'Error')
-    // 508: 非法token; 512: 其他用户已登录; 514: Token过期;
-    if (res.code === 401) {
-      // 重新登录
-      Modal.confirm({
-        title: '确认注销',
-        content: '您已经注销，您可以取消以留在此页面，也可以重新登录',
-        okText: '重新登录',
-        cancelText: '取消',
-        onOk() {
-          useUserStoreWithOut.resetToken()
-            .then(() => {
-              location.reload()
-            })
-        },
-        onCancel() { }
-      })
-    }
-    else if (res.code === 500) {
+    if (res.code === 500) {
       //提示
       //服务器内部错误
       //message.error(res.msg || 'Error', 3)
@@ -85,6 +68,22 @@ service.interceptors.response.use((response) => {
   }
 },
   (error, res) => {
+    if (error.response.status === 401) {
+      Modal.confirm({
+        title: '确认注销',
+        content: '您已经注销，您可以取消以留在此页面，也可以重新登录',
+        okText: '重新登录',
+        cancelText: '取消',
+        onOk() {
+          useUserStoreWithOut().resetToken()
+            .then(() => {
+              location.reload()
+            })
+        },
+        onCancel() { }
+      })
+    }
+    console.log(error)
     message.error(error.message || 'Error', 3)
     return Promise.reject(error)
   }

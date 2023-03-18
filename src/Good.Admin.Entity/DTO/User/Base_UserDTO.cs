@@ -22,7 +22,7 @@ namespace Good.Admin.Entity
             }
         }
         public string DepartmentName { get; set; }
-        public string SexText { get => Sex.GetDescription(); }
+        public string SexTex { get => Sex.GetDescription(); }
         public string BirthdayText { get => Birthday?.ToString("yyyy-MM-dd"); }
     }
 

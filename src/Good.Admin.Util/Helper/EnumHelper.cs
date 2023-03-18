@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Good.Admin.Util
+﻿namespace Good.Admin.Util
 {
     public static class EnumHelper
     {

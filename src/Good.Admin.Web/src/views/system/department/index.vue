@@ -10,8 +10,8 @@
 				<a-row :gutter="24">
 					<!-- v-show="expand || i <= 6"  -->
 					<a-col :span="6">
-						<a-form-item label="角色名" name="roleName">
-							<a-input placeholder="输入角色名" v-model:value="modelRef.roleName" />
+						<a-form-item label="用户名" name="roleName">
+							<a-input placeholder="输入用户名" v-model:value="modelRef.roleName" />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -192,6 +192,12 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
 	console.log('Failed:', errorInfo)
 }
+let person = reactive({
+	name: 'Alice',
+	age: 18,
+	gender: 'female'
+})
+
 const getRoleData = () => {
 	// 获取权限数据
 	tableDate.loading = true
@@ -202,6 +208,9 @@ const getRoleData = () => {
 			tableDate.loading = false
 		}
 	})
+
+	person = Object.assign(person, { name: 'Bob', age: 20 })
+	console.log(person)
 }
 const handlePageChange = ({ currentPage, pageSize }) => {
 	tableDate.pagination.currentPage = currentPage

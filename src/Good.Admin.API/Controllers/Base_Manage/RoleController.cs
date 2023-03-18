@@ -25,9 +25,9 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<Base_RoleInfoDTO>> GetDataListAsync([FromBody] PageInput<RolesInputDTO> input)
+        public async Task<PageResult<Base_RoleInfoDTO>> GetListAsync([FromBody] PageInput<RolesInputDTO> input)
         {
-            return await _roleBus.GetDataListAsync(input);
+            return await _roleBus.GetListAsync(input);
         }
         /// <summary>
         /// 根据id查询单个角色信息
@@ -37,7 +37,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         [HttpPost]
         public async Task<Base_RoleInfoDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheDataRoleInfoAsync(input.id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheRoleInfoAsync(input.id) ?? new Base_RoleInfoDTO();
         }
         /// <summary>
         /// 查询是否存在角色名称
@@ -57,13 +57,13 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task SaveData(Base_RoleSaveDto input)
+        public async Task Save(Base_RoleSaveDto input)
         {
             if (input.Id.IsNullOrEmpty())
             {
                 var role = input.Adapt<Base_Role>();
                 InitEntity(role);
-                await _roleBus.AddDataAsync(role, input.Actions);
+                await _roleBus.AddAsync(role, input.Actions);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
                 }
                 editrole.RoleName = input.RoleName;
                 UpdateInitEntity(editrole);
-                await _roleBus.UpdateDataAsync(editrole, input.Actions);
+                await _roleBus.UpdateAsync(editrole, input.Actions);
             }
         }
         /// <summary>
@@ -83,9 +83,9 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task DeleteData(List<string> ids)
+        public async Task Delete(List<string> ids)
         {
-            await _roleBus.DeleteDataAsync(ids);
+            await _roleBus.DeleteAsync(ids);
         }
         #endregion
     }

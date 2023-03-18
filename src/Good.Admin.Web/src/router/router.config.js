@@ -59,11 +59,31 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: '/system/role/roleList',
+        path: '/system/role',
         component: () => import('@/views/system/role/index.vue'),
-        name: 'RoleList',
+        name: 'roleList',
         meta: {
           title: '角色管理',
+          roles: ['admin'],
+          isAsync: true
+        }
+      },
+      {
+        path: '/system/user',
+        component: () => import('@/views/system/user/index.vue'),
+        name: 'userList',
+        meta: {
+          title: '用户管理',
+          roles: ['admin'],
+          isAsync: true
+        }
+      },
+      {
+        path: '/system/department',
+        component: () => import('@/views/system/department/index.vue'),
+        name: 'departmentList',
+        meta: {
+          title: '部门管理',
           roles: ['admin'],
           isAsync: true
         }

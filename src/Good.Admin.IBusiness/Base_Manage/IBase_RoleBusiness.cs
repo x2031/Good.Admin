@@ -10,7 +10,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PageResult<Base_RoleInfoDTO>> GetDataListAsync(PageInput<RolesInputDTO> input);
+        Task<PageResult<Base_RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input);
         /// <summary>
         /// 获取单个实体
         /// </summary>
@@ -22,7 +22,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="id">角色id</param>
         /// <returns></returns>
-        Task<Base_RoleInfoDTO> GetTheDataRoleInfoAsync(string id);
+        Task<Base_RoleInfoDTO> GetTheRoleInfoAsync(string id);
         /// <summary>
         /// 查询是否存在指定名称的数据
         /// </summary>
@@ -34,19 +34,19 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddDataAsync(Base_Role role, List<string> actions);
+        Task AddAsync(Base_Role role, List<string> actions);
         /// <summary>
         /// 更新
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task UpdateDataAsync(Base_Role role, List<string> actions);
+        Task UpdateAsync(Base_Role role, List<string> actions);
         /// <summary>
         /// 删除
         /// </summary>
         /// <param name="ids">id 数组</param>
         /// <returns></returns>
-        Task DeleteDataAsync(List<string> ids);
+        Task DeleteAsync(List<string> ids);
     }
 
 }
