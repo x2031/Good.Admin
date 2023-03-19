@@ -29,13 +29,13 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task AddAsync(UserEditInputDTO input);
+        Task AddAsync(Base_User user, List<string> roleIdList);
         /// <summary>
         /// 更新用户信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task UpdateAsync(UserEditInputDTO input);
+        Task UpdateAsync(Base_User user, List<string> roleIdList);
         /// <summary>
         /// 删除用户
         /// </summary>

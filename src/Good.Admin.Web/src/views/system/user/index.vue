@@ -121,21 +121,21 @@
 				</a-col>
 			</a-row>
 		</div>
-		<roleListEdit :title="modeltitle" ref="editRef" @submit="savedatahandle($event)" />
+		<userEdit :title="modeltitle" ref="editRef" @submit="saveHandle($event)" />
 	</div>
 </template>
 
 <script setup>
-import roleListEdit from './components/roleListEdit.vue'
+import userEdit from './components/userEdit.vue'
 import { reactive, createVNode, toRaw, ref, onMounted } from 'vue'
 import { Form, message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { getList } from '@/api/user'
+import { getList, addUser, UpdateUser, deleteUser } from '@/api/user'
 import { GetDepartmentInfo } from '@/api/department'
 
 const useForm = Form.useForm
 const xTable = ref()
-const editRef = ref(roleListEdit)
+const editRef = ref(userEdit)
 const modeltitle = ref('新增用户')
 const deleteVisible = ref(true)
 const selectId = reactive([])
@@ -184,7 +184,7 @@ const deletehandle = () => {
 		okType: 'danger',
 		cancelText: '取消',
 		onOk() {
-			deleteRole(selectId.value).then((res) => {
+			deleteUser(selectId.value).then((res) => {
 				if (res.code === 200 && res.success) {
 					message.success('删除成功')
 					deleteVisible.value = true
@@ -201,14 +201,25 @@ const edithandle = (row) => {
 	modeltitle.value = '编辑用户'
 	editRef.value.show(editrow)
 }
-const savedatahandle = (value) => {
-	addRole(value).then((res) => {
-		if (res.code === 200 && res.success) {
-			editRef.value.close()
-			message.success('保存成功')
-			getListData()
-		}
-	})
+const saveHandle = (value) => {
+	console.log(value)
+	if (value.Id.length == 0) {
+		addUser(value).then((res) => {
+			if (res.code === 200 && res.success) {
+				editRef.value.close()
+				message.success('保存成功')
+				getListData()
+			}
+		})
+	} else {
+		UpdateUser(value).then((res) => {
+			if (res.code === 200 && res.success) {
+				editRef.value.close()
+				message.success('保存成功')
+				getListData()
+			}
+		})
+	}
 }
 const onFinish = (values) => {
 	searchdata.Search.Username = values.Username

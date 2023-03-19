@@ -39,6 +39,7 @@ import {
   message
 } from 'ant-design-vue'
 import * as antIcons from '@ant-design/icons-vue'
+
 export function setupAntd(app) {
   // app.use(Button)
   // app.use(Table)

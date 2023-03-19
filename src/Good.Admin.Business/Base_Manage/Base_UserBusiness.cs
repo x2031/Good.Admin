@@ -124,23 +124,27 @@ namespace Good.Admin.Business
         }
         #endregion
         #region 修改
-        public async Task AddAsync(UserEditInputDTO input)
+        public async Task AddAsync(Base_User user, List<string> roleIdList)
         {
-            await InsertAsync(input.Adapt<Base_User>());
-            await SetUserRoleAsync(input.Id, input.RoleIdList);
+            await InsertAsync(user);
+            await SetUserRoleAsync(user.Id, roleIdList);
         }
-        public async Task UpdateAsync(UserEditInputDTO input)
+        public async Task UpdateAsync(Base_User user, List<string> roleIdList)
         {
-            if (input.Id == GlobalAssemblies.ADMINID && _operator?.UserId != input.Id)
+            if (user.Id == GlobalAssemblies.ADMINID && _operator?.UserId != user.Id)
                 throw new BusException("禁止更改超级管理员！");
 
-            await UpdateAsync(input.Adapt<Base_User>());
-            await SetUserRoleAsync(input.Id, input.RoleIdList);
+            await UpdateAsync(user);
+            await SetUserRoleAsync(user.Id, roleIdList);
             //TODO 缓存更新
             //await _userCache.UpdateCacheAsync(input.Id);
         }
         public async Task DeleteAsync(List<string> ids)
         {
+            if (ids.Count == 0)
+            {
+                throw new BusException("请输入删除ID");
+            }
             if (ids.Contains(GlobalAssemblies.ADMINID))
                 throw new BusException("超级管理员是内置账号,禁止删除！");
 
@@ -175,6 +179,10 @@ namespace Good.Admin.Business
         private async Task SetUserRoleAsync(string userId, List<string> roleIds)
         {
             roleIds = roleIds ?? new List<string>();
+            if (roleIds.Count == 0)
+            {
+                return;
+            }
             var userRoleList = roleIds.Select(x => new Base_UserRole
             {
                 Id = IdHelper.NextId(),

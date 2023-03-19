@@ -1,6 +1,7 @@
 ﻿using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Util;
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
@@ -57,11 +58,13 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        [ApiPermission("Base_User.Update")]
+        //[ApiPermission("Base_User.Update")]
         public async Task Update(UserEditInputDTO input)
         {
+            var user = input.Adapt<Base_User>();
+
             if (!input.newPwd.IsNullOrEmpty())
-                input.Password = input.newPwd.ToMD5String();
+                user.Password = input.newPwd.ToMD5String();
 
             if (input.Id.IsNullOrEmpty())
             {
@@ -69,8 +72,8 @@ namespace Good.Admin.API.Controllers.Base_Manage
             }
             else
             {
-                UpdateInitEntity(input);
-                await _userBus.UpdateAsync(input);
+                UpdateInitEntity(user);
+                await _userBus.UpdateAsync(user, input.RoleIdList);
             }
         }
 
@@ -80,16 +83,27 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        [ApiPermission("Base_User.Add")]
         public async Task Add(UserEditInputDTO input)
         {
-            if (!input.newPwd.IsNullOrEmpty())
-                input.Password = input.newPwd.ToMD5String();
+            var user = input.Adapt<Base_User>();
 
-            if (input.Id.IsNullOrEmpty())
+            if (!input.newPwd.IsNullOrEmpty())
             {
-                InitEntity(input);
-                await _userBus.AddAsync(input);
+                user.Password = input.newPwd.ToMD5String();
+            }
+            else
+            {
+                //初始密码：用户名+123456
+                input.newPwd = user.UserName + "123456";
+                user.Password = input.newPwd.ToMD5String();
+            }
+
+
+            if (user.Id.IsNullOrEmpty())
+            {
+
+                InitEntity(user);
+                await _userBus.AddAsync(user, input.RoleIdList);
             }
             else
             {
