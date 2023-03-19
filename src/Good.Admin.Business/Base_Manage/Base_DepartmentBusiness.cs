@@ -15,6 +15,11 @@ namespace Good.Admin.Business
         #region 修改
         public async Task AddAsync(Base_Department model)
         {
+            var existName = await ExistsAsync((x) => x.Name == model.Name);
+            if (existName)
+            {
+                throw new BusException($"{model.Name}已存在", 500);
+            }
             await InsertAsync(model);
         }
         public async Task DeleteAsync(List<string> ids)

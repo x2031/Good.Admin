@@ -189,6 +189,8 @@ const deletehandle = () => {
 					message.success('删除成功')
 					deleteVisible.value = true
 					getListData()
+				} else {
+					message.error(res.msg)
 				}
 			})
 		},
@@ -209,6 +211,8 @@ const saveHandle = (value) => {
 				editRef.value.close()
 				message.success('保存成功')
 				getListData()
+			} else {
+				message.error(res.msg)
 			}
 		})
 	} else {
@@ -217,6 +221,8 @@ const saveHandle = (value) => {
 				editRef.value.close()
 				message.success('保存成功')
 				getListData()
+			} else {
+				message.error(res.msg)
 			}
 		})
 	}
@@ -250,6 +256,8 @@ const getDepartment = () => {
 		if (res.code === 200 && res.success) {
 			deparmenSelect.value = res.data
 			console.log(deparmenSelect)
+		} else {
+			message.error(res.msg)
 		}
 	})
 }

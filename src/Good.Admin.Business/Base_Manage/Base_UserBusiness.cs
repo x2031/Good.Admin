@@ -126,6 +126,11 @@ namespace Good.Admin.Business
         #region 修改
         public async Task AddAsync(Base_User user, List<string> roleIdList)
         {
+            var existName = await ExistsAsync((x) => x.UserName == user.UserName);
+            if (existName)
+            {
+                throw new BusException($"用户名{user.UserName}已存在", 500);
+            }
             await InsertAsync(user);
             await SetUserRoleAsync(user.Id, roleIdList);
         }

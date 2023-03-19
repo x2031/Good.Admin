@@ -49,15 +49,12 @@ service.interceptors.response.use((response) => {
   if (res.code !== 200) {
     //  message.error(res.msg || 'Error')
     if (res.code === 500) {
-      //提示
-      //服务器内部错误
-      //message.error(res.msg || 'Error', 3)
-      return Promise.reject(new Error(res.msg || 'Error'))
+      //提示      
+      message.error(res.msg || 'Error', 3)
     }
     else if (res.code === 503) {
-      //提示
-      //服务挂掉了
-      message.error('服务器不可用' || 'Error', 3)
+      //提示      
+      message.error('服务不可用' || 'Error', 3)
     }
     else {
       return Promise.reject(new Error(res.msg || 'Error'))

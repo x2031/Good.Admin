@@ -68,7 +68,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
 
             if (input.Id.IsNullOrEmpty())
             {
-                throw new BusException("更新用户数据必须传入用户标识字符串!", 511);
+                throw new BusException("更新用户数据必须传入用户标识字符串!", 500);
             }
             else
             {
@@ -107,7 +107,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
             }
             else
             {
-                throw new BusException("新增数据不允许传入用户ID!", 510);
+                throw new BusException("新增数据不允许传入用户ID!", 500);
             }
         }
         /// <summary>
@@ -127,7 +127,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="ids"></param>
         /// <returns></returns>
         [HttpDelete]
-        [ApiPermission("Base_User.Delete")]
+        //[ApiPermission("Base_User.Delete")]
         public async Task Delete(List<string> ids)
         {
             await _userBus.DeleteAsync(ids);

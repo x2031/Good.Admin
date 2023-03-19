@@ -68,6 +68,12 @@ namespace Good.Admin.Business
         #region 修改
         public async Task AddAsync(Base_Role role, List<string> actions)
         {
+            var existName = await ExistsAsync((x) => x.RoleName == role.RoleName);
+            if (existName)
+            {
+                throw new BusException($"{role.RoleName}已存在");
+            }
+
             await InsertAsync(role);
             if (actions != null && actions.Count > 0)
             {
@@ -96,6 +102,8 @@ namespace Good.Admin.Business
         #region 私有
         private async Task SetRoleActionAsync(string roleId, List<string> actions)
         {
+
+
             var roleActions = (actions ?? new List<string>())
                 .Select(x => new Base_RoleAction
                 {
