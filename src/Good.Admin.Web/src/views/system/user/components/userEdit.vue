@@ -74,6 +74,7 @@ let editmodelRef = reactive({
 	UserName: '',
 	RealName: '',
 	Sex: 0,
+	CreateTime: '',
 	Birthday: '',
 	DepartmentId: undefined
 })

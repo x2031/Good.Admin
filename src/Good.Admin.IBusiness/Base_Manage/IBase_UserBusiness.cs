@@ -10,14 +10,14 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PageResult<Base_UserDTO>> GetListAsync(PageInput<Base_UsersInputDTO> input);
+        Task<PageResult<UserDTO>> GetListAsync(PageInput<UsersDTO> input);
         //Task<List<SelectOption>> GetOptionListAsync(OptionListInputDTO input);
         /// <summary>
         /// 根据id获取单个用户信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<Base_UserDTO> GetTheDataAsync(string id);
+        Task<UserDTO> GetTheDataAsync(string id);
         /// <summary>
         /// 根据用户名查询是否存在同名数据
         /// </summary>
@@ -54,6 +54,6 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="iqnput"></param>
         /// <returns></returns>
-        Task ChangePwdAsync(ChangePwdInputDTO iqnput);
+        Task ChangePwdAsync(ChangePwdDTO iqnput);
     }
 }

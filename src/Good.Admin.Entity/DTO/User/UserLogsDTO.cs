@@ -1,6 +1,6 @@
 ﻿namespace Good.Admin.Entity
 {
-    public class UserLogsInputDTO
+    public class UserLogsDTO
     {
         public string logContent { get; set; }
         public string logType { get; set; }

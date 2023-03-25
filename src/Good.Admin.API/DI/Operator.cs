@@ -24,7 +24,7 @@ namespace Good.Admin.API.DI
                 .Where(x => x.Type == "userId").FirstOrDefault()?.Value;
         }
 
-        private Base_UserDTO _property;
+        private UserDTO _property;
         private object _lockObj = new object();
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Good.Admin.API.DI
         /// <summary>
         /// 用户属性
         /// </summary>
-        public Base_UserDTO UserProperty {
+        public UserDTO UserProperty {
             get {
                 if (UserId.IsNullOrEmpty())
                     return default;
@@ -46,7 +46,7 @@ namespace Good.Admin.API.DI
                     {
                         if (_property == null)
                         {
-                            _property = AsyncHelper.RunSync(() => _rediscache.GetAsync<Base_UserDTO>(UserId));
+                            _property = AsyncHelper.RunSync(() => _rediscache.GetAsync<UserDTO>(UserId));
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 ﻿namespace Good.Admin.Entity
 {
-    public class Base_UsersInputDTO
+    public class UsersDTO
     {
         //public bool all { get; set; }
         /// <summary>

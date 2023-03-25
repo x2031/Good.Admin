@@ -15,7 +15,7 @@ namespace Good.Admin.IBusiness
         /// <summary>
         /// 用户属性
         /// </summary>
-        Base_UserDTO UserProperty { get; }
+        UserDTO UserProperty { get; }
 
         #region 操作方法
         /// <summary>

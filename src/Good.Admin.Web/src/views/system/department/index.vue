@@ -10,8 +10,8 @@
 				<a-row :gutter="24">
 					<!-- v-show="expand || i <= 6"  -->
 					<a-col :span="6">
-						<a-form-item label="用户名" name="roleName">
-							<a-input placeholder="输入用户名" v-model:value="modelRef.roleName" />
+						<a-form-item label="部门名称" name="name">
+							<a-input placeholder="输入部门名称" v-model:value="modelRef.name" />
 						</a-form-item>
 					</a-col>
 				</a-row>
@@ -37,10 +37,10 @@
 				<a-col :span="24">
 					<vxe-toolbar>
 						<template #buttons>
-							<a-button @click="addRolehandle()" type="primary">
+							<a-button @click="addHandle()" type="primary">
 								<template #icon><plus-outlined /></template>新增
 							</a-button>
-							<a-button type="primary" danger :disabled="deleteVisible" @click="deletehandle()">
+							<a-button type="primary" danger :disabled="deleteVisible" @click="deleteHandle()">
 								<template #icon><delete-outlined /></template>删除
 							</a-button>
 							<a-button @click="refresh()">
@@ -55,7 +55,7 @@
 					<vxe-table
 						ref="xTable"
 						round
-						:data="tableDate.roleData"
+						:data="tableDate.listData"
 						:row-config="{ keyField: 'Id', isHover: true }"
 						:loading="tableDate.loading"
 						@checkbox-change="selectChangeEvent"
@@ -64,7 +64,7 @@
 						<vxe-column type="checkbox" width="60"></vxe-column>
 						<!-- <vxe-column field="Id" width="60" title="ID"></vxe-column> -->
 						<vxe-column type="seq" width="60"></vxe-column>
-						<vxe-column field="RoleName" title="数据库类型"></vxe-column>
+						<vxe-column field="Name" title="部门名称"></vxe-column>
 						<vxe-column field="CreateTime" title="创建时间"></vxe-column>
 						<vxe-column title="操作" width="200" show-overflow>
 							<template #default="{ row }">
@@ -72,7 +72,7 @@
 								<!-- <a-button size="middle" @click="edithandle(row)">
 									<template #icon></template>
 								</a-button> -->
-								<div @click="edithandle(row)">
+								<div @click="editHandle(row)">
 									<edit-outlined style="font-size: medium" />
 								</div>
 							</template>
@@ -100,31 +100,29 @@
 				</a-col>
 			</a-row>
 		</div>
-		<roleListEdit :title="modeltitle" ref="editRef" @submit="savedatahandle($event)" />
+		<roleListEdit :title="modeltitle" ref="editRef" @submit="saveHandle($event)" />
 	</div>
 </template>
 
 <script setup>
-import roleListEdit from './components/roleListEdit.vue'
+import roleListEdit from './components/departmentEdit.vue'
 import { reactive, createVNode, toRaw, ref, onMounted } from 'vue'
 import { Form, message, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
-import { getRoles, addRole, deleteRole } from '@/api/role'
+import { getDepartments, addDepartment, deleteDepartment, UpdateDepartment } from '@/api/department'
 
 const useForm = Form.useForm
 const xTable = ref()
 const editRef = ref(roleListEdit)
-const modeltitle = ref('新增角色')
+const modeltitle = ref('新增部门')
 const deleteVisible = ref(true)
 const selectId = reactive([])
 const modelRef = reactive({
-	roleName: '',
-	createTime: '',
-	remark: ''
+	name: ''
 })
 const tableDate = reactive({
 	loading: false,
-	roleData: [],
+	listData: [],
 	pagination: {
 		currentPage: 1,
 		pageSize: 10,
@@ -137,19 +135,18 @@ const searchdata = reactive({
 	SortField: '',
 	SortType: '',
 	Search: {
-		roleId: '',
-		roleName: modelRef.roleName
+		name: modelRef.name
 	}
 })
 
 const { resetFields } = useForm(modelRef)
 const refresh = () => {
-	getRoleData()
+	getlistData()
 }
-const addRolehandle = () => {
+const addHandle = () => {
 	editRef.value.show()
 }
-const deletehandle = () => {
+const deleteHandle = () => {
 	Modal.confirm({
 		title: '提醒',
 		icon: createVNode(ExclamationCircleOutlined),
@@ -158,11 +155,13 @@ const deletehandle = () => {
 		okType: 'danger',
 		cancelText: '取消',
 		onOk() {
-			deleteRole(selectId.value).then((res) => {
+			deleteDepartment(selectId.value).then((res) => {
 				if (res.code === 200 && res.success) {
 					message.success('删除成功')
 					deleteVisible.value = true
-					getRoleData()
+					getlistData()
+				} else {
+					message.error(res.msg)
 				}
 			})
 		},
@@ -170,47 +169,53 @@ const deletehandle = () => {
 		onCancel() {}
 	})
 }
-const edithandle = (row) => {
+const editHandle = (row) => {
 	var editrow = toRaw(row)
-	modeltitle.value = '编辑角色'
+	modeltitle.value = '编辑'
 	editRef.value.show(editrow)
 }
-const savedatahandle = (value) => {
-	addRole(value).then((res) => {
-		if (res.code === 200 && res.success) {
-			editRef.value.close()
-			message.success('保存成功')
-			getRoleData()
-		}
-	})
+const saveHandle = (value) => {
+	if (value.Id.length == 0) {
+		addDepartment(value).then((res) => {
+			if (res.code === 200 && res.success) {
+				editRef.value.close()
+				message.success('保存成功')
+				getlistData()
+			} else {
+				message.error(res.msg)
+			}
+		})
+	} else {
+		UpdateDepartment(value).then((res) => {
+			if (res.code === 200 && res.success) {
+				editRef.value.close()
+				message.success('保存成功')
+				getlistData()
+			} else {
+				message.error(res.msg)
+			}
+		})
+	}
 }
 const onFinish = (values) => {
-	searchdata.Search.roleName = values.roleName
+	searchdata.Search.name = values.name
 	console.log(searchdata)
-	getRoleData()
+	getlistData()
 }
 const onFinishFailed = (errorInfo) => {
 	console.log('Failed:', errorInfo)
 }
-let person = reactive({
-	name: 'Alice',
-	age: 18,
-	gender: 'female'
-})
-
-const getRoleData = () => {
-	// 获取权限数据
+const getlistData = () => {
 	tableDate.loading = true
-	getRoles(searchdata).then((res) => {
+	getDepartments(searchdata).then((res) => {
 		if (res.code === 200) {
-			tableDate.roleData = res.data
+			tableDate.listData = res.data
 			tableDate.pagination.totalResult = res.total
 			tableDate.loading = false
+		} else {
+			message.error(res.msg)
 		}
 	})
-
-	person = Object.assign(person, { name: 'Bob', age: 20 })
-	console.log(person)
 }
 const handlePageChange = ({ currentPage, pageSize }) => {
 	tableDate.pagination.currentPage = currentPage
@@ -220,7 +225,7 @@ const handlePageChange = ({ currentPage, pageSize }) => {
 	console.log(pageSize)
 	console.log(searchdata)
 	console.log(tableDate)
-	getRoleData()
+	getlistData()
 }
 
 const selectChangeEvent = ({ checked }) => {
@@ -246,7 +251,7 @@ const selectAllChangeEvent = () => {
 
 // mounted
 onMounted(() => {
-	getRoleData()
+	getlistData()
 })
 </script>
 

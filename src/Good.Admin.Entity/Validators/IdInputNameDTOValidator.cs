@@ -2,7 +2,7 @@
 
 namespace Good.Admin.Entity.Validators
 {
-    public class NameInputDTOValidator : AbstractValidator<NameInputDTO>
+    public class NameInputDTOValidator : AbstractValidator<NameInputNoNullDTO>
     {
         public NameInputDTOValidator()
         {

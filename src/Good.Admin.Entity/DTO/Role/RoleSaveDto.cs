@@ -2,7 +2,7 @@
 
 namespace Good.Admin.Entity
 {
-    public class Base_RoleSaveDto
+    public class RoleSaveDto
     {
         public string Id { get; set; }
         public string RoleName { get; set; }

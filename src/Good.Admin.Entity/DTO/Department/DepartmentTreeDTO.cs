@@ -2,7 +2,7 @@
 
 namespace Good.Admin.Entity
 {
-    public class Base_DepartmentTreeDTO : TreeModel
+    public class DepartmentTreeDTO : TreeModel
     {
         public object children { get => Children; }
         public string title { get => Text; }

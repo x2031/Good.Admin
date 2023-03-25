@@ -58,7 +58,7 @@ namespace Good.Admin.API
             //注入FluentValidation 参数验证
             services.AddFluentValidation(c =>
                {
-                   c.RegisterValidatorsFromAssemblyContaining<Base_UsersInputDTOValidator>();
+                   c.RegisterValidatorsFromAssemblyContaining<Base_UsersDTOValidator>();
                });
             //注入Sqlsugar 
             services.AddSqlsugarSetup();

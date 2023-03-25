@@ -29,7 +29,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         //[ApiPermission("Base_User.GetDataList")]
-        public async Task<PageResult<Base_UserDTO>> GetList([FromBody] PageInput<Base_UsersInputDTO> input)
+        public async Task<PageResult<UserDTO>> GetList([FromBody] PageInput<UsersDTO> input)
         {
             return await _userBus.GetListAsync(input);
         }
@@ -40,12 +40,12 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         [ApiPermission("Base_User.GetDataById")]
-        public async Task<Base_UserDTO> GetDataByIdAsync(IdInputDTO input)
+        public async Task<UserDTO> GetDataByIdAsync(IdInputDTO input)
         {
             return await _userBus.GetTheDataAsync(input.id);
         }
 
-        public async Task<bool> ExistByName(NameInputDTO input)
+        public async Task<bool> ExistByName(NameInputNoNullDTO input)
         {
             return await _userBus.ExistByName(input.name);
         }
@@ -59,7 +59,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         //[ApiPermission("Base_User.Update")]
-        public async Task Update(UserEditInputDTO input)
+        public async Task Update(UserEditDTO input)
         {
             var user = input.Adapt<Base_User>();
 
@@ -83,7 +83,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task Add(UserEditInputDTO input)
+        public async Task Add(UserEditDTO input)
         {
             var user = input.Adapt<Base_User>();
 
@@ -117,7 +117,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <returns></returns>
         [HttpPost]
         [ApiPermission("Base_User.ChangePwd")]
-        public async Task ChangePwdAsync(ChangePwdInputDTO inputDTO)
+        public async Task ChangePwdAsync(ChangePwdDTO inputDTO)
         {
             await _userBus.ChangePwdAsync(inputDTO);
         }

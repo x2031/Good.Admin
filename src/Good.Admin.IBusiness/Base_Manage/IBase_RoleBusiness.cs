@@ -10,7 +10,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PageResult<Base_RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input);
+        Task<PageResult<RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input);
         /// <summary>
         /// 获取单个实体
         /// </summary>
@@ -22,7 +22,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="id">角色id</param>
         /// <returns></returns>
-        Task<Base_RoleInfoDTO> GetTheRoleInfoAsync(string id);
+        Task<RoleInfoDTO> GetTheRoleInfoAsync(string id);
         /// <summary>
         /// 查询是否存在指定名称的数据
         /// </summary>

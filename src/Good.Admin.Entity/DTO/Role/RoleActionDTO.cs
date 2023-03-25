@@ -1,6 +1,6 @@
 ﻿namespace Good.Admin.Entity
 {
-    public class Base_RoleActionInputDTO
+    public class RoleActionDTO
     {
         public string RoleId { get; set; }
 

@@ -29,7 +29,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="userId"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<Base_ActionDTO>> GetUserMenuListAsync(string userId)
+        public async Task<List<ActionDTO>> GetUserMenuListAsync(string userId)
         {
             if (string.IsNullOrEmpty(userId))
             {
@@ -37,7 +37,7 @@ namespace Good.Admin.Business.Base_Manage
             }
 
             var actionIds = await GetUserActionIds(userId);
-            return await _actionBus.GetTreeListAsync(new Base_ActionsInputDTO
+            return await _actionBus.GetTreeListAsync(new ActionsInputDTO
             {
                 types = new ActionType[] { ActionType.菜单, ActionType.页面 },
                 ActionIds = actionIds,
@@ -59,7 +59,7 @@ namespace Good.Admin.Business.Base_Manage
 
             var actionIds = await GetUserActionIds(userId);
             return (await _actionBus
-                .GetListAsync(new Base_ActionsInputDTO
+                .GetListAsync(new ActionsInputDTO
                 {
                     types = new ActionType[] { ActionType.权限 },
                     ActionIds = actionIds

@@ -2,7 +2,7 @@
 
 namespace Good.Admin.Entity
 {
-    public class Base_UserDTO : Base_User
+    public class UserDTO : Base_User
     {
         public string RoleNames { get => string.Join(",", RoleNameList ?? new List<string>()); }
         public List<string> RoleIdList { get; set; }

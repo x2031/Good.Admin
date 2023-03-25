@@ -1,6 +1,6 @@
 ﻿namespace Good.Admin.Entity
 {
-    public class Base_ActionsInputDTO
+    public class ActionsInputDTO
     {
         public List<string> ActionIds { get; set; }
         public string parentId { get; set; }

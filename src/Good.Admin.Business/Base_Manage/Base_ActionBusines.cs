@@ -24,7 +24,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<Base_Action>> GetListAsync(Base_ActionsInputDTO input)
+        public async Task<List<Base_Action>> GetListAsync(ActionsInputDTO input)
         {
             var where = LinqHelper.True<Base_Action>();
             where.AndIf(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
@@ -49,10 +49,10 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<List<Base_ActionDTO>> GetTreeListAsync(Base_ActionsInputDTO input)
+        public async Task<List<ActionDTO>> GetTreeListAsync(ActionsInputDTO input)
         {
             var qList = await GetListAsync(input);
-            var treeList = qList.Select(x => new Base_ActionDTO
+            var treeList = qList.Select(x => new ActionDTO
             {
                 Id = x.Id,
                 NeedAction = x.NeedAction,
@@ -75,7 +75,7 @@ namespace Good.Admin.Business.Base_Manage
 
             return TreeHelper.BuildTree(treeList);
 
-            async Task SetProperty(List<Base_ActionDTO> _list)
+            async Task SetProperty(List<ActionDTO> _list)
             {
                 var ids = _list.Select(x => x.Id).ToList();
                 var allPermissions = await QueryListByClauseAsync(x => ids.Contains(x.ParentId) && (int)x.Type == 2);
@@ -98,7 +98,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task UpdateAsync(ActionEditInputDTO input)
+        public async Task UpdateAsync(ActionEditDTO input)
         {
             await UpdateAsync(input.Adapt<Base_Action>());
             await SavePermissionAsync(input.Id, input.permissionList);
@@ -108,7 +108,7 @@ namespace Good.Admin.Business.Base_Manage
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task AddAsync(ActionEditInputDTO input)
+        public async Task AddAsync(ActionEditDTO input)
         {
             await InsertAsync(input.Adapt<Base_Action>());
         }

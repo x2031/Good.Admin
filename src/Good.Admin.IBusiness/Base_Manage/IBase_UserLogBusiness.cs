@@ -11,6 +11,6 @@ namespace Good.Admin.IBusiness
 {
     public interface IBase_UserLogBusiness
     {
-        Task<PageResult<SystemLogDTO>> GetLogListAsync(PageInput<UserLogsInputDTO> input);
+        Task<PageResult<SystemLogDTO>> GetLogListAsync(PageInput<UserLogsDTO> input);
     }
 }

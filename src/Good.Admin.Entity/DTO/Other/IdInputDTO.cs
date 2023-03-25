@@ -14,6 +14,13 @@
         /// </summary>
         public string id { get; set; }
     }
+    public class NameInputNoNullDTO
+    {
+        /// <summary>
+        /// name
+        /// </summary>
+        public string name { get; set; }
+    }
     public class NameInputDTO
     {
         /// <summary>
@@ -21,4 +28,5 @@
         /// </summary>
         public string name { get; set; }
     }
+
 }

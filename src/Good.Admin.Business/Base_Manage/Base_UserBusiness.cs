@@ -20,9 +20,9 @@ namespace Good.Admin.Business
         readonly IRedisBasketRepository _rediscache;
 
         #region 查询      
-        public async Task<Base_UserDTO> GetTheDataAsync(string id)
+        public async Task<UserDTO> GetTheDataAsync(string id)
         {
-            Base_UserDTO result = new Base_UserDTO();
+            UserDTO result = new UserDTO();
 
             if (id.IsNullOrEmpty())
             {
@@ -38,7 +38,7 @@ namespace Good.Admin.Business
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>      
-        public async Task<PageResult<Base_UserDTO>> GetListAsync(PageInput<Base_UsersInputDTO> input)
+        public async Task<PageResult<UserDTO>> GetListAsync(PageInput<UsersDTO> input)
         {
             var search = input.Search;
             //构建查询条件
@@ -49,14 +49,14 @@ namespace Good.Admin.Business
             expable.AndIF(!search.DepartmentId.IsNullOrEmpty(), (x, y) => x.DepartmentId == search.DepartmentId);
 
             //构建查询func 
-            var db_result = await QueryMuchPageAsync<Base_User, Base_Department, Base_UserDTO>(
+            var db_result = await QueryMuchPageAsync<Base_User, Base_Department, UserDTO>(
                  //关联表
                  (x, y) => new object[]
                  {
                     JoinType.Left, x.DepartmentId==y.Id
                  },
                  //返回值拼装
-                 (x, y) => new Base_UserDTO(),
+                 (x, y) => new UserDTO(),
                  //where条件
                  expable,
                  input.PageIndex,
@@ -67,7 +67,7 @@ namespace Good.Admin.Business
 
             return db_result;
 
-            async Task SetProperty(List<Base_UserDTO> users)
+            async Task SetProperty(List<UserDTO> users)
             {
                 var expable = Expressionable.Create<Base_UserRole, Base_Role>();
                 List<string> userIds = users.Select(x => x.Id).ToList();
@@ -139,7 +139,7 @@ namespace Good.Admin.Business
             if (user.Id == GlobalAssemblies.ADMINID && _operator?.UserId != user.Id)
                 throw new BusException("禁止更改超级管理员！");
 
-            await UpdateAsync(user);
+            await UpdateIgnoreNullAsync(user);
             await SetUserRoleAsync(user.Id, roleIdList);
             //TODO 缓存更新
             //await _userCache.UpdateCacheAsync(input.Id);
@@ -163,7 +163,7 @@ namespace Good.Admin.Business
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task ChangePwdAsync(ChangePwdInputDTO input)
+        public async Task ChangePwdAsync(ChangePwdDTO input)
         {
             var theUser = _operator.UserProperty;
             if (theUser.Password != input.oldPwd?.ToMD5String())

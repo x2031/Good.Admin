@@ -25,7 +25,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<Base_RoleInfoDTO>> GetListAsync([FromBody] PageInput<RolesInputDTO> input)
+        public async Task<PageResult<RoleInfoDTO>> GetListAsync([FromBody] PageInput<RolesInputDTO> input)
         {
             return await _roleBus.GetListAsync(input);
         }
@@ -35,9 +35,9 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Base_RoleInfoDTO> GetTheData(IdInputDTO input)
+        public async Task<RoleInfoDTO> GetTheData(IdInputDTO input)
         {
-            return await _roleBus.GetTheRoleInfoAsync(input.id) ?? new Base_RoleInfoDTO();
+            return await _roleBus.GetTheRoleInfoAsync(input.id) ?? new RoleInfoDTO();
         }
         /// <summary>
         /// 查询是否存在角色名称
@@ -45,7 +45,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> ExistByRoleName(NameInputDTO input)
+        public async Task<bool> ExistByRoleName(NameInputNoNullDTO input)
         {
             return await _roleBus.ExistByRoleName(input.name);
         }
@@ -57,7 +57,7 @@ namespace Good.Admin.API.Controllers.Base_Manage
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task Save(Base_RoleSaveDto input)
+        public async Task Save(RoleSaveDto input)
         {
             if (input.Id.IsNullOrEmpty())
             {

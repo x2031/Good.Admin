@@ -1,5 +1,6 @@
 ﻿
 using Good.Admin.Entity;
+using Good.Admin.Util;
 
 namespace Good.Admin.IBusiness
 {
@@ -10,7 +11,7 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<Base_DepartmentTreeDTO>> GetTreeListAsync(DepartmentsTreeInputDTO input);
+        Task<List<DepartmentTreeDTO>> GetTreeListAsync(DepartmentsTreeDTO input);
         /// <summary>
         /// 获取单条数据
         /// </summary>
@@ -46,6 +47,19 @@ namespace Good.Admin.IBusiness
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<List<Base_DepartmentDto>> GetListByParentId(string id);
+        Task<List<DepartmentDto>> GetListByParentId(string id);
+
+        /// <summary>
+        /// 根据名称查询部门信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PageResult<DepartmentDto>> GetList(PageInput<NameInputDTO> input);
+        /// <summary>
+        /// 判断名字是否存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Task<bool> ExistByName(string name);
     }
 }

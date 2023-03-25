@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Good.Admin.Entity
 {
-    public class Base_ActionDTO : TreeModel
+    public class ActionDTO : TreeModel
     {
         public ActionType Type { get; set; }
         public string Url { get; set; }

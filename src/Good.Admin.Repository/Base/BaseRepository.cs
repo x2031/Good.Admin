@@ -687,13 +687,22 @@ namespace Good.Admin.Repository
         }
 
         /// <summary>
-        ///     更新实体数据
+        /// 更新实体数据
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
         public async Task<bool> UpdateAsync(T entity)
         {
             return await _db.Updateable(entity).ExecuteCommandHasChangeAsync();
+        }
+        /// <summary>
+        /// 更新实体数据忽略空数据
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateIgnoreNullAsync(T entity)
+        {
+            return await _db.Updateable(entity).IgnoreColumns(ignoreAllNullColumns: true).ExecuteCommandHasChangeAsync();
         }
 
         /// <summary>
@@ -776,9 +785,18 @@ namespace Good.Admin.Repository
         {
             var up = _db.Updateable(entity);
             if (lstIgnoreColumns != null && lstIgnoreColumns.Count > 0)
+            {
                 up = up.IgnoreColumns(lstIgnoreColumns.ToArray());
-            if (lstColumns != null && lstColumns.Count > 0) up = up.UpdateColumns(lstColumns.ToArray());
-            if (!string.IsNullOrEmpty(strWhere)) up = up.Where(strWhere);
+            }
+
+            if (lstColumns != null && lstColumns.Count > 0)
+            {
+                up = up.UpdateColumns(lstColumns.ToArray());
+            }
+            if (!string.IsNullOrEmpty(strWhere))
+            {
+                up = up.Where(strWhere);
+            }
             return await up.ExecuteCommandHasChangeAsync();
         }
 

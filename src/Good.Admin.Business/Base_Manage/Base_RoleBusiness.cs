@@ -19,7 +19,7 @@ namespace Good.Admin.Business
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PageResult<Base_RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input)
+        public async Task<PageResult<RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input)
         {
             var search = input.Search;
             //构建查询条件
@@ -27,13 +27,13 @@ namespace Good.Admin.Business
             expable.AndIF(!search.roleName.IsNullOrEmpty(), x => x.RoleName.Contains(search.roleName));
 
             var db_result = await QueryPageListByClauseAsync(expable, pageIndex: input.PageIndex, pagesize: input.PageSize);
-            var result = db_result.Adapt<PageResult<Base_RoleInfoDTO>>();
+            var result = db_result.Adapt<PageResult<RoleInfoDTO>>();
 
             await SetProperty(result.data);
 
             return result;
 
-            async Task SetProperty(List<Base_RoleInfoDTO> _list)
+            async Task SetProperty(List<RoleInfoDTO> _list)
             {
                 var allActionIds = await Db.Queryable<Base_Action>().Select(x => x.Id).ToListAsync();
                 var ids = _list.Select(x => x.Id).ToList();
@@ -51,7 +51,7 @@ namespace Good.Admin.Business
             }
         }
 
-        public async Task<Base_RoleInfoDTO> GetTheRoleInfoAsync(string id)
+        public async Task<RoleInfoDTO> GetTheRoleInfoAsync(string id)
         {
             return (await GetListAsync(new PageInput<RolesInputDTO> { Search = new RolesInputDTO { roleId = id } })).data.FirstOrDefault();
         }
@@ -91,7 +91,7 @@ namespace Good.Admin.Business
 
         public async Task UpdateAsync(Base_Role role, List<string> actions)
         {
-            await UpdateAsync(role);
+            await UpdateIgnoreNullAsync(role);
             if (actions != null && actions.Count > 0)
             {
                 await SetRoleActionAsync(role.Id, actions);

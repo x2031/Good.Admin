@@ -17,14 +17,19 @@
 				@finish="onEditFinish"
 				@finishFailed="onEditFinishFailed"
 			>
-				<a-form-item label="角色名" v-bind="validateInfos.RoleName">
-					<a-input placeholder="请输入角色名" v-model:value="editmodelRef.RoleName" />
+				<a-form-item label="部门名称" v-bind="validateInfos.Name">
+					<a-input placeholder="请输入部门名称" v-model:value="editmodelRef.Name" />
 				</a-form-item>
-				<a-form-item label="角色类型" v-bind="validateInfos.RoleType">
-					<a-select v-model:value="editmodelRef.RoleType" placeholder="请选择角色类型">
-						<a-select-option :value="1">超级管理员</a-select-option>
-						<a-select-option :value="2">部门管理员</a-select-option>
-						<a-select-option :value="3">普通用户</a-select-option>
+				<a-form-item label="父级部门">
+					<a-select
+						ref="select"
+						placeholder="选择父级部门"
+						:allowClear="true"
+						v-model:value="editmodelRef.ParentId"
+					>
+						<template v-for="item in deparmenSelect.value" :key="item.Id">
+							<a-select-option :value="item.Id">{{ item.Name }}</a-select-option>
+						</template>
 					</a-select>
 				</a-form-item>
 			</a-form>
@@ -35,8 +40,10 @@
 <script setup>
 import { reactive, ref, toRaw, onMounted } from 'vue'
 import { Form } from 'ant-design-vue'
+import { GetDepartmentInfo } from '@/api/department'
 
 const useForm = Form.useForm
+const deparmenSelect = reactive([])
 const editvisible = ref(false)
 const props = defineProps({
 	title: String
@@ -46,17 +53,16 @@ const labelCol = { span: 4, offset: 4 }
 const wrapperCol = { span: 12 }
 
 let editmodelRef = reactive({
-	RoleName: '',
-	RoleType: 1,
-	Actions: [],
-	Id: ''
+	Name: '',
+	ParentId: undefined,
+	Id: '',
+	CreateTime: ''
 })
 const rulesRef = reactive({
-	RoleName: [
-		{ required: true, message: '请输入角色名' },
+	Name: [
+		{ required: true, message: '请输入部门名称' },
 		{ min: 2, max: 10, message: '长度在 2 到 10 个字符' }
-	],
-	RoleType: [{ required: true, message: '请选择角色类型' }]
+	]
 })
 const { resetFields, validate, validateInfos } = useForm(editmodelRef, rulesRef)
 const onEditFinish = (values) => {
@@ -87,7 +93,16 @@ const show = (editrow) => {
 const close = () => {
 	editvisible.value = false
 }
-
+const getDepartment = () => {
+	// 获取部门数据
+	GetDepartmentInfo({ Id: '' }).then((res) => {
+		if (res.code === 200 && res.success) {
+			deparmenSelect.value = res.data
+		} else {
+			message.error(res.msg)
+		}
+	})
+}
 //暴露数据和方法
 defineExpose({
 	editvisible,
@@ -96,6 +111,10 @@ defineExpose({
 	close
 })
 const emit = defineEmits(['submit'])
+
+onMounted(() => {
+	getDepartment()
+})
 </script>
 
 <style lang="less" scoped></style>
