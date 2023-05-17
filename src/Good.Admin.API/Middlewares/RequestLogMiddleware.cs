@@ -1,6 +1,5 @@
 ﻿using Good.Admin.Util;
 using System.Diagnostics;
-using System.Text;
 
 namespace Good.Admin.API
 {
@@ -67,8 +66,14 @@ Body:
 StatusCode:{StatusCode}
 Response:{Response}
 ";
-                //写日志
-                _logger.LogInformation(
+
+                if (context.Request.Path != "/swagger/v1/swagger.json" &&
+                  context.Request.Path != "/js/MiniProfiler_head.js" &&
+                  context.Request.Path != "/api/index.html" &&
+                  context.Request.Path != "/api")
+                {
+                    //写日志
+                    _logger.LogInformation(
                     log,
                     context.Connection.RemoteIpAddress,
                     context.Request.Method,
@@ -81,6 +86,8 @@ Response:{Response}
                     context.Response.StatusCode,
                     resContent
                     );
+                }
+
             }
         }
         /// <summary>

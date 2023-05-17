@@ -41,6 +41,7 @@ namespace Good.Admin.API
             services.AddMvcCore();
             services.AddSingleton(new Appsettings(configuration));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddControllers(options =>
             {
                 options.Filters.Add<ValidFilterAttribute>();//参数校验

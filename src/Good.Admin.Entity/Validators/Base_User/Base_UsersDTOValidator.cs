@@ -9,6 +9,4 @@ namespace Good.Admin.Entity
             RuleFor(x => x.Id).MaximumLength(50).WithName("用户id").WithMessage("{PropertyName}长度不能超过{MaxLength}");
         }
     }
-
-
 }
