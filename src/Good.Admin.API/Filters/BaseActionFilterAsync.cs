@@ -1,10 +1,11 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common;
+using Good.Admin.Common.Primitives;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Good.Admin.API
 {
-    public class BaseActionFilterAsync : Attribute, IAsyncActionFilter
+    public class BaseActionFilterAsync : ActionFilterAttribute
     {
         public async virtual Task OnActionExecuting(ActionExecutingContext context)
         {

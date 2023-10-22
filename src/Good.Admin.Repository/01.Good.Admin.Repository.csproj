@@ -27,11 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
+	  <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.Repository\.editorconfig" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.Repository\.editorconfig" />
+	  <ProjectReference Include="..\Good.Admin.Common\03.Good.Admin.Common.csproj" />
 	</ItemGroup>
 
 </Project>

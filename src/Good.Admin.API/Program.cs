@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
+using Good.Admin.Common.Helper;
 using Good.Admin.Entity;
-using Good.Admin.Util;
+using Good.Admin.Common;
 using MicroElements.NSwag.FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;

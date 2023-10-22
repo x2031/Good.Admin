@@ -12,7 +12,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Good.Admin.Entity\02.Good.Admin.Entity.csproj" />
-	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

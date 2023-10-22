@@ -48,9 +48,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Good.Admin.Business\05.Good.Admin.Business.csproj" />
-		<ProjectReference Include="..\Good.Admin.Entity\02.Good.Admin.Entity.csproj" />
-		<ProjectReference Include="..\Good.Admin.IBusiness\04.Good.Admin.IBusiness.csproj" />
-		<ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.Primitives;
 using System.Net;
 using System.Text.Json;
 

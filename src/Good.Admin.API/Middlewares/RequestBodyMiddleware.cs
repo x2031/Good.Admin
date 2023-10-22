@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common;
 using System.Text;
 
 namespace Good.Admin.API

@@ -1,6 +1,7 @@
-﻿using Good.Admin.Entity;
+﻿using Good.Admin.Common.Primitives;
+using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.Util;
+using Good.Admin.Common;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
