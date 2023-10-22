@@ -14,7 +14,7 @@ namespace Good.Admin.API
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             Stopwatch watch = Stopwatch.StartNew();
             string resContent = string.Empty;

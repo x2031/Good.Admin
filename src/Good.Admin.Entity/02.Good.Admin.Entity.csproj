@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,12 +8,11 @@
     <AssemblyName>Good.Admin.Entity</AssemblyName>
 	  <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 	  <RestoreLockedMode>false</RestoreLockedMode>
-	  <CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,10 +25,6 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.Entity\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup>

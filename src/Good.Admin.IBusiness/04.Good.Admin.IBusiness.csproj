@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -8,7 +8,6 @@
 		<AssemblyName>Good.Admin.IBusiness</AssemblyName>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
-		<CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,10 +17,6 @@
 
 	<ItemGroup>
 	  <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.IBusiness\.editorconfig" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
