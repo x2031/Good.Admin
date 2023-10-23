@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.DataAccess;
 using SqlSugar;
 
 namespace Good.Admin.API

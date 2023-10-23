@@ -1,6 +1,7 @@
-﻿using Good.Admin.Entity;
+﻿using Good.Admin.Common.Helper;
+using Good.Admin.Common.Primitives;
+using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.Util;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

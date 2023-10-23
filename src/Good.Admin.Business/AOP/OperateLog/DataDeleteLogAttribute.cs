@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Good.Admin.Common;
+using Good.Admin.Common.AOP.Abstraction;
+using Good.Admin.Common.Primitives;
 using Good.Admin.IBusiness;
-using Good.Admin.Util;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq.Dynamic.Core;
 
 namespace Good.Admin.Business
 {
@@ -18,7 +15,7 @@ namespace Good.Admin.Business
         }
 
         private string _names;
-        public override async Task Befor(IAOPContext context)
+        public async override Task Befor(IAOPContext context)
         {
             List<string> ids = context.Arguments[0] as List<string>;
             var q = context.InvocationTarget.GetType().GetMethod("GetIQueryable").Invoke(context.InvocationTarget, new object[] { }) as IQueryable;
@@ -28,7 +25,7 @@ namespace Good.Admin.Business
 
             await Task.CompletedTask;
         }
-        public override async Task After(IAOPContext context)
+        public async override Task After(IAOPContext context)
         {
             var op = context.ServiceProvider.GetService<IOperator>();
 

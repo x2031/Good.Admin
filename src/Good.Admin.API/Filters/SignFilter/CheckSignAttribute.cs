@@ -1,5 +1,5 @@
-﻿using Good.Admin.IBusiness;
-using Good.Admin.Util;
+﻿using Good.Admin.Common;
+using Good.Admin.IBusiness;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Distributed;
 

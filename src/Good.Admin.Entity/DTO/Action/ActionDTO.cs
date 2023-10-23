@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.Primitives;
 using Newtonsoft.Json;
 
 namespace Good.Admin.Entity
