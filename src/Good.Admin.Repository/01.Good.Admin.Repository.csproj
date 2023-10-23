@@ -8,7 +8,6 @@
 		<AssemblyName>Good.Admin.Repository</AssemblyName>
 		<RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
-		<CodeAnalysisRuleSet>..\.sonarlint\x2031_good.admin.publiccsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,15 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Good.Admin.Util\03.Good.Admin.Util.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <EditorConfigFiles Remove="D:\Codes\Good.Admin.Public\src\Good.Admin.Repository\.editorconfig" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AdditionalFiles Include="..\.sonarlint\x2031_good.admin.public\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	  <ProjectReference Include="..\Good.Admin.Common\03.Good.Admin.Common.csproj" />
 	</ItemGroup>
 
 </Project>

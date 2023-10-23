@@ -1,4 +1,5 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common;
+using Good.Admin.Common.Primitives;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -9,7 +10,7 @@ namespace Good.Admin.API
     /// </summary>
     public class FormatResponseAttribute : BaseActionFilterAsync
     {
-        public override async Task OnActionExecuted(ActionExecutedContext context)
+        public async override Task OnActionExecuted(ActionExecutedContext context)
         {
             if (context.ContainsFilter<NoFormatResponseAttribute>())
                 return;

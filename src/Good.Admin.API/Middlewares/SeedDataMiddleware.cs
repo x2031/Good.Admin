@@ -1,4 +1,5 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.Helper;
+using Good.Admin.Common;
 
 namespace Good.Admin.API
 {

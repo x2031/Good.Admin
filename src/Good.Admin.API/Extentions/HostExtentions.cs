@@ -1,9 +1,10 @@
-﻿using Good.Admin.Util;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using Microsoft.Extensions.DependencyInjection;
 using Yitter.IdGenerator;
+using Good.Admin.Common.Cache;
+using Good.Admin.Common.Helper;
 
 namespace Good.Admin.API
 {
