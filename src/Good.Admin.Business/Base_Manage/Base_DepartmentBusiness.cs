@@ -1,7 +1,9 @@
-﻿using Good.Admin.Entity;
+﻿using Good.Admin.Common.DI;
+using Good.Admin.Common.Primitives;
+using Good.Admin.Entity;
 using Good.Admin.IBusiness;
 using Good.Admin.Repository;
-using Good.Admin.Util;
+using Good.Admin.Common;
 using Mapster;
 using SqlSugar;
 
