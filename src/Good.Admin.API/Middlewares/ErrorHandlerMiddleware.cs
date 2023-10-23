@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.Primitives;
 using System.Net;
 using System.Text.Json;
 
@@ -12,7 +12,7 @@ namespace Good.Admin.API
         {
             _next = next;
         }
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {

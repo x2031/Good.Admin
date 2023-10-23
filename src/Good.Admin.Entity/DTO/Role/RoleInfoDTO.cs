@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common;
 
 namespace Good.Admin.Entity
 {

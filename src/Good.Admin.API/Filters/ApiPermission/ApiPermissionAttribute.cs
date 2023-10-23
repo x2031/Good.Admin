@@ -1,5 +1,5 @@
 ﻿using Good.Admin.IBusiness;
-using Good.Admin.Util;
+using Good.Admin.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Good.Admin.API

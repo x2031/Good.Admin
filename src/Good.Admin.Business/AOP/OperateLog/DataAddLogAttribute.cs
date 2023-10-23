@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Good.Admin.Common;
+using Good.Admin.Common.AOP.Abstraction;
+using Good.Admin.Common.Primitives;
 using Good.Admin.IBusiness;
-using Good.Admin.Util;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Good.Admin.Business
@@ -16,11 +13,11 @@ namespace Good.Admin.Business
         {
         }
 
-        public override async Task After(IAOPContext context)
+        public async override Task After(IAOPContext context)
         {
             var op = context.ServiceProvider.GetService<IOperator>();
             var obj = context.Arguments[0];
-             op.WriteUserLog(_logType, $"添加{_dataName}:{obj.GetPropertyValue(_nameField)?.ToString()}");
+            op.WriteUserLog(_logType, $"添加{_dataName}:{obj.GetPropertyValue(_nameField)?.ToString()}");
 
             await Task.CompletedTask;
         }

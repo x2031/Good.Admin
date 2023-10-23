@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
+using Good.Admin.Common.Helper;
 using Good.Admin.Entity;
-using Good.Admin.Util;
+using Good.Admin.Common;
 using MicroElements.NSwag.FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -100,6 +101,7 @@ namespace Good.Admin.API
             var app = builder.Build();
             if (environment.IsDevelopment())
             {
+                //启动开发人员错误页面
                 app.UseDeveloperExceptionPage();
             }
             #region 跨域
@@ -115,6 +117,7 @@ namespace Good.Admin.API
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 ServeUnknownFileTypes = true,
