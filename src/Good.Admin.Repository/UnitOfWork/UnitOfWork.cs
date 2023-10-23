@@ -1,4 +1,4 @@
-﻿using Good.Admin.Util;
+﻿using Good.Admin.Common.DI;
 using SqlSugar;
 
 namespace Good.Admin.Repository

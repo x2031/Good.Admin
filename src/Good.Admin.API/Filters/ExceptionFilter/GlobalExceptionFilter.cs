@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Good.Admin.Util;
+using Good.Admin.Common.Primitives;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Good.Admin.API
