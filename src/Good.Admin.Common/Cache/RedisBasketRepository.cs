@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
-namespace Good.Admin.Common.Cache
+namespace Good.Admin.Common
 {
     public class RedisBasketRepository : IRedisBasketRepository
     {

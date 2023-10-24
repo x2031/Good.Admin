@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Helper
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 委托帮助类

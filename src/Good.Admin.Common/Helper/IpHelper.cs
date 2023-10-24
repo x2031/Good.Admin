@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// Ip地址帮助类

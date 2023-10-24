@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace Good.Admin.Common.Cache
+namespace Good.Admin.Common
 {
     /// <summary>
     /// Redis缓存接口

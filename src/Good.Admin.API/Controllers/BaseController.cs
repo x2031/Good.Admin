@@ -1,5 +1,5 @@
 ﻿using Good.Admin.Common.Helper;
-using Good.Admin.Common.Primitives;
+using Good.Admin.Common;
 using Good.Admin.IBusiness;
 using Good.Admin.Common;
 using Microsoft.AspNetCore.Mvc;

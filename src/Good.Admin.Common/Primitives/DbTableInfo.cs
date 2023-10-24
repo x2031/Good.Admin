@@ -1,6 +1,6 @@
 ﻿
 
-namespace Good.Admin.Common.Primitives
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 数据库所有表的信息

@@ -1,7 +1,7 @@
 ﻿using Good.Admin.Common.DataAccess;
 using Good.Admin.Common.DI;
 using Good.Admin.Common.Helper;
-using Good.Admin.Common.Primitives;
+using Good.Admin.Common;
 using Good.Admin.Common;
 using SqlSugar;
 using System.Linq.Expressions;

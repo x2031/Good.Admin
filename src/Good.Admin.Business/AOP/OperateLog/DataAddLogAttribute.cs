@@ -1,6 +1,4 @@
 ﻿using Good.Admin.Common;
-using Good.Admin.Common.AOP.Abstraction;
-using Good.Admin.Common.Primitives;
 using Good.Admin.IBusiness;
 using Microsoft.Extensions.DependencyInjection;
 

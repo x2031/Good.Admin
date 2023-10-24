@@ -1,7 +1,7 @@
-﻿using Good.Admin.Common.Primitives;
+﻿using Good.Admin.Common;
 
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     public static class EnumHelper
     {

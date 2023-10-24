@@ -1,7 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     public class MurmurHash2
     {

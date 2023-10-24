@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Helper
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 异步转同步,防止ASP.NET中死锁

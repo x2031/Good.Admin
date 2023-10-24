@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Good.Admin.Common.AOP.Abstraction
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// AOP基类
@@ -12,12 +6,12 @@ namespace Good.Admin.Common.AOP.Abstraction
     /// </summary>
     public abstract class BaseAOPAttribute : Attribute
     {
-        public virtual async Task Befor(IAOPContext context)
+        public async virtual Task Befor(IAOPContext context)
         {
             await Task.CompletedTask;
         }
 
-        public virtual async Task After(IAOPContext context)
+        public async virtual Task After(IAOPContext context)
         {
             await Task.CompletedTask;
         }

@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Primitives
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 分页查询基类

@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.API
+﻿namespace Good.Admin.Common
 {
     public class ElasticsearchOption : EnableOption
     {

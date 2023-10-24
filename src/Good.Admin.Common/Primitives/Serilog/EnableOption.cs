@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.API
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 是否启用定义

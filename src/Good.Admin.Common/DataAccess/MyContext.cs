@@ -1,7 +1,6 @@
-﻿using Good.Admin.Common.DataAccess;
-using SqlSugar;
+﻿using SqlSugar;
 
-namespace Good.Admin.API
+namespace Good.Admin.Common
 {
     public class MyContext
     {

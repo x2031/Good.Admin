@@ -1,7 +1,6 @@
-﻿using Good.Admin.Common.Helper;
-using Good.Admin.Common;
+﻿using Microsoft.AspNetCore.Builder;
 
-namespace Good.Admin.API
+namespace Good.Admin.Common
 {
     public static class SeedDataMiddleware
     {

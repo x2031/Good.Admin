@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// Linq操作帮助类

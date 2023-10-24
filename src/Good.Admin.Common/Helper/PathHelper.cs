@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Helper
+﻿namespace Good.Admin.Common
 {
     public static class PathHelper
     {

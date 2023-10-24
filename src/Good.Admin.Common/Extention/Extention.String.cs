@@ -1,4 +1,4 @@
-﻿using Good.Admin.Common.ClassLibrary;
+﻿using Good.Admin.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;

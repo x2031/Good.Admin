@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Good.Admin.Common.Primitives
+namespace Good.Admin.Common
 {
     public class ElkLogDTO
     {

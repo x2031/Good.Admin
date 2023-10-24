@@ -1,8 +1,7 @@
-﻿using Good.Admin.Common.Helper;
-using Good.Admin.Common.Primitives;
+﻿using Good.Admin.Common;
 
 
-namespace Good.Admin.Common.DataAccess
+namespace Good.Admin.Common
 {
     public class BaseDBConfig
     {

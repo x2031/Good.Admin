@@ -1,6 +1,6 @@
 ﻿using Yitter.IdGenerator;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     public class IdHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Good.Admin.Common.Primitives
+namespace Good.Admin.Common
 {
     public class JWTPayload
     {

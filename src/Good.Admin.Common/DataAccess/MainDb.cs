@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.DataAccess
+﻿namespace Good.Admin.Common
 {
     public static class MainDb
     {

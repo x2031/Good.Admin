@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Helper
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// Random随机数帮助类

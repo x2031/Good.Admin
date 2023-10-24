@@ -1,22 +1,17 @@
 ﻿//using AutoMapper;
 using Castle.DynamicProxy;
 using Good.Admin.Common;
-using Good.Admin.Common.AOP.Abstraction;
-using Good.Admin.Common.DI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 
 namespace Good.Admin.Common
 {
-    /// <summary>
-    /// 拓展类
-    /// </summary>
     public static partial class Extention
     {
         private static readonly ProxyGenerator _generator = new ProxyGenerator();
-
-
         /// <summary>
-        /// 自动注入拥有ITransientDependency,IScopeDependency或ISingletonDependency的类
+        /// 注入继承ITransientDependency、IScopeDependency、ISingletonDependency的服务
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <returns></returns>
@@ -60,6 +55,24 @@ namespace Good.Admin.Common
                     }
                 });
             });
+            return services;
+        }
+        /// <summary>
+        /// 注入ElasticClient
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddElasticClient(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<LogOptions>(configuration.GetSection("log"));
+            var logOptions = configuration.GetSection("log").Get<LogOptions>();
+            if (logOptions.Elasticsearch.Enabled)
+
+            {
+                services.AddSingleton<IElasticClient>(new ElasticClient(CreateconnentionSettiongs(logOptions)));
+            }
+
             return services;
         }
     }

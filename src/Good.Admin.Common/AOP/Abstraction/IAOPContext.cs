@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Good.Admin.Common.AOP.Abstraction
+namespace Good.Admin.Common
 {
     public interface IAOPContext
     {

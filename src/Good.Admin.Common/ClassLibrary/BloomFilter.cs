@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 一个布隆过滤器
@@ -9,7 +9,7 @@ namespace Good.Admin.Common.ClassLibrary
     public class BloomFilter<T>
     {
         Random _random;
-        int _bitSize, _numberOfHashes, _setSize;
+        int _setSize;
         BitArray _bitArray;
 
         #region Constructors
@@ -20,31 +20,24 @@ namespace Good.Admin.Common.ClassLibrary
         /// <param name="setSize">集合的大小 (n)默认为1000W</param>
         public BloomFilter(int bitSize = 1000000000, int setSize = 10000000)
         {
-            _bitSize = bitSize;
+            BitSize = bitSize;
             _bitArray = new BitArray(bitSize);
             _setSize = setSize;
-            _numberOfHashes = OptimalNumberOfHashes(_bitSize, _setSize);
+            NumberOfHashes = OptimalNumberOfHashes(BitSize, _setSize);
         }
 
         //<param name="numberOfHashes">hash散列函数的数量(k)</param>
         public BloomFilter(int bitSize, int setSize, int numberOfHashes)
         {
-            _bitSize = bitSize;
+            BitSize = bitSize;
             _bitArray = new BitArray(bitSize);
             _setSize = setSize;
-            _numberOfHashes = numberOfHashes;
+            NumberOfHashes = numberOfHashes;
         }
         #endregion
 
         #region 属性
-        public int NumberOfHashes {
-            set {
-                _numberOfHashes = value;
-            }
-            get {
-                return _numberOfHashes;
-            }
-        }
+        public int NumberOfHashes { set; get; }
         public int SetSize {
             set {
                 _setSize = value;
@@ -53,14 +46,7 @@ namespace Good.Admin.Common.ClassLibrary
                 return _setSize;
             }
         }
-        public int BitSize {
-            set {
-                _bitSize = value;
-            }
-            get {
-                return _bitSize;
-            }
-        }
+        public int BitSize { set; get; }
         #endregion
 
         #region 公共方法
@@ -68,16 +54,16 @@ namespace Good.Admin.Common.ClassLibrary
         {
             _random = new Random(Hash(item));
 
-            for (var i = 0; i < _numberOfHashes; i++)
-                _bitArray[_random.Next(_bitSize)] = true;
+            for (var i = 0; i < NumberOfHashes; i++)
+                _bitArray[_random.Next(BitSize)] = true;
         }
         public bool Contains(T item)
         {
             _random = new Random(Hash(item));
 
-            for (var i = 0; i < _numberOfHashes; i++)
+            for (var i = 0; i < NumberOfHashes; i++)
             {
-                if (!_bitArray[_random.Next(_bitSize)])
+                if (!_bitArray[_random.Next(BitSize)])
                 {
                     return false;
                 }
@@ -119,7 +105,7 @@ namespace Good.Admin.Common.ClassLibrary
         /// <returns>Probability of a false positive</returns>
         public double FalsePositiveProbability()
         {
-            return Math.Pow(1 - Math.Exp(-_numberOfHashes * _setSize / (double)_bitSize), _numberOfHashes);
+            return Math.Pow(1 - Math.Exp(-NumberOfHashes * _setSize / (double)BitSize), NumberOfHashes);
         }
         #endregion
 
@@ -143,7 +129,7 @@ namespace Good.Admin.Common.ClassLibrary
     public class BloomFilterWithShareMemory<T>
     {
         Random _random;
-        int _bitSize, _numberOfHashes, _setSize;
+        int _setSize;
         ShareMenmory sm;
         #region Constructors
         /// <summary>
@@ -155,22 +141,15 @@ namespace Good.Admin.Common.ClassLibrary
         public BloomFilterWithShareMemory(string bloomName, int bitSize = 1000000000, int setSize = 10000000)
         {
             sm = new ShareMenmory(bloomName, 1000000000);
-            _bitSize = bitSize;
+            BitSize = bitSize;
             _setSize = setSize;
-            _numberOfHashes = OptimalNumberOfHashes(_bitSize, _setSize);
+            NumberOfHashes = OptimalNumberOfHashes(BitSize, _setSize);
         }
 
         #endregion
 
         #region 属性
-        public int NumberOfHashes {
-            set {
-                _numberOfHashes = value;
-            }
-            get {
-                return _numberOfHashes;
-            }
-        }
+        public int NumberOfHashes { set; get; }
         public int SetSize {
             set {
                 _setSize = value;
@@ -179,14 +158,7 @@ namespace Good.Admin.Common.ClassLibrary
                 return _setSize;
             }
         }
-        public int BitSize {
-            set {
-                _bitSize = value;
-            }
-            get {
-                return _bitSize;
-            }
-        }
+        public int BitSize { set; get; }
         #endregion
 
         #region 公共方法
@@ -194,9 +166,9 @@ namespace Good.Admin.Common.ClassLibrary
         {
             _random = new Random(Hash(item));
 
-            for (var i = 0; i < _numberOfHashes; i++)
+            for (var i = 0; i < NumberOfHashes; i++)
             {
-                var index = _random.Next(_bitSize);
+                var index = _random.Next(BitSize);
                 int j;
                 var offSet = 0;
                 if ((index + 1) % 8 == 0)
@@ -232,9 +204,9 @@ namespace Good.Admin.Common.ClassLibrary
         {
             _random = new Random(Hash(item));
 
-            for (var i = 0; i < _numberOfHashes; i++)
+            for (var i = 0; i < NumberOfHashes; i++)
             {
-                var index = _random.Next(_bitSize);
+                var index = _random.Next(BitSize);
                 var j = 0;
                 var offSet = 0;
                 if ((index + 1) % 8 == 0)
@@ -294,7 +266,7 @@ namespace Good.Admin.Common.ClassLibrary
         /// <returns>Probability of a false positive</returns>
         public double FalsePositiveProbability()
         {
-            return Math.Pow(1 - Math.Exp(-_numberOfHashes * _setSize / (double)_bitSize), _numberOfHashes);
+            return Math.Pow(1 - Math.Exp(-NumberOfHashes * _setSize / (double)BitSize), NumberOfHashes);
         }
         #endregion
 

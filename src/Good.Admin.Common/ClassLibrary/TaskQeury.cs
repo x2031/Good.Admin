@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 任务队列

@@ -1,5 +1,5 @@
 ﻿
-using Good.Admin.Common.Primitives;
+using Good.Admin.Common;
 using Good.Admin.Entity;
 
 namespace Good.Admin.IBusiness

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 异常处理帮助类

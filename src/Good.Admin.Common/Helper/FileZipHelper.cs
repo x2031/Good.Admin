@@ -1,10 +1,6 @@
-﻿using Good.Admin.Common.Primitives;
-using ICSharpCode.SharpZipLib.Zip;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using ICSharpCode.SharpZipLib.Zip;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 文件压缩帮助类

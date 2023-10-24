@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// appsettings.json操作类

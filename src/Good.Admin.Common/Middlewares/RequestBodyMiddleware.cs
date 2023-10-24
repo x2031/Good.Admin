@@ -1,7 +1,8 @@
-﻿using Good.Admin.Common;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 
-namespace Good.Admin.API
+namespace Good.Admin.Common
 {
     public class RequestBodyMiddleware
     {

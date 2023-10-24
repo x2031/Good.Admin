@@ -1,4 +1,4 @@
-﻿namespace Good.Admin.Common.Primitives
+﻿namespace Good.Admin.Common
 {
     public class PageInput<T> : PageInput where T : new()
     {

@@ -1,7 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using System.Reflection;
 
-namespace Good.Admin.Common.AOP.Abstraction
+namespace Good.Admin.Common
 {
     public class CastleAOPContext : IAOPContext
     {

@@ -1,8 +1,8 @@
-﻿using Good.Admin.Common.Primitives;
+﻿using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text.Json;
 
-namespace Good.Admin.API
+namespace Good.Admin.Common
 {
     public class ErrorHandlerMiddleware
     {

@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// XML文档操作帮助类

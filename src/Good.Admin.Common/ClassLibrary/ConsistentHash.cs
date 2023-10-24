@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 一致性HASH,解决传统HASH的扩容难的问题

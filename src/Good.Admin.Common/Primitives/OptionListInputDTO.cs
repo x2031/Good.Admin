@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Good.Admin.Common.Primitives
+namespace Good.Admin.Common
 {
     public class OptionListInputDTO
     {

@@ -1,24 +1,13 @@
 ﻿using Elasticsearch.Net;
-using Nest.JsonNetSerializer;
 using Nest;
+using Nest.JsonNetSerializer;
 
 
 namespace Good.Admin.API
 {
     public static class ElasticExtentions
     {
-        public static IServiceCollection AddElasticClient(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<LogOptions>(configuration.GetSection("log"));
-            var logOptions = configuration.GetSection("log").Get<LogOptions>();
-            if (logOptions.Elasticsearch.Enabled)
 
-            {
-                services.AddSingleton<IElasticClient>(new ElasticClient(CreateconnentionSettiongs(logOptions)));
-            }
-
-            return services;
-        }
         public static Uri CreateUri(string node)
         {
             return new Uri(node);

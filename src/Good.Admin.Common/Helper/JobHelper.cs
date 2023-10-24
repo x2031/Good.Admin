@@ -1,10 +1,8 @@
 ﻿using Quartz;
 using Quartz.Impl;
-using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 任务帮助类

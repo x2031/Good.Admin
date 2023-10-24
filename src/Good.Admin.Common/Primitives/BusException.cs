@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Good.Admin.Common.Primitives
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 业务异常

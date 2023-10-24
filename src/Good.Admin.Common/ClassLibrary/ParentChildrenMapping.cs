@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 父子数据相互映射类

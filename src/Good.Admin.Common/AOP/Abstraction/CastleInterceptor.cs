@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 
-namespace Good.Admin.Common.AOP.Abstraction
+namespace Good.Admin.Common
 {
     internal class CastleInterceptor : AsyncInterceptorBase
     {

@@ -1,6 +1,6 @@
-﻿using Good.Admin.Common.Primitives;
+﻿using Good.Admin.Common;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 树结构帮助类

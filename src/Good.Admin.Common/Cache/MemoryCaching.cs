@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 
-namespace Good.Admin.Common.Cache
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 实例化缓存接口ICaching

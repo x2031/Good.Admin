@@ -1,4 +1,4 @@
-﻿using Good.Admin.Common.Primitives;
+﻿using Good.Admin.Common;
 using System.Collections;
 using System.Data;
 using System.Linq.Dynamic.Core;

@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     public class JwtHelper
     {

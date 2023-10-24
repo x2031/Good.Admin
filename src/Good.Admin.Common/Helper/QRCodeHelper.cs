@@ -1,8 +1,7 @@
 ﻿using QRCoder;
-using System;
 using System.Drawing;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 二维码生成帮助类

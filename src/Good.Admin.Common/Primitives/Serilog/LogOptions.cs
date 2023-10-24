@@ -1,4 +1,6 @@
-﻿namespace Good.Admin.API
+﻿using Microsoft.Extensions.Logging;
+
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 日志配置项

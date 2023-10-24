@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Good.Admin.Common.ClassLibrary
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 共享内存

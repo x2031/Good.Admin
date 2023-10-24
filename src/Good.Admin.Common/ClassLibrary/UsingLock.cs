@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Good.Admin.Common.ClassLibrary
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 使用using代替lock操作的对象,可指定写入和读取锁定模式

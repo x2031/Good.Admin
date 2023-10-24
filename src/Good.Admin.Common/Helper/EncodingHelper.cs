@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Good.Admin.Common.Helper
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 编码帮助类

@@ -1,10 +1,8 @@
-﻿using Good.Admin.Common.Primitives;
-
-using System.Linq.Dynamic.Core;
+﻿using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Text;
 
-namespace Good.Admin.Common.Helper
+namespace Good.Admin.Common
 {
     /// <summary>
     /// 数据库查询帮助类

@@ -1,6 +1,4 @@
-﻿using Good.Admin.Common.Helper;
-
-namespace Good.Admin.Common
+﻿namespace Good.Admin.Common
 {
     /// <summary>
     /// 拓展方法静态类
