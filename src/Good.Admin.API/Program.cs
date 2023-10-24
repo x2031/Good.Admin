@@ -1,7 +1,6 @@
 using FluentValidation.AspNetCore;
-using Good.Admin.Common.Helper;
-using Good.Admin.Entity;
 using Good.Admin.Common;
+using Good.Admin.Entity;
 using MicroElements.NSwag.FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -35,7 +34,6 @@ namespace Good.Admin.API
             //Ñ©»¨id
             builder.Host.UseIdHelper();
             builder.Host.UseCache();
-
             builder.Host.ConfigureLoggingDefaults();
             builder.Host.UseDefaultServiceProvider(options => options.ValidateScopes = true);
 

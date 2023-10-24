@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Good.Admin.Common.AOP.Abstraction;
-using Good.Admin.Common;
+﻿using Good.Admin.Common;
 
 namespace Good.Admin.Business
 {

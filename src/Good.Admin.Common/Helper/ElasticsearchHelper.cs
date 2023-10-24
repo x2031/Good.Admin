@@ -2,17 +2,11 @@
 using Nest;
 using Nest.JsonNetSerializer;
 
-
-namespace Good.Admin.API
+namespace Good.Admin.Common
 {
-    public static class ElasticExtentions
+    public class ElasticsearchHelper
     {
-
-        public static Uri CreateUri(string node)
-        {
-            return new Uri(node);
-        }
-        public static ConnectionSettings CreateconnentionSettiongs(LogOptions options)
+        public static ConnectionSettings CreateElasticsearchConnStr(LogOptions options)
         {
             //List<Uri> uris = new List<Uri>();
             //options.Elasticsearch.Nodes.ForEach(node => uris.Add(new Uri(node)));
@@ -28,5 +22,4 @@ namespace Good.Admin.API
                 .DefaultIndex(options.Elasticsearch.DefaultIndex);
         }
     }
-
 }

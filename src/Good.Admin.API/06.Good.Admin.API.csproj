@@ -28,6 +28,7 @@
 
 
 	<ItemGroup>
+		<Folder Include="Options\" />
 		<Folder Include="wwwroot\js\" />
 	</ItemGroup>
 
