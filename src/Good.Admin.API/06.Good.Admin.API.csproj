@@ -28,13 +28,11 @@
 
 
 	<ItemGroup>
-		<Folder Include="Options\" />
 		<Folder Include="wwwroot\js\" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.23" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />		
 		<PackageReference Include="NSwag.AspNetCore" Version="13.20.0" />		

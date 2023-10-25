@@ -11,10 +11,6 @@
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageReference Include="Mapster" Version="7.4.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Base_Manage\" />

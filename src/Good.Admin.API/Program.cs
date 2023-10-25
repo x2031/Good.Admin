@@ -102,24 +102,21 @@ namespace Good.Admin.API
                 //启动开发人员错误页面
                 app.UseDeveloperExceptionPage();
             }
-            #region 跨域
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "application/octet-stream"
+            });
             app.UseCors(x =>
             {
                 x.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .DisallowCredentials();
-            });
-            #endregion
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                ServeUnknownFileTypes = true,
-                DefaultContentType = "application/octet-stream"
             });
             app.UseRouting();
             app.UseAuthentication();
@@ -132,12 +129,20 @@ namespace Good.Admin.API
             {
                 endpoints.MapControllers().RequireAuthorization();
             });
-            app.UseOpenApi(); // serve OpenAPI/Swagger documents            
+            // serve OpenAPI/Swagger documents              
+            app.UseOpenApi(settings =>
+            {
+                settings.PostProcess = (document, request) =>
+                {
+                    document.Info.Title = "Good.Admin.API";
+                };
+            });
             var miniProfiler_headstream = _assembly.GetManifestResourceStream("Good.Admin.API.miniProfiler_head.js");
             // serve Swagger UI
             app.UseSwaggerUi3(async options =>
             {
                 // Define web UI route
+                options.DocumentTitle = "Good.Admin.API";
                 options.Path = "/api"; //访问路径
                 //折叠所有方法
                 options.DocExpansion = "list";
