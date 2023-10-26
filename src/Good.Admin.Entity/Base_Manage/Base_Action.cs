@@ -40,7 +40,7 @@ namespace Good.Admin.Entity
         /// Default:0
         /// Nullable:False
         /// </summary>           
-        public byte Deleted { get; set; }
+        public int Deleted { get; set; }
 
         /// <summary>
         /// Desc:父级Id

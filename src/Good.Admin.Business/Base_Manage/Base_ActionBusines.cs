@@ -1,21 +1,24 @@
 ﻿using Good.Admin.Common;
 using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.IBusiness.Base_Manage;
-using Good.Admin.Repository;
 using Mapster;
+using SqlSugar;
 
 namespace Good.Admin.Business.Base_Manage
 {
-    public class Base_ActionBusines : BaseRepository<Base_Action>, IBase_ActionBusines, ITransientDependency
+    public class Base_ActionBusines : IBase_ActionBusines, ITransientDependency
     {
-        public Base_ActionBusines(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache) : base(unitOfWork)
+        private readonly IOperator _operator;
+        private readonly IRedisBasketRepository _rediscache;
+        private readonly ISqlSugarClient _db;
+
+        public Base_ActionBusines(ISqlSugarClient sqlSugarClient, IOperator nowOperator, IRedisBasketRepository rediscache)
         {
-            _operator = @operator;
+            _operator = nowOperator;
             _rediscache = rediscache;
+            _db = sqlSugarClient;
         }
-        readonly IOperator _operator;
-        readonly IRedisBasketRepository _rediscache;
+
 
         #region 查询
         /// <summary>
@@ -26,12 +29,15 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task<List<Base_Action>> GetListAsync(ActionsInputDTO input)
         {
-            var where = LinqHelper.True<Base_Action>();
-            where.AndIf(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
-               .AndIf(input.types?.Length > 0, x => input.types.Contains(x.Type))
-               .AndIf(input.ActionIds?.Count > 0, x => input.ActionIds.Contains(x.Id));
+            var result = await _db.Queryable<Base_Action>()
+                 .WhereIF(!input.parentId.IsNullOrEmpty(), x => x.ParentId == input.parentId)
+                 .WhereIF(input.types?.Length > 0, x => input.types.Contains(x.Type))
+                 .WhereIF(input.ActionIds?.Count > 0, x => input.ActionIds.Contains(x.Id))
+                 .Where(x => x.Deleted == 0)
+                 .OrderBy(x => x.Sort, OrderByType.Asc)
+                 .ToListAsync();
 
-            return await QueryListByClauseAsync(where, "Sort desc");
+            return result;
         }
         /// <summary>
         /// 获取数据
@@ -41,7 +47,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task<Base_Action> GetTheDataAsync(string id)
         {
-            return await QueryByIdAsync(id);
+            return await _db.Queryable<Base_Action>().Where(x => x.Id == id).Where(x => x.Deleted == 0).FirstAsync();
         }
         /// <summary>
         /// 获取数据
@@ -78,7 +84,11 @@ namespace Good.Admin.Business.Base_Manage
             async Task SetProperty(List<ActionDTO> _list)
             {
                 var ids = _list.Select(x => x.Id).ToList();
-                var allPermissions = await QueryListByClauseAsync(x => ids.Contains(x.ParentId) && (int)x.Type == 2);
+                var allPermissions = await _db.Queryable<Base_Action>()
+                    .Where(x => ids.Contains(x.ParentId))
+                    .Where(x => (int)x.Type == 2)
+                    .ToListAsync();
+
                 _list.ForEach(aData =>
                 {
                     var permissionValues = allPermissions
@@ -100,8 +110,18 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task UpdateAsync(ActionEditDTO input)
         {
-            await UpdateAsync(input.Adapt<Base_Action>());
-            await SavePermissionAsync(input.Id, input.permissionList);
+            try
+            {
+                _db.Ado.BeginTran();
+                await _db.Updateable(input.Adapt<Base_Action>()).ExecuteCommandAsync();
+                await SavePermissionAsync(input.Id, input.permissionList);
+                _db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                _db.Ado.RollbackTran();
+                throw;
+            }
         }
         /// <summary>
         /// 新增
@@ -110,7 +130,7 @@ namespace Good.Admin.Business.Base_Manage
         /// <returns></returns>
         public async Task AddAsync(ActionEditDTO input)
         {
-            await InsertAsync(input.Adapt<Base_Action>());
+            await _db.Insertable(input.Adapt<Base_Action>()).ExecuteCommandAsync();
         }
         /// <summary>
         /// 保存权限
@@ -129,18 +149,23 @@ namespace Good.Admin.Business.Base_Manage
                 aData.ParentId = parentId;
                 aData.NeedAction = true;
             });
-            //删除原来
-            await DeleteAsync(x => x.ParentId == parentId && (int)x.Type == 2);
+            //删除原来          
+            await _db.Deleteable<Base_Action>().Where(x => x.ParentId == parentId)
+                 .Where(x => (int)x.Type == 2)
+                 .ExecuteCommandAsync();
             //新增
-            await InsertAsync(permissionList);
-            //权限值必须唯一
-            var repeatValues = Query()
+            await _db.Insertable(permissionList).ExecuteCommandAsync();
+            //权限值必须唯一            
+            var repeatValues = await _db.Queryable<Base_Action>()
+                .Where(x => x.Deleted == 0)
                 .GroupBy(x => x.Value)
-                .Where(x => !string.IsNullOrEmpty(x.Key) && x.Count() > 1)
-                .Select(x => x.Key)
-                .ToList();
+                .Having(x => SqlFunc.RowCount() > 0)
+                .ToListAsync();
+
             if (repeatValues.Count > 0)
+            {
                 throw new Exception($"以下权限值重复:{string.Join(",", repeatValues)}");
+            }
         }
         /// <summary>
         /// 删除
@@ -150,8 +175,23 @@ namespace Good.Admin.Business.Base_Manage
         /// <exception cref="NotImplementedException"></exception>
         public async Task DeleteAsync(List<string> ids)
         {
-            await DeleteByIdsAsync(ids);
-            await DeleteAsync(x => ids.Contains(x.ParentId));
+            try
+            {
+                _db.Ado.BeginTran();
+                await _db.Deleteable<Base_Action>()
+                       .Where(x => ids.Contains(x.Id))
+                       .ExecuteCommandAsync();
+
+                await _db.Deleteable<Base_Action>()
+                    .Where(x => ids.Contains(x.ParentId))
+                    .ExecuteCommandAsync();
+                _db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                _db.Ado.RollbackTran();
+                throw;
+            }
         }
         #endregion
     }

@@ -41,7 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Good.Admin.Business\05.Good.Admin.Business.csproj" />
+		<ProjectReference Include="..\Good.Admin.Business\04.Good.Admin.Business.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Good.Admin.Common\03.Good.Admin.Common.csproj" />
+    <ProjectReference Include="..\Good.Admin.Common\02.Good.Admin.Common.csproj" />
   </ItemGroup>
 
 </Project>

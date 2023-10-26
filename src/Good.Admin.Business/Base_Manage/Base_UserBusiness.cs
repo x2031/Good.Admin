@@ -1,23 +1,23 @@
 ﻿using Good.Admin.Common;
 using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.Repository;
 using Mapster;
 using SqlSugar;
 
 namespace Good.Admin.Business
 {
-    public class Base_UserBusiness : BaseRepository<Base_User>, IBase_UserBusiness, ISingletonDependency
+    public class Base_UserBusiness : IBase_UserBusiness, ISingletonDependency
     {
-        //readonly IBaseRepository1<Base_User> _dal;
-        public Base_UserBusiness(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache) : base(unitOfWork)
-        {
-            _operator = @operator;
-            _rediscache = rediscache;
-            // _dal = dal;
-        }
+        private readonly ISqlSugarClient _db;
         readonly IOperator _operator;
         readonly IRedisBasketRepository _rediscache;
+        public Base_UserBusiness(ISqlSugarClient sqlSugarClient, IOperator nowOperator, IRedisBasketRepository rediscache)
+        {
+            _operator = nowOperator;
+            _rediscache = rediscache;
+            _db = sqlSugarClient;
+        }
+
 
         #region 查询      
         public async Task<UserDTO> GetTheDataAsync(string id)
@@ -28,8 +28,7 @@ namespace Good.Admin.Business
             {
                 return null;
             }
-
-            var userresult = await QueryByIdAsync(id);
+            var userresult = await _db.Queryable<Base_User>().Where(x => x.Id == id).Where(x => x.Deleted == 0).FirstAsync();
 
             return userresult.Adapt(result);
         }
@@ -40,6 +39,7 @@ namespace Good.Admin.Business
         /// <returns></returns>      
         public async Task<PageResult<UserDTO>> GetListAsync(PageInput<UsersDTO> input)
         {
+            RefAsync<int> total = 0;
             var search = input.Search;
             //构建查询条件
             var expable = Expressionable.Create<Base_User, Base_Department>();
@@ -48,24 +48,19 @@ namespace Good.Admin.Business
             expable.AndIF(!search.RealName.IsNullOrEmpty(), (x, y) => x.RealName.Contains(search.RealName));
             expable.AndIF(!search.DepartmentId.IsNullOrEmpty(), (x, y) => x.DepartmentId == search.DepartmentId);
 
-            //构建查询func 
-            var db_result = await QueryMuchPageAsync<Base_User, Base_Department, UserDTO>(
-                 //关联表
-                 (x, y) => new object[]
-                 {
-                    JoinType.Left, x.DepartmentId==y.Id
-                 },
-                 //返回值拼装
-                 (x, y) => new UserDTO(),
-                 //where条件
-                 expable,
-                 input.PageIndex,
-                 input.PageSize
-                 );
 
-            await SetProperty(db_result.data);
 
-            return db_result;
+            var result = await _db.Queryable<Base_User>()
+                    .LeftJoin<Base_Department>((x, y) => x.DepartmentId == y.Id)
+                    .Where(x => x.Deleted == 0)
+                    .Where(expable.ToExpression())
+                    .ToPageListAsync(input.PageIndex, input.PageSize, total);
+
+            var pageResult = new PageResult<UserDTO>(input.PageIndex, total.Value, input.PageSize, result.Adapt(new List<UserDTO>()));
+
+            await SetProperty(pageResult.data);
+
+            return pageResult;
 
             async Task SetProperty(List<UserDTO> users)
             {
@@ -74,7 +69,7 @@ namespace Good.Admin.Business
                 List<string> departments = users.Select(x => x.DepartmentId).ToList();
                 expable.And((x, y) => userIds.Contains(x.UserId));
                 //补充用户角色属性             
-                var userRoles = await Db.Queryable<Base_UserRole>()
+                var userRoles = await _db.Queryable<Base_UserRole>()
                       .LeftJoin<Base_Role>((x, y) => x.RoleId == y.Id)
                        .Where(expable.ToExpression())
                        .Select((x, y) => new {
@@ -91,7 +86,7 @@ namespace Good.Admin.Business
                 });
 
 
-                var departmentnames = await Db.Queryable<Base_Department>()
+                var departmentnames = await _db.Queryable<Base_Department>()
                     .Where(x => departments.Contains(x.Id))
                     .Select(x => new {
                         x.Id,
@@ -107,7 +102,8 @@ namespace Good.Admin.Business
         }
         public async Task<bool> ExistByName(string name)
         {
-            return await ExistsAsync(x => x.UserName == name);
+
+            return await _db.Queryable<Base_User>().Where(x => x.UserName == name).AnyAsync();
         }
 
         public async Task<string> LoginAsync(LoginInputDTO input, bool pwdtomd5 = false)
@@ -116,7 +112,11 @@ namespace Good.Admin.Business
             {
                 input.password = input.password.ToMD5String();
             }
-            var theUser = await QueryByClauseAsync(x => x.UserName.ToLower() == input.userName.ToLower() && x.Password == input.password);
+            var theUser = await _db.Queryable<Base_User>()
+                .Where(x => x.UserName.ToLower() == input.userName.ToLower())
+                .Where(x => x.Password == input.password)
+                .FirstAsync();
+
             if (theUser.IsNullOrEmpty())
                 throw new BusException("账号或密码不正确！");
 
@@ -126,12 +126,12 @@ namespace Good.Admin.Business
         #region 修改
         public async Task AddAsync(Base_User user, List<string> roleIdList)
         {
-            var existName = await ExistsAsync((x) => x.UserName == user.UserName);
+            var existName = await ExistByName(user.UserName);
             if (existName)
             {
                 throw new BusException($"用户名{user.UserName}已存在", 500);
             }
-            await InsertAsync(user);
+            await _db.Insertable(user).ExecuteCommandAsync();
             await SetUserRoleAsync(user.Id, roleIdList);
         }
         public async Task UpdateAsync(Base_User user, List<string> roleIdList)
@@ -139,7 +139,7 @@ namespace Good.Admin.Business
             if (user.Id == GlobalAssemblies.ADMINID && _operator?.UserId != user.Id)
                 throw new BusException("禁止更改超级管理员！");
 
-            await UpdateIgnoreNullAsync(user);
+            await _db.Updateable(user).IgnoreColumns(ignoreAllNullColumns: true).ExecuteCommandAsync();
             await SetUserRoleAsync(user.Id, roleIdList);
             //TODO 缓存更新
             //await _userCache.UpdateCacheAsync(input.Id);
@@ -153,7 +153,7 @@ namespace Good.Admin.Business
             if (ids.Contains(GlobalAssemblies.ADMINID))
                 throw new BusException("超级管理员是内置账号,禁止删除！");
 
-            await DeleteByIdsAsync(ids);
+            await _db.Deleteable<Base_User>(x => ids.Contains(x.Id)).ExecuteCommandAsync();
             //TODO 缓存更新
             //  await _userCache.UpdateCacheAsync(ids);
         }
@@ -171,8 +171,8 @@ namespace Good.Admin.Business
 
             theUser.Password = input.newPwd.ToMD5String();
             var mpdto = theUser.Adapt<Base_User>();
-            //更新数据
-            await UpdateAsync(mpdto);
+            //更新数据            
+            await _db.Updateable(mpdto).ExecuteCommandAsync();
             //更新缓存
             await _rediscache.RemoveAsync(theUser.Id);
         }
@@ -196,8 +196,8 @@ namespace Good.Admin.Business
                 RoleId = x
             }).ToList();
 
-            await Db.Deleteable<Base_UserRole>().Where(x => x.UserId == userId).ExecuteCommandAsync();
-            await Db.Insertable<Base_UserRole>(userRoleList).ExecuteCommandAsync();
+            await _db.Deleteable<Base_UserRole>().Where(x => x.UserId == userId).ExecuteCommandAsync();
+            await _db.Insertable(userRoleList).ExecuteCommandAsync();
         }
 
         #endregion

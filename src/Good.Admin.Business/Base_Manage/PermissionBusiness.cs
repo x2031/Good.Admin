@@ -1,27 +1,29 @@
 ﻿using Good.Admin.Common;
 using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.IBusiness.Base_Manage;
-using Good.Admin.Repository;
 using LinqKit;
 using SqlSugar;
 
 namespace Good.Admin.Business.Base_Manage
 {
-    public class PermissionBusiness : BaseRepository<Base_Action>, IPermissionBusiness, ITransientDependency
+    public class PermissionBusiness : IPermissionBusiness, ITransientDependency
     {
-        public PermissionBusiness(IUnitOfWork unitOfWork, IOperator @operator, IRedisBasketRepository rediscache, IBase_UserBusiness userbus, IBase_ActionBusines actionBus) : base(unitOfWork)
+
+        private readonly IOperator _operator;
+        private readonly IRedisBasketRepository _rediscache;
+        private readonly IBase_UserBusiness _userBus;
+        private readonly IBase_ActionBusines _actionBus;
+        private readonly ISqlSugarClient _db;
+
+        public PermissionBusiness(ISqlSugarClient sqlSugarClient, IOperator @operator, IRedisBasketRepository rediscache, IBase_UserBusiness userbus, IBase_ActionBusines actionBus)
         {
             _operator = @operator;
             _rediscache = rediscache;
             _userBus = userbus;
             _actionBus = actionBus;
+            _db = sqlSugarClient;
         }
 
-        readonly IOperator _operator;
-        readonly IRedisBasketRepository _rediscache;
-        readonly IBase_UserBusiness _userBus;
-        readonly IBase_ActionBusines _actionBus;
 
         /// <summary>
         /// 根据用户id获取菜单
@@ -85,26 +87,18 @@ namespace Good.Admin.Business.Base_Manage
                 where = where.Or(x => true);
             else
             {
-                //构建查询条件
-                var expable = Expressionable.Create<Base_UserRole, Base_RoleAction>();
-                expable.And((x, y) => x.UserId == userId);
-                //构建查询func 
-                var actionIds = await QueryMuchAsync<Base_UserRole, Base_RoleAction, string>(
-                     //关联表
-                     (x, y) => new object[]
-                     {
-                         JoinType.Left, x.RoleId==y.RoleId
-                     },
-                     //返回值拼装
-                     (x, y) => new string(y.ActionId),
-                     //where条件
-                     expable
-                     );
+                //构建查询func               
+                var actionIds = await _db.Queryable<Base_UserRole>()
+                   .LeftJoin<Base_RoleAction>((x, y) => x.RoleId == y.RoleId)
+                   .Where((x, y) => x.UserId == userId)
+                   .Select((x, y) => y.ActionId)
+                   .ToListAsync();
 
                 where = where.Or(x => actionIds.Contains(x.Id));
             }
+            var result = await _db.Queryable<Base_Action>().Where(where).Select(x => x.Id).ToListAsync();
 
-            return await QueryListByClauseAsync<Base_Action, string>(where, (x) => x.Id);
+            return result;
         }
         #endregion
     }

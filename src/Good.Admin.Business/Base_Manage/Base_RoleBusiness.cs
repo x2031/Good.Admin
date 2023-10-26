@@ -2,16 +2,17 @@
 using Good.Admin.Common;
 using Good.Admin.Entity;
 using Good.Admin.IBusiness;
-using Good.Admin.Repository;
 using Mapster;
 using SqlSugar;
 
 namespace Good.Admin.Business
 {
-    public class Base_RoleBusiness : BaseRepository<Base_Role>, IBase_RoleBusiness, ITransientDependency
+    public class Base_RoleBusiness : IBase_RoleBusiness, ITransientDependency
     {
-        public Base_RoleBusiness(IUnitOfWork unitOfWork) : base(unitOfWork)
+        private readonly ISqlSugarClient _db;
+        public Base_RoleBusiness(ISqlSugarClient sqlSugarClient)
         {
+            _db = sqlSugarClient;
         }
 
         #region 查询
@@ -22,13 +23,21 @@ namespace Good.Admin.Business
         /// <returns></returns>
         public async Task<PageResult<RoleInfoDTO>> GetListAsync(PageInput<RolesInputDTO> input)
         {
+            RefAsync<int> total = 0;
             var search = input.Search;
             //构建查询条件
             var expable = Expressionable.Create<Base_Role>();
             expable.AndIF(!search.roleName.IsNullOrEmpty(), x => x.RoleName.Contains(search.roleName));
 
-            var db_result = await QueryPageListByClauseAsync(expable, pageIndex: input.PageIndex, pagesize: input.PageSize);
-            var result = db_result.Adapt<PageResult<RoleInfoDTO>>();
+            var dbResult = await _db.Queryable<Base_Role>()
+                  .Where(x => x.Deleted == 0)
+                  .Where(expable.ToExpression())
+                  .ToPageListAsync(input.PageIndex, input.PageSize, total);
+
+
+            var pageResult = new PageResult<Base_Role>(input.PageIndex, total.Value, input.PageSize, dbResult);
+
+            var result = pageResult.Adapt<PageResult<RoleInfoDTO>>();
 
             await SetProperty(result.data);
 
@@ -36,19 +45,29 @@ namespace Good.Admin.Business
 
             async Task SetProperty(List<RoleInfoDTO> _list)
             {
-                var allActionIds = await Db.Queryable<Base_Action>().Select(x => x.Id).ToListAsync();
+
+                var allActionIds = await _db.Queryable<Base_Action>()
+                    .Where(x => x.Deleted == 0)
+                    .Select(x => x.Id).ToListAsync();
+
                 var ids = _list.Select(x => x.Id).ToList();
-                var roleActions = await Db.Queryable<Base_RoleAction>()
-                    .Where(x => ids.Contains(x.RoleId))
+
+                var roleActions = await _db.Queryable<Base_RoleAction>()
+                    .Where(x => x.Deleted == 0)
+                    .Where(x => ids.Contains(x.Id))
                     .ToListAsync();
 
                 _list.ForEach(aData =>
-              {
-                  if (aData.RoleName == RoleTypes.超级管理员.ToString())
-                      aData.Actions = allActionIds;
-                  else
-                      aData.Actions = roleActions.Where(x => x.RoleId == aData.Id).Select(x => x.ActionId).ToList();
-              });
+                {
+                    if (aData.RoleName == RoleTypes.超级管理员.ToString())
+                    {
+                        aData.Actions = allActionIds;
+                    }
+                    else
+                    {
+                        aData.Actions = roleActions.Where(x => x.RoleId == aData.Id).Select(x => x.ActionId).ToList();
+                    }
+                });
             }
         }
 
@@ -58,24 +77,30 @@ namespace Good.Admin.Business
         }
         public async Task<bool> ExistByRoleName(string name)
         {
-            return await ExistsAsync(x => x.RoleName == name);
+            return await _db.Queryable<Base_Role>()
+                .Where(x => x.Deleted == 0)
+                .AnyAsync(x => x.RoleName == name);
         }
         public async Task<Base_Role> GetTheDataAsync(string id)
         {
-            return await QueryByIdAsync(id);
+            var result = await _db.Queryable<Base_Role>()
+                 .Where(x => x.Deleted == 0)
+                 .Where(x => x.Id == id)
+                 .FirstAsync();
+            return result;
         }
 
         #endregion
         #region 修改
         public async Task AddAsync(Base_Role role, List<string> actions)
         {
-            var existName = await ExistsAsync((x) => x.RoleName == role.RoleName);
+            var existName = await ExistByRoleName(role.RoleName);
             if (existName)
             {
                 throw new BusException($"{role.RoleName}已存在");
             }
 
-            await InsertAsync(role);
+            await _db.Insertable(role).ExecuteCommandAsync();
             if (actions != null && actions.Count > 0)
             {
                 await SetRoleActionAsync(role.Id, actions);
@@ -86,13 +111,28 @@ namespace Good.Admin.Business
 
         public async Task DeleteAsync(List<string> ids)
         {
-            await DeleteByIdsAsync(ids);
-            await Db.Deleteable<Base_RoleAction>(x => ids.Contains(x.RoleId)).ExecuteCommandHasChangeAsync();
+            try
+            {
+                _db.Ado.BeginTran();
+                await _db.Deleteable<Base_Role>()
+                     .Where(x => ids.Contains(x.Id))
+                     .ExecuteCommandAsync();
+
+                await _db.Deleteable<Base_RoleAction>()
+                    .Where(x => ids.Contains(x.RoleId))
+                    .ExecuteCommandAsync();
+                _db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                _db.Ado.RollbackTran();
+                throw;
+            }
         }
 
         public async Task UpdateAsync(Base_Role role, List<string> actions)
         {
-            await UpdateIgnoreNullAsync(role);
+            await _db.Updateable(role).IgnoreColumns(ignoreAllNullColumns: true).ExecuteCommandAsync();
             if (actions != null && actions.Count > 0)
             {
                 await SetRoleActionAsync(role.Id, actions);
@@ -113,8 +153,22 @@ namespace Good.Admin.Business
                     CreateTime = DateTime.Now,
                     RoleId = roleId
                 }).ToList();
-            await Db.Deleteable<Base_RoleAction>(x => x.RoleId == roleId).ExecuteCommandHasChangeAsync();
-            await Db.Insertable<Base_RoleAction>(roleActions).ExecuteCommandAsync();
+
+            try
+            {
+                _db.Ado.BeginTran();
+
+                await _db.Deleteable<Base_RoleAction>(x => x.RoleId == roleId).ExecuteCommandHasChangeAsync();
+                await _db.Deleteable<Base_RoleAction>(roleActions).ExecuteCommandHasChangeAsync();
+
+                _db.Ado.CommitTran();
+            }
+            catch (Exception ex)
+            {
+                _db.Ado.RollbackTran();
+                throw;
+            }
+
         }
         #endregion
 

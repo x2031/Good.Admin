@@ -9,7 +9,6 @@ namespace Good.Admin.Common
         /// </summary>
         public static readonly Assembly[] AllAssemblies = new Assembly[]
         {
-            Assembly.Load("Good.Admin.Repository"),
             Assembly.Load("Good.Admin.Entity"),
             Assembly.Load("Good.Admin.Common"),
             Assembly.Load("Good.Admin.IBusiness"),

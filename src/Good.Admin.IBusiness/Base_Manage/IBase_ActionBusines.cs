@@ -1,6 +1,6 @@
 ﻿using Good.Admin.Entity;
 
-namespace Good.Admin.IBusiness.Base_Manage
+namespace Good.Admin.IBusiness
 {
     public interface IBase_ActionBusines
     {
