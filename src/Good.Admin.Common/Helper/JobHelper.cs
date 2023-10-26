@@ -12,7 +12,7 @@ namespace Good.Admin.Common
         #region 私有成员
 
         private static IScheduler __scheduler;
-        private static object _lock = new object();
+        private static readonly object _lock = new object();
         private static IScheduler _scheduler {
             get {
                 if (__scheduler == null)

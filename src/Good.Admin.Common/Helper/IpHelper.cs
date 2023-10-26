@@ -38,10 +38,10 @@ namespace Good.Admin.Common
                     return address.Address.ToString();
                 }
             }
-
-            return mostSuitableIp != null
-                ? mostSuitableIp.Address.ToString()
-                : "";
+            return "";
+            //return mostSuitableIp != null
+            //    ? mostSuitableIp.Address.ToString()
+            //    : "";
         }
 
         /// <summary>

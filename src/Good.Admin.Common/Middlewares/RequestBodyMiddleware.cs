@@ -16,8 +16,12 @@ namespace Good.Admin.Common
             if ((context.Request.ContentType ?? string.Empty).Contains("application/json"))
             {
                 context.Request.EnableBuffering();
-                string body = await context.Request.Body?.ReadToStringAsync(Encoding.UTF8);
-                context.RequestServices.GetService<RequestBody>().Body = body;
+                string body = await context.Request.Body.ReadToStringAsync(Encoding.UTF8);
+                var requestService = context.RequestServices.GetService<RequestBody>();
+                if (requestService != null)
+                {
+                    context.RequestServices.GetService<RequestBody>().Body = body;
+                }
             }
             await _next(context);
         }

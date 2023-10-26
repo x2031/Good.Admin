@@ -11,9 +11,9 @@ namespace Good.Admin.API.DI
     /// </summary>
     public class Operator : IOperator, ISingletonDependency
     {
-        readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
         //readonly ICaching _cache;
-        readonly IRedisBasketRepository _rediscache;
+        private readonly IRedisBasketRepository _rediscache;
 
         public Operator(IHttpContextAccessor httpContextAccessor, IServiceProvider serviceProvider, IRedisBasketRepository rediscache)
         {
@@ -25,7 +25,7 @@ namespace Good.Admin.API.DI
         }
 
         private UserDTO _property;
-        private object _lockObj = new object();
+        private readonly object _lockObj = new object();
 
         /// <summary>
         /// 当前操作者UserId

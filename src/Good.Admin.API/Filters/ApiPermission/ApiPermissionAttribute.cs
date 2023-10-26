@@ -1,5 +1,5 @@
-﻿using Good.Admin.IBusiness;
-using Good.Admin.Common;
+﻿using Good.Admin.Common;
+using Good.Admin.IBusiness;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Good.Admin.API
@@ -40,9 +40,9 @@ namespace Good.Admin.API
             IPermissionBusiness _permissionBus = serviceProvider.GetService<IPermissionBusiness>();
             IOperator _operator = serviceProvider.GetService<IOperator>();
 
-            if (_operator != null)
+            if (_permissionBus != null && _operator != null && !string.IsNullOrEmpty(_operator?.UserId))
             {
-                permissions = await _permissionBus?.GetUserPermissionValuesAsync(_operator?.UserId);
+                permissions = await _permissionBus.GetUserPermissionValuesAsync(_operator.UserId);
             }
 
             if (!permissions.Contains(_permissionValue))
