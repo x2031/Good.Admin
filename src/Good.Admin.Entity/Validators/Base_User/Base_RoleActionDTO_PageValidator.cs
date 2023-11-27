@@ -8,6 +8,7 @@ namespace Good.Admin.Entity
         public Base_RoleActionDTO_PageValidator()
         {
             RuleFor(x => x.Search.RoleId).NotNull().WithName("角色Id").WithMessage("{PropertyName}不能为空");
+
         }
     }
 }

@@ -1,4 +1,4 @@
-using FluentValidation.AspNetCore;
+using FluentValidation;
 using Good.Admin.Common;
 using Good.Admin.Entity;
 using MicroElements.NSwag.FluentValidation;
@@ -40,11 +40,17 @@ namespace Good.Admin.API
             services.AddMvcCore();
             services.AddSingleton(new Appsettings(configuration));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //注入FluentValidation 参数验证   
+            services.AddValidatorsFromAssemblyContaining<LoginInputValidator>();
 
+            //注入Sqlsugar 
+            services.AddSqlsugarSetup();
             services.AddControllers(options =>
             {
-                options.Filters.Add<ValidFilterAttribute>();//参数校验
-                options.Filters.Add<GlobalExceptionFilter>();//全局异常
+                //参数校验
+                options.Filters.Add<ValidFilterAttribute>();
+                //全局异常
+                options.Filters.Add<GlobalExceptionFilter>();
             }).ConfigureApiBehaviorOptions(options =>
             {
                 //禁用model验证失败后的自动400响应
@@ -54,14 +60,6 @@ namespace Good.Admin.API
             {
                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
-
-            //注入FluentValidation 参数验证
-            services.AddFluentValidation(c =>
-               {
-                   c.RegisterValidatorsFromAssemblyContaining<Base_UsersDTOValidator>();
-               });
-            //注入Sqlsugar 
-            services.AddSqlsugarSetup();
             //自动注入需要注入的
             services.AddFxServices();
             services.AddScoped<MyContext>();//注入db启动相关服务
@@ -75,9 +73,11 @@ namespace Good.Admin.API
             #region Openapi相关
             services.AddOpenApiDocument((settings, serviceProvider) =>
                {
-                   var fluentValidationSchemaProcessor = serviceProvider.CreateScope().ServiceProvider.GetService<FluentValidationSchemaProcessor>();
+                   var fluentValidationSchemaProcessor = serviceProvider.CreateScope()
+                   .ServiceProvider.GetService<FluentValidationSchemaProcessor>();
                    // Add the fluent validations schema processor
-                   settings.SchemaProcessors.Add(fluentValidationSchemaProcessor);
+
+                   settings.SchemaSettings.SchemaProcessors.Add(fluentValidationSchemaProcessor);
                    settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Bearer"));
                    settings.AddSecurity("Bearer", Enumerable.Empty<string>(), new OpenApiSecurityScheme
                    {
@@ -87,8 +87,7 @@ namespace Good.Admin.API
                        Scheme = JwtBearerDefaults.AuthenticationScheme,
                        BearerFormat = "JWT",
                    });
-               });
-            services.AddScoped<FluentValidationSchemaProcessor>();
+               }).AddScoped<FluentValidationSchemaProcessor>();
             #endregion
             #region jwt
             services.Configure<JwtOption>(configuration.GetSection(typeof(JwtOption).Name));
@@ -139,7 +138,7 @@ namespace Good.Admin.API
             });
             var miniProfiler_headstream = _assembly.GetManifestResourceStream("Good.Admin.API.miniProfiler_head.js");
             // serve Swagger UI
-            app.UseSwaggerUi3(async options =>
+            app.UseSwaggerUi(async options =>
             {
                 // Define web UI route
                 options.DocumentTitle = "Good.Admin.API";

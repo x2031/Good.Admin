@@ -133,6 +133,18 @@ namespace Good.Admin.Business
             }
             await _db.Insertable(user).ExecuteCommandAsync();
             await SetUserRoleAsync(user.Id, roleIdList);
+
+            try
+            {
+                //你的业务代码
+            }
+            catch (Exception ex)
+            {
+                //错误日志记录
+                //错误返回信息拼接
+                //其他处理
+                throw;
+            }
         }
         public async Task UpdateAsync(Base_User user, List<string> roleIdList)
         {

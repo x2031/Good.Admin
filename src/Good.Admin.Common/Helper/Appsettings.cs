@@ -13,14 +13,14 @@ namespace Good.Admin.Common
 
         public Appsettings(string contentPath)
         {
-            var Path = "appsettings.json";
+            //var Path = "appsettings.json";
             var basePath = AppContext.BaseDirectory;
             //如果你把配置文件 是 根据环境变量来分开了，可以这样写
-            //Path = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
+            var Path = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
 
             Configuration = new ConfigurationBuilder()
                .SetBasePath(contentPath)
-               .Add(new JsonConfigurationSource { Path = Path, Optional = false, ReloadOnChange = true })//这样的话，可以直接读目录里的json文件，而不是 bin 文件夹下的，所以不用修改复制属性
+               .Add(new JsonConfigurationSource { Path = Path, Optional = false, ReloadOnChange = true })
                .Build();
         }
 

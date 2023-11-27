@@ -1,5 +1,4 @@
 ﻿using Good.Admin.Common;
-using Good.Admin.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
