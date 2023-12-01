@@ -37,7 +37,6 @@
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
 		<PackageReference Include="NSwag.AspNetCore" Version="14.0.0-preview010" />
 		<PackageReference Include="Spectre.Console" Version="0.48.0" />
-		<PackageReference Include="X2031.MicroElements.NSwag.FluentValidation" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
