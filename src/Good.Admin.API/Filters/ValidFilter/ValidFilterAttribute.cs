@@ -7,7 +7,7 @@ namespace Good.Admin.API
     /// </summary>
     public class ValidFilterAttribute : BaseActionFilterAsync
     {
-        public override async Task OnActionExecuting(ActionExecutingContext context)
+        public async override Task OnActionExecuting(ActionExecutingContext context)
         {
             //判断是否需要校验
             if (context.ContainsFilter<IgnoreVaildAttribute>())

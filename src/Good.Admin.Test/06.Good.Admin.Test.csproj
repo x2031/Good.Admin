@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<AssemblyName>Good.Admin.Test</AssemblyName>
@@ -12,13 +12,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BenchmarkDotNet" Version="0.13.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.24" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-		<PackageReference Include="Moq" Version="4.20.69" />
-		<PackageReference Include="xunit" Version="2.5.3" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
+		<PackageReference Include="BenchmarkDotNet" Version="0.13.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.TestHost" Version="8.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+		<PackageReference Include="Moq" Version="4.20.70" />
+		<PackageReference Include="xunit" Version="2.6.2" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.4">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
